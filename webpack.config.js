@@ -21,7 +21,9 @@ module.exports = {
             test: /\.(ttf|eot|svg|woff|png)$/,
             loader: 'file-loader',
             options: {
-                name: '[path][name].[ext]?[hash]'
+                name: '[path][name].[ext]?[hash]',
+                outputPath: 'images/',
+                publicPath: './dist/images'
             }            
           },
           {

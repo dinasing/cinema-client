@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './App';
+import store from './app/store';
+import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader'
 
-class App extends React.Component {
-    render() {
-        return <div>Hello {this.props.name}</div>;
-    }
-}
 const AppWithHot = hot(module)(App);
-var mountNode = document.getElementById('app')
-ReactDOM.render(<AppWithHot name='Dina'/>, mountNode)
+
+
+ReactDOM.render(
+  <Provider store={store}>
+    <AppWithHot name='Dina'/>
+  </Provider>,
+  document.getElementById('app')
+);
