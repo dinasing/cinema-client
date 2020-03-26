@@ -1,15 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit';
-// import { createStore, compose } from 'redux';
+/* eslint-disable */
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import thunk from 'redux-thunk';
 
-// const enhancers = compose(
-//     window.devToolsExtension
-//         ? window.devToolsExtension()
-//         : f => f
-// );
-// export const store = createStore(rootReduser, defaultSate, enhancers);
+import { compose } from 'redux';
 
-export default configureStore({
-  reducer: {
+const enhancers = compose(
+    window.devToolsExtension
+    ? window.devToolsExtension()
+    : f => f
+);
 
-  },
+export const store = configureStore({
+    reducer: {
+
+    },
+    middleware: [...getDefaultMiddleware(), thunk],
+    devTools: process.env.NODE_ENV !== 'production',
+    enhancers
 });
