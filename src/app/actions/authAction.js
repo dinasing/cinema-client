@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { returnErrors } from './errorAction';
 import {
-  AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
@@ -48,7 +47,7 @@ export const register = ({ firstName, lastName, email, password }) => dispatch =
   const body = JSON.stringify({ firstName, lastName, email, password });
 
   axios
-    .post('http://localhost:3000/auth/signup', body, config)
+    .post('/auth/signup', body, config)
     .then(res =>
       dispatch({
         type: REGISTER_SUCCESS,
@@ -75,7 +74,7 @@ export const login = ({ email, password }) => dispatch => {
   const body = JSON.stringify({ email, password });
 
   axios
-    .post('http://localhost:3000/auth/login', body, config)
+    .post('/auth/login', body, config)
     .then(res =>
       dispatch({
         type: LOGIN_SUCCESS,
