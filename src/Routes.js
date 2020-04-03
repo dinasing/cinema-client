@@ -1,6 +1,5 @@
-/* eslint-disable */
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
 
@@ -11,7 +10,8 @@ export default class Routes extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/" component={Login} />
+        <Route exact path="/" component={Login} />
+        <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
       </Switch>
     );

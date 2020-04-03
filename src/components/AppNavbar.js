@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Container, Fragment } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavItem, Container, NavLink, Fragment } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import Logout from './auth/Logout';
 import PropTypes from 'prop-types';
 
@@ -15,12 +16,12 @@ const AuthLinks = () => {
 const GuestLinks = () => {
   return (
     <Container>
-      <NavItem>
-        <NavLink href="/signup">Sign Up</NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink href="/login">Log In</NavLink>
-      </NavItem>
+      <NavLink>
+        <Link to="/signup">Sign Up</Link>
+      </NavLink>
+      <NavLink>
+        <Link to="/login">Log In</Link>
+      </NavLink>
     </Container>
   );
 };
