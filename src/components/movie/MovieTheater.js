@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCinemas } from '../../app/actions/movieTheater';
+import { getCinemas } from '../../app/actions/cinemaAction';
 import { Link } from 'react-router-dom';
 
 export class MovieTheaters extends Component {
   componentDidMount() {
     this.props.getCinemas();
   }
-  //{this.state.isLoading ? <div>Loading</div>:null}
   render() {
     const { cinemas } = this.props.cinemas;
     return (
