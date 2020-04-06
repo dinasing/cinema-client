@@ -14,7 +14,7 @@ export class MovieTheaters extends Component {
     return (
       <>
         <h2>Movie theaters</h2>
-        {cinemas.loading ? (
+        {this.props.cinemas.loading ? (
           <p>Loading cinemas ...</p>
         ) : (
           cinemas.map(cinema => {
