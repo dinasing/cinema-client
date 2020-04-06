@@ -81,7 +81,7 @@ module.exports = {
     inline: true,
     contentBase: './dist',
     port: 8080,
-    proxy: { '/**/**': { target: 'http://localhost:3000', secure: false } },
+    proxy: { '/**': { target: 'http://localhost:3000', secure: false } },
   },
   plugins: [
     new HtmlWebpackPlugin({
