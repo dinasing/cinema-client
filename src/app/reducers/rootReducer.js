@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
 import errorReducer from './errorReducer';
-import cinemaReducer from './movieTheater';
+import cinemaReducer from './cinemaReducer';
+import movieReducer from './movieReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   error: errorReducer,
   cinema: cinemaReducer,
+  movie: movieReducer,
 });
 
 export default rootReducer;

@@ -13,3 +13,7 @@ export const GET_CINEMAS = 'GET_CINEMAS';
 export const ADD_CINEMA = 'ADD_CINEMA';
 export const DELETE_CINEMA = 'DELETE_CINEMA';
 export const CINEMAS_LOADING = 'CINEMAS_LOADING';
+
+export const GET_MOVIES = 'GET_MOVIES';
+export const ADD_MOVIES = 'ADD_MOVIES';
+export const MOVIES_LOADING = 'MOVIES_LOADING';
