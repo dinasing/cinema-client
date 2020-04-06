@@ -4,9 +4,6 @@ import { Navbar, NavbarBrand, Nav, NavItem, Container, NavLink, Fragment } from 
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Logout from './auth/Logout';
-import MovieTheater from './movie/MovieTheater';
-import Movie from './movie/Movie';
-import MovieTime from './movie/MovieTime';
 
 const AuthLinks = () => {
   return (
