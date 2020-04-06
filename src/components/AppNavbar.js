@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navbar, NavbarBrand, Nav, NavItem, Container, NavLink, Fragment } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import Logout from './auth/Logout';
 import PropTypes from 'prop-types';
+import Logout from './auth/Logout';
+import MovieTheater from './movie/MovieTheater';
+import Movie from './movie/Movie';
+import MovieTime from './movie/MovieTime';
 
 const AuthLinks = () => {
   return (
@@ -15,14 +18,14 @@ const AuthLinks = () => {
 
 const GuestLinks = () => {
   return (
-    <Container>
+    <>
       <NavLink>
         <Link to="/signup">Sign Up</Link>
       </NavLink>
       <NavLink>
         <Link to="/login">Log In</Link>
       </NavLink>
-    </Container>
+    </>
   );
 };
 
@@ -33,16 +36,23 @@ class AppNavbar extends Component {
   render() {
     const { isAuthenticated, user } = this.props.auth;
     return (
-      <div>
-        <Navbar color="dark" dark expand="sm" className="mb-5">
-          <Container>
-            <NavbarBrand href="/">Cinema</NavbarBrand>
-            <Nav className="ml-auto" navbar>
-              {isAuthenticated ? <AuthLinks /> : <GuestLinks />}
-            </Nav>
-          </Container>
-        </Navbar>
-      </div>
+      <Navbar color="dark" dark expand="sm" className="mb-5">
+        <Container>
+          <NavbarBrand href="/">Cinema</NavbarBrand>
+          <Nav className="ml-auto" navbar>
+            <NavLink>
+              <Link to="/movies">Movies</Link>
+            </NavLink>
+            <NavLink>
+              <Link to="/movie-theaters">Movie theatres</Link>
+            </NavLink>
+            <NavLink>
+              <Link to="/movie-times">Movie times</Link>
+            </NavLink>
+            {isAuthenticated ? <AuthLinks /> : <GuestLinks />}
+          </Nav>
+        </Container>
+      </Navbar>
     );
   }
 }
