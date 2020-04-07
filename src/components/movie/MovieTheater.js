@@ -17,7 +17,11 @@ export class MovieTheaters extends Component {
           <p>Loading cinemas ...</p>
         ) : (
           cinemas.map(cinema => {
-            return <Link to={cinema.title + cinema.id}> {cinema.title}</Link>;
+            return (
+              <div key={cinema.id}>
+                <Link to={cinema.title + cinema.id}> {cinema.title}</Link>
+              </div>
+            );
           })
         )}
       </>
