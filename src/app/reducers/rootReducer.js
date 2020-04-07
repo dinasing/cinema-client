@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   error: errorReducer,
   cinema: cinemaReducer,
-  movie: movieReducer,
+  movieReducer: movieReducer,
 });
 
 export default rootReducer;

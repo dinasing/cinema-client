@@ -1,38 +1,20 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import connect from 'react-redux';
 import PropTypes from 'prop-types';
-import { getMovies } from '../../app/actions/movieAction';
-import { Link } from 'react-router-dom';
+import { getMovie } from '../../app/actions/movieAction';
 
-export class MovieTheaters extends Component {
-  componentDidMount() {
-    this.props.getMovies();
-  }
+class Movie extends Component {
   render() {
-    const { movies } = this.props.movies;
-    return (
-      <>
-        <h2>Movies</h2>
-        {this.props.movies.loading ? (
-          <p>Loading movies ...</p>
-        ) : (
-          movies.map(movie => {
-            return (
-              <div key={movie.id}>
-                <Link to={movie.title + movie.id}> {movie.title}</Link>
-              </div>
-            );
-          })
-        )}
-      </>
-    );
+    const { movie } = this.props.movieReducer;
+    return <>{movie.title}</>;
   }
 }
-MovieTheaters.propTypes = {
-  getMovies: PropTypes.func.isRequired,
-  movies: PropTypes.object,
+
+Movie.propTypes = {
+  getMovie: PropTypes.func.isRequired,
+  movieReducer: PropTypes.object,
 };
 const mapStateToProps = state => ({
-  movies: state.rootReducer.movie,
+  movieReducer: state.rootReducer.movieReducer,
 });
-export default connect(mapStateToProps, { getMovies })(MovieTheaters);
+export default connect(mapStateToProps, { getMovie })(Movie);
