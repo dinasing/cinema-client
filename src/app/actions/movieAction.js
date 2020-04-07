@@ -2,7 +2,7 @@ import { GET_MOVIES, MOVIES_LOADING, GET_MOVIE } from './types';
 import axios from 'axios';
 
 export const getMovies = () => dispatch => {
-  dispatch(setCinemasLoading());
+  dispatch(setMoviesLoading());
   axios.get('/movie').then(res =>
     dispatch({
       type: GET_MOVIES,
@@ -12,7 +12,9 @@ export const getMovies = () => dispatch => {
 };
 
 export const getMovieById = id => dispatch => {
-  dispatch(setCinemasLoading());
+  dispatch(setMoviesLoading());
+  console.log(id);
+
   axios.get('/movie/' + id).then(res =>
     dispatch({
       type: GET_MOVIE,
@@ -21,6 +23,6 @@ export const getMovieById = id => dispatch => {
   );
 };
 
-export const setCinemasLoading = () => {
+export const setMoviesLoading = () => {
   return { type: MOVIES_LOADING };
 };

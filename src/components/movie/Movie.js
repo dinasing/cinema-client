@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
-import connect from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getMovie } from '../../app/actions/movieAction';
+import { getMovies, getMovieById } from '../../app/actions/movieAction';
 
 class Movie extends Component {
+  componentDidMount() {
+    this.props.getMovies();
+    this.props.getMovieById(this.props.match.params.movie_id);
+  }
   render() {
-    const { movie } = this.props.movieReducer;
+    const { movie } = this.props.movies;
     return <>{movie.title}</>;
   }
 }
 
 Movie.propTypes = {
-  getMovie: PropTypes.func.isRequired,
-  movieReducer: PropTypes.object,
+  getMovies: PropTypes.func.isRequired,
+  getMovieById: PropTypes.func.isRequired,
+  movies: PropTypes.object,
 };
 const mapStateToProps = state => ({
-  movieReducer: state.rootReducer.movieReducer,
+  movies: state.rootReducer.movie,
 });
-export default connect(mapStateToProps, { getMovie })(Movie);
+export default connect(mapStateToProps, { getMovieById, getMovies })(Movie);
