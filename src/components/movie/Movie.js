@@ -12,12 +12,16 @@ export class MovieTheaters extends Component {
     const { movies } = this.props.movies;
     return (
       <>
-        <h2>Movie theaters</h2>
+        <h2>Movies</h2>
         {this.props.movies.loading ? (
           <p>Loading movies ...</p>
         ) : (
           movies.map(movie => {
-            return <Link to={movie.title + movie.id}> {movie.title}</Link>;
+            return (
+              <div key={movie.id}>
+                <Link to={movie.title + movie.id}> {movie.title}</Link>
+              </div>
+            );
           })
         )}
       </>
