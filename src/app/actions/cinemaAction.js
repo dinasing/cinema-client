@@ -1,4 +1,11 @@
-import { GET_CINEMAS, CINEMAS_LOADING } from './types';
+import {
+  GET_CINEMAS,
+  GET_CINEMA,
+  GET_MOVIE_TIMES,
+  CINEMAS_LOADING,
+  MOVIE_TIMES_LOADING,
+  CLEAN_CINEMAS,
+} from './types';
 import axios from 'axios';
 
 export const getCinemas = () => dispatch => {
@@ -9,6 +16,32 @@ export const getCinemas = () => dispatch => {
       payload: res.data,
     })
   );
+};
+
+export const getCinemaById = id => dispatch => {
+  dispatch(setCinemasLoading());
+  axios.get('/cinema/' + id).then(res =>
+    dispatch({
+      type: GET_CINEMA,
+      payload: res.data,
+    })
+  );
+};
+export const getMovieTimes = id => dispatch => {
+  dispatch(setCinemasToInitialState());
+  dispatch(setMoviesTimesLoading());
+  axios.get('/cinema/' + id + '/movie-time/').then(res =>
+    dispatch({
+      type: GET_MOVIE_TIMES,
+      payload: res.data,
+    })
+  );
+};
+export const setMoviesTimesLoading = () => {
+  return { type: MOVIE_TIMES_LOADING };
+};
+export const setCinemasToInitialState = () => {
+  return { type: CLEAN_CINEMAS };
 };
 
 export const setCinemasLoading = () => {

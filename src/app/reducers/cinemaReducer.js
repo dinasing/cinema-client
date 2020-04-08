@@ -1,8 +1,19 @@
-import { GET_CINEMAS, DELETE_CINEMA, CINEMAS_LOADING } from '../actions/types';
+import {
+  GET_CINEMAS,
+  GET_CINEMA,
+  GET_MOVIE_TIMES,
+  DELETE_CINEMA,
+  CINEMAS_LOADING,
+  MOVIE_TIMES_LOADING,
+  CLEAN_CINEMAS,
+} from '../actions/types';
 
 const initialState = {
   cinemas: [],
+  cinema: {},
+  movieTimes: [],
   loading: false,
+  movieTimesLoading: false,
 };
 
 export default function(state = initialState, action) {
@@ -12,6 +23,29 @@ export default function(state = initialState, action) {
         ...state,
         cinemas: action.payload,
         loading: false,
+      };
+    case GET_CINEMA:
+      return {
+        ...state,
+        cinema: action.payload,
+        loading: false,
+      };
+    case GET_MOVIE_TIMES:
+      return {
+        ...state,
+        movieTimes: action.payload,
+        movieTimesLoading: false,
+      };
+    case MOVIE_TIMES_LOADING:
+      return { ...state, movieTimesLoading: true };
+    case CLEAN_CINEMAS:
+      return {
+        ...state,
+        cinemas: [],
+        cinema: {},
+        movieTimes: [],
+        loading: false,
+        movieTimesLoading: false,
       };
     case CINEMAS_LOADING:
       return { ...state, loading: true };

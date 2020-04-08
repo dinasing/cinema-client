@@ -14,10 +14,13 @@ export const GET_CINEMAS = 'GET_CINEMAS';
 export const ADD_CINEMA = 'ADD_CINEMA';
 export const DELETE_CINEMA = 'DELETE_CINEMA';
 export const CINEMAS_LOADING = 'CINEMAS_LOADING';
+export const CLEAN_CINEMAS = 'CLEAN_CINEMAS';
 
 export const GET_MOVIES = 'GET_MOVIES';
 export const GET_MOVIE = 'GET_MOVIE';
 export const GET_MOVIE_TIMES = 'GET_MOVIE_TIMES';
+export const CLEAN_MOVIES = 'CLEAN_MOVIES';
 
 export const ADD_MOVIES = 'ADD_MOVIES';
 export const MOVIES_LOADING = 'MOVIES_LOADING';
+export const MOVIE_TIMES_LOADING = 'MOVIE_TIMES_LOADING';

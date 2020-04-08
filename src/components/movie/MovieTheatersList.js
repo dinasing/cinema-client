@@ -19,7 +19,7 @@ export class MovieTheaters extends Component {
           cinemas.map(cinema => {
             return (
               <div key={cinema.id}>
-                <Link to={cinema.title + cinema.id}> {cinema.title}</Link>
+                <Link to={'/movie-theaters/' + cinema.id}> {cinema.title}</Link>
               </div>
             );
           })
