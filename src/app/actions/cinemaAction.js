@@ -1,7 +1,7 @@
 import {
   GET_CINEMAS,
   GET_CINEMA,
-  GET_MOVIE_TIMES,
+  GET_MOVIE_TIMES_FOR_CINEMA,
   CINEMAS_LOADING,
   MOVIE_TIMES_LOADING,
   CLEAN_CINEMAS,
@@ -32,7 +32,7 @@ export const getMovieTimes = id => dispatch => {
   dispatch(setMoviesTimesLoading());
   axios.get('/cinema/' + id + '/movie-time/').then(res =>
     dispatch({
-      type: GET_MOVIE_TIMES,
+      type: GET_MOVIE_TIMES_FOR_CINEMA,
       payload: res.data,
     })
   );

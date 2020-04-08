@@ -1,7 +1,7 @@
 import {
   GET_CINEMAS,
   GET_CINEMA,
-  GET_MOVIE_TIMES,
+  GET_MOVIE_TIMES_FOR_CINEMA,
   DELETE_CINEMA,
   CINEMAS_LOADING,
   MOVIE_TIMES_LOADING,
@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
         cinema: action.payload,
         loading: false,
       };
-    case GET_MOVIE_TIMES:
+    case GET_MOVIE_TIMES_FOR_CINEMA:
       return {
         ...state,
         movieTimes: action.payload,
