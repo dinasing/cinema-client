@@ -1,4 +1,11 @@
-import { GET_MOVIES, MOVIES_LOADING, GET_MOVIE, GET_MOVIE_TIMES } from './types';
+import {
+  GET_MOVIES,
+  MOVIES_LOADING,
+  GET_MOVIE,
+  GET_MOVIE_TIMES,
+  CLEAN_MOVIES,
+  MOVIE_TIMES_LOADING,
+} from './types';
 import axios from 'axios';
 
 export const getMovies = () => dispatch => {
@@ -21,6 +28,9 @@ export const getMovieById = id => dispatch => {
   );
 };
 export const getMovieTimes = id => dispatch => {
+  dispatch(setMoviesToInitialState());
+  dispatch(setMoviesTimesLoading());
+
   axios.get('/movie/' + id + '/movie-time/').then(res =>
     dispatch({
       type: GET_MOVIE_TIMES,
@@ -30,4 +40,12 @@ export const getMovieTimes = id => dispatch => {
 };
 export const setMoviesLoading = () => {
   return { type: MOVIES_LOADING };
+};
+
+export const setMoviesTimesLoading = () => {
+  return { type: MOVIE_TIMES_LOADING };
+};
+
+export const setMoviesToInitialState = () => {
+  return { type: CLEAN_MOVIES };
 };

@@ -2,8 +2,10 @@ import {
   GET_MOVIES,
   GET_MOVIE,
   GET_MOVIE_TIMES,
+  CLEAN_MOVIES,
   DELETE_MOVIE,
   MOVIES_LOADING,
+  MOVIE_TIMES_LOADING,
 } from '../actions/types';
 
 const initialState = {
@@ -11,6 +13,7 @@ const initialState = {
   movie: {},
   movieTimes: [],
   loading: false,
+  movieTimesLoading: false,
 };
 
 export default function(state = initialState, action) {
@@ -31,8 +34,19 @@ export default function(state = initialState, action) {
       return {
         ...state,
         movieTimes: action.payload,
+        movieTimesLoading: false,
+      };
+    case CLEAN_MOVIES: {
+      return {
+        ...state,
+        movies: [],
+        movie: {},
+        movieTimes: [],
         loading: false,
       };
+    }
+    case MOVIE_TIMES_LOADING:
+      return { ...state, movieTimesLoading: true };
     case MOVIES_LOADING:
       return { ...state, loading: true };
     case DELETE_MOVIE:

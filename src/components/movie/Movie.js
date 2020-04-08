@@ -15,18 +15,24 @@ class Movie extends Component {
     return (
       <>
         <h2>{movie.title}</h2>
-        {movieTimes.map(movieTime => {
-          return (
-            <div key={movieTime.id}>
-              <Card>
-                <CardBody>
-                  <CardTitle>{movieTime.date}</CardTitle>
-                  <CardText>{movieTime.cinema.title + '  ' + movieTime.time}</CardText>
-                </CardBody>
-              </Card>
-            </div>
-          );
-        })}
+        {movieTimes[0]
+          ? movieTimes.map(movieTime => {
+              return (
+                <div key={movieTime.id}>
+                  <Card>
+                    <CardBody>
+                      <CardTitle>{movieTime.date}</CardTitle>
+                      <CardText>
+                        {movieTime.cinema.title + '  ' + movieTime.time.slice(0, -3)}
+                      </CardText>
+                    </CardBody>
+                  </Card>
+                </div>
+              );
+            })
+          : this.props.movies.movieTimesLoading
+          ? 'Loading ...'
+          : 'There is no movie times for "' + movie.title + '" right now'}
       </>
     );
   }
