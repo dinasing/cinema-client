@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getMovieById, getMovieTimes } from '../../app/actions/movieAction';
-import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
 
 class Movie extends Component {
   componentDidMount() {
@@ -32,7 +32,7 @@ class Movie extends Component {
             })
           : this.props.movies.movieTimesLoading
           ? 'Loading ...'
-          : 'There is no movie times for "' + movie.title + '" right now'}
+          : 'There are no movie times for "' + movie.title + '" right now'}
       </>
     );
   }
