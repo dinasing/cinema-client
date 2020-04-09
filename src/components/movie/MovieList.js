@@ -1,47 +1,77 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getMovies } from '../../app/actions/movieAction';
+import { getMovies, deleteMovie, editMovie } from '../../app/actions/movieAction';
 import { Link } from 'react-router-dom';
-import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
+import {
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  Button,
+  CardFooter,
+  FormGroup,
+} from 'reactstrap';
+import NewMovieForm from './NewMovieForm';
+import EditMovieModal from './EditMovieModal';
 
-export class MovieTheaters extends Component {
+const MovieCard = props => {
+  return (
+    <Card>
+      <CardImg src={props.movie.poster}></CardImg>
+      <CardBody>
+        <CardTitle>
+          <Link to={'/movies/' + props.movie.id}> {props.movie.title}</Link>
+        </CardTitle>
+        <CardText>{props.movie.release_date + ' - ' + props.movie.end_date}</CardText>
+        <FormGroup className="float-right" row>
+          <EditMovieModal movie={props.movie} />{' '}
+          <Button onClick={() => props.deleteMovie(props.movie.id)} color="danger">
+            delete
+          </Button>
+        </FormGroup>{' '}
+      </CardBody>
+    </Card>
+  );
+};
+
+export class MovieList extends Component {
+  constructor(props) {
+    super(props);
+  }
   componentDidMount() {
     this.props.getMovies();
   }
-  render() {
+
+  handleDelete = id => {
+    this.props.deleteMovie(id);
+  };
+
+  movieList() {
     const { movies } = this.props.movies;
+    return movies.map(movie => {
+      return (
+        <MovieCard movie={movie} key={movie.id} deleteMovie={() => this.handleDelete(movie.id)} />
+      );
+    });
+  }
+  render() {
     return (
       <>
+        <NewMovieForm />
         <h2>Movies</h2>
-        {this.props.movies.loading ? (
-          <p>Loading movies ...</p>
-        ) : (
-          movies.map(movie => {
-            return (
-              <div key={movie.id}>
-                <Card>
-                  <CardImg src={movie.poster}></CardImg>
-                  <CardBody>
-                    <CardTitle>
-                      <Link to={'/movies/' + movie.id}> {movie.title}</Link>
-                    </CardTitle>
-                    <CardText>{movie.release_date + ' - ' + movie.end_date}</CardText>
-                  </CardBody>
-                </Card>
-              </div>
-            );
-          })
-        )}
+        {this.props.movies.loading ? <p>Loading movies ...</p> : this.movieList()}
       </>
     );
   }
 }
-MovieTheaters.propTypes = {
+MovieList.propTypes = {
   getMovies: PropTypes.func.isRequired,
+  deleteMovie: PropTypes.func.isRequired,
   movies: PropTypes.object,
 };
 const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
 });
-export default connect(mapStateToProps, { getMovies })(MovieTheaters);
+export default connect(mapStateToProps, { getMovies, deleteMovie, editMovie })(MovieList);

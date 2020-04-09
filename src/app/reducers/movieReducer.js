@@ -6,6 +6,9 @@ import {
   DELETE_MOVIE,
   MOVIES_LOADING,
   MOVIE_TIMES_LOADING,
+  EDIT_MOVIE,
+  ADD_MOVIES,
+  ADD_MOVIES_FAIL,
 } from '../actions/types';
 
 const initialState = {
@@ -36,6 +39,11 @@ export default function(state = initialState, action) {
         movieTimes: action.payload,
         movieTimesLoading: false,
       };
+    case DELETE_MOVIE:
+      return {
+        ...state,
+        movies: state.movies.filter(movie => movie.id !== action.payload),
+      };
     case CLEAN_MOVIES: {
       return {
         ...state,
@@ -45,11 +53,22 @@ export default function(state = initialState, action) {
         loading: false,
       };
     }
+    case EDIT_MOVIE:
+      return {
+        ...state,
+        movies: state.movies.map(movie => {
+          return movie.id == action.payload.id ? action.payload : movie;
+        }),
+      };
     case MOVIE_TIMES_LOADING:
       return { ...state, movieTimesLoading: true };
     case MOVIES_LOADING:
       return { ...state, loading: true };
-    case DELETE_MOVIE:
+
+    case ADD_MOVIES:
+      state.movies.unshift(action.payload);
+      return { ...state };
+    case ADD_MOVIES_FAIL:
     default:
       return state;
   }

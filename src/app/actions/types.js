@@ -21,7 +21,13 @@ export const GET_MOVIE_TIMES_FOR_CINEMA = 'GET_MOVIE_TIMES_FOR_CINEMA';
 export const GET_MOVIE = 'GET_MOVIE';
 export const GET_MOVIE_TIMES = 'GET_MOVIE_TIMES';
 export const CLEAN_MOVIES = 'CLEAN_MOVIES';
+export const DELETE_MOVIE = 'DELETE_MOVIE';
+
+export const EDIT_MOVIE = 'EDIT_MOVIE';
+export const EDIT_MOVIE_FAIL = 'EDIT_MOVIE_FAIL';
+export const LOAD_MOVIE = 'LOAD_MOVIE';
 
 export const ADD_MOVIES = 'ADD_MOVIES';
 export const MOVIES_LOADING = 'MOVIES_LOADING';
 export const MOVIE_TIMES_LOADING = 'MOVIE_TIMES_LOADING';
+export const ADD_MOVIES_FAIL = 'ADD_MOVIES_FAIL';
