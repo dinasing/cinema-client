@@ -30,7 +30,7 @@ class MovieTheater extends Component {
             })
           : this.props.cinemas.movieTimesLoading
           ? 'Loading ...'
-          : 'There is no movie times for the "' + cinema.title + '" right now.'}
+          : 'There are no movie times for the "' + cinema.title + '" right now.'}
       </>
     );
   }
