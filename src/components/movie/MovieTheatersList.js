@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getCinemas } from '../../app/actions/cinemaAction';
 import { Link } from 'react-router-dom';
+import NewCinemaForm from './NewCinemaForm';
 
 export class MovieTheaters extends Component {
   componentDidMount() {
@@ -12,6 +13,8 @@ export class MovieTheaters extends Component {
     const { cinemas } = this.props.cinemas;
     return (
       <>
+        <NewCinemaForm />
+
         <h2>Movie theaters</h2>
         {this.props.cinemas.loading ? (
           <p>Loading cinemas ...</p>

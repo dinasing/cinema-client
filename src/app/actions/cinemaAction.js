@@ -5,8 +5,38 @@ import {
   CINEMAS_LOADING,
   MOVIE_TIMES_LOADING,
   CLEAN_CINEMAS,
+  ADD_CINEMA,
+  ADD_CINEMA_FAIL,
 } from './types';
 import axios from 'axios';
+import { returnErrors } from './errorAction';
+
+export const addCinema = ({ title, city, address, photo, description }) => dispatch => {
+  const body = {
+    title,
+    city,
+    address,
+    photo,
+    description,
+  };
+
+  axios
+    .post('/cinema', body)
+    .then(res => {
+      dispatch({
+        type: ADD_CINEMA,
+        payload: res.data,
+      });
+    })
+    .catch(err => {
+      if (err.response) {
+        dispatch(returnErrors(err.response.data, err.response.status, 'ADD_CINEMA_FAIL'));
+      }
+      dispatch({
+        type: ADD_CINEMA_FAIL,
+      });
+    });
+};
 
 export const getCinemas = () => dispatch => {
   dispatch(setCinemasLoading());

@@ -6,6 +6,8 @@ import {
   CINEMAS_LOADING,
   MOVIE_TIMES_LOADING,
   CLEAN_CINEMAS,
+  ADD_CINEMA,
+  ADD_CINEMA_FAIL,
 } from '../actions/types';
 
 const initialState = {
@@ -49,6 +51,10 @@ export default function(state = initialState, action) {
       };
     case CINEMAS_LOADING:
       return { ...state, loading: true };
+    case ADD_CINEMA:
+      state.cinemas.unshift(action.payload);
+      return { ...state };
+    case ADD_CINEMA_FAIL:
     case DELETE_CINEMA:
     default:
       return state;
