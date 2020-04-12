@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCinemaById, getMovieTimes } from '../../app/actions/cinemaAction';
+import { getCinemaById, getMovieTimes } from '../actions/cinemaAction';
 import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
 
 class MovieTheater extends Component {

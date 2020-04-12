@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getMovies, deleteMovie, editMovie } from '../../app/actions/movieAction';
+import { getMovies, deleteMovie, editMovie } from '../actions/movieAction';
 import { Link } from 'react-router-dom';
 import {
   Card,

@@ -8,7 +8,7 @@ import {
   CLEAN_CINEMAS,
   ADD_CINEMA,
   ADD_CINEMA_FAIL,
-} from '../actions/types';
+} from '../../common/actions/types';
 
 const initialState = {
   cinemas: [],

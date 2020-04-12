@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { addCinema } from '../../app/actions/cinemaAction';
+import { addMovie } from '../actions/movieAction';
 import { connect } from 'react-redux';
-import { clearErrors } from '../../app/actions/errorAction';
+import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
 
 class NewMovieForm extends Component {
@@ -11,11 +11,13 @@ class NewMovieForm extends Component {
   }
   state = {
     title: '',
-    city: '',
-    address: '',
+    release_date: '',
+    end_date: '',
+    genre: '',
     description: '',
-    numberOfHalls: '1',
-    cinemaHalls: [],
+    poster: '',
+    language: '',
+    msg: null,
   };
 
   handleChange = e => {
@@ -23,27 +25,26 @@ class NewMovieForm extends Component {
       [e.target.id]: e.target.value,
     });
   };
-  handleNumberOfHallsChange = e => {
-    this.setState({
-      numberOfHalls: e.target.value,
-    });
-  };
   handleSubmit = e => {
     e.preventDefault();
-
-    const { title, city, address, description } = this.state;
-    const newCinema = {
+    this.setState({ msg: null });
+    const { title, release_date, end_date, genre, description, poster, language } = this.state;
+    const newMovie = {
       title,
-      city,
-      address,
+      release_date,
+      end_date,
+      genre,
       description,
+      poster,
+      language,
     };
-    this.props.addCinema(newCinema);
+    this.props.addMovie(newMovie);
   };
+
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_CINEMA_FAIL') {
+      if (error.id === 'ADD_MOVIES_FAIL') {
         this.setState({ msg: error.msg.msg });
       } else {
         this.setState({ msg: null });
@@ -54,10 +55,10 @@ class NewMovieForm extends Component {
   render() {
     return (
       <Container>
-        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+        {this.state.msg ? <Alert color="warning">{this.state.msg}</Alert> : null}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <h2>add new movie theater</h2>
+            <h2>add new movie</h2>
             <Label htmlFor="title">title</Label>
             <Input
               required
@@ -67,20 +68,41 @@ class NewMovieForm extends Component {
               onChange={this.handleChange}
               placeholder=""
             />
-            <Label htmlFor="city">city</Label>
+            <Label htmlFor="release_date">from</Label>
+            <Input
+              required
+              className="mb-3"
+              type="date"
+              id="release_date"
+              onChange={this.handleChange}
+              placeholder="DD.MM.YYYY"
+            />
+
+            <Label htmlFor="end_date">to</Label>
+            <Input
+              required
+              className="mb-3"
+              type="date"
+              id="end_date"
+              onChange={this.handleChange}
+              placeholder="DD.MM.YYYY"
+            />
+
+            <Label htmlFor="genre">genre</Label>
             <Input
               required
               className="mb-3"
               type="text"
-              id="city"
+              id="genre"
               onChange={this.handleChange}
               placeholder=""
             />
-            <Label htmlFor="address">address</Label>
+
+            <Label htmlFor="poster">link to poster</Label>
             <Input
               className="mb-3"
               type="text"
-              id="address"
+              id="poster"
               onChange={this.handleChange}
               placeholder=""
             />
@@ -92,16 +114,15 @@ class NewMovieForm extends Component {
               onChange={this.handleChange}
               placeholder=""
             />
-
-            <Label htmlFor="number">number of halls</Label>
+            <Label htmlFor="language">language</Label>
             <Input
               className="mb-3"
-              type="number"
-              id="number"
-              onChange={this.handleNumberOfHallsChange}
-              defaultValue="1"
+              type="text"
+              id="language"
+              onChange={this.handleChange}
+              placeholder=""
             />
-            <Button>add</Button>
+            <Button>add movie</Button>
           </FormGroup>
         </Form>
       </Container>
@@ -112,6 +133,8 @@ class NewMovieForm extends Component {
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,
+  addMovie: state.rootReducer.func,
+  movies: state.rootReducer.movie,
 });
 
-export default connect(mapStateToProps, { addCinema, clearErrors })(NewMovieForm);
+export default connect(mapStateToProps, { addMovie, clearErrors })(NewMovieForm);

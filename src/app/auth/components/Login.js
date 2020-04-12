@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { login } from '../../app/actions/authAction';
+import { login } from '../actions/authAction';
 import { connect } from 'react-redux';
-import { clearErrors } from '../../app/actions/errorAction';
+import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Label, Input, Form, FormGroup, Alert } from 'reactstrap';
 
 class Login extends Component {

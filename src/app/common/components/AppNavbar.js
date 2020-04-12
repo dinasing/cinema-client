@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Navbar, NavbarBrand, Nav, NavItem, Container, NavLink, Fragment } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Logout from './auth/Logout';
+import Logout from '../../auth/components/Logout';
 
 const AuthLinks = () => {
   return (

@@ -7,9 +7,9 @@ import {
   CLEAN_CINEMAS,
   ADD_CINEMA,
   ADD_CINEMA_FAIL,
-} from './types';
+} from '../../common/actions/types';
 import axios from 'axios';
-import { returnErrors } from './errorAction';
+import { returnErrors } from '../../common/actions/errorAction';
 
 export const addCinema = ({ title, city, address, photo, description }) => dispatch => {
   const body = {

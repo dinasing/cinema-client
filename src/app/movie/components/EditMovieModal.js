@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { editMovie } from '../../app/actions/movieAction';
+import { editMovie } from '../actions/movieAction';
 
 import { Button, Modal, ModalHeader, ModalBody, Input, Label, FormGroup, Form } from 'reactstrap';
 

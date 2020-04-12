@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
-import Login from './components/auth/Login';
-import SignUp from './components/auth/SignUp';
-import MovieTimes from './components/movie/MovieTimesList';
-import Movies from './components/movie/MovieList';
-import Movie from './components/movie/Movie';
-import MovieTheater from './components/movie/MovieTheater';
-import MovieTheaters from './components/movie/MovieTheatersList';
+import Login from '../../auth/components/Login';
+import SignUp from '../../auth/components/SignUp';
+import MovieTimes from '../../movie/components/MovieTimesList';
+import Movies from '../../movie/components/MovieList';
+import Movie from '../../movie/components/Movie';
+import MovieTheater from '../../cinema/components/Cinema';
+import MovieTheaters from '../../cinema/components/CinemaList';
 
 export default class Routes extends Component {
   constructor(props) {

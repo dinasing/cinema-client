@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { register } from '../../app/actions/authAction';
+import { register } from '../actions/authAction';
 import { connect } from 'react-redux';
-import { clearErrors } from '../../app/actions/errorAction';
+import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
 
 class SignUp extends Component {

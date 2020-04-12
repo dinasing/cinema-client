@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { returnErrors } from './errorAction';
+import { returnErrors } from '../../common/actions/errorAction';
 import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-} from './types';
+} from '../../common/actions/types';
 
 // Logout User
 export const logout = () => {

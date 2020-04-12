@@ -9,9 +9,9 @@ import {
   EDIT_MOVIE,
   ADD_MOVIES,
   ADD_MOVIES_FAIL,
-} from './types';
+} from '../../common/actions/types';
 import axios from 'axios';
-import { returnErrors } from './errorAction';
+import { returnErrors } from '../../common/actions/errorAction';
 
 export const addMovie = ({
   title,

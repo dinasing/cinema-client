@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getMovieById, getMovieTimes } from '../../app/actions/movieAction';
+import { getMovieById, getMovieTimes } from '../actions/movieAction';
 import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
 
 class Movie extends Component {

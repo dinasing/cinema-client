@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import authReducer from './authReducer';
+import authReducer from '../../auth/reducers/authReducer';
 import errorReducer from './errorReducer';
-import cinemaReducer from './cinemaReducer';
-import movieReducer from './movieReducer';
+import cinemaReducer from '../../cinema/reducers/cinemaReducer';
+import movieReducer from '../../movie/reducers/movieReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,

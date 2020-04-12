@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import rootReducer from './reducers/rootReducer';
+import rootReducer from './common/reducers/rootReducer';
 
 export const store = configureStore({
   reducer: {

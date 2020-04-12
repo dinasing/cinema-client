@@ -9,7 +9,7 @@ import {
   EDIT_MOVIE,
   ADD_MOVIES,
   ADD_MOVIES_FAIL,
-} from '../actions/types';
+} from '../../common/actions/types';
 
 const initialState = {
   movies: [],

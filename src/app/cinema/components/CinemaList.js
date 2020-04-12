@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCinemas } from '../../app/actions/cinemaAction';
+import { getCinemas } from '../actions/cinemaAction';
 import { Link } from 'react-router-dom';
 import NewCinemaForm from './NewCinemaForm';
 
