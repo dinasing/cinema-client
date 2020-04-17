@@ -4,6 +4,7 @@ import { Navbar, NavbarBrand, Nav, NavItem, Container, NavLink, Fragment } from 
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Logout from '../../auth/components/Logout';
+import { loadUser } from '../../auth/actions/authAction';
 
 const AuthLinks = () => {
   return (
@@ -29,7 +30,11 @@ const GuestLinks = () => {
 class AppNavbar extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
+    loadUser: PropTypes.func.isRequired,
   };
+  componentDidMount() {
+    this.props.loadUser();
+  }
   render() {
     const { isAuthenticated, user } = this.props.auth;
     return (
@@ -46,6 +51,9 @@ class AppNavbar extends Component {
             <NavLink>
               <Link to="/movie-times">Movie times</Link>
             </NavLink>
+            <NavLink>
+              <Link to="/settings">Settings</Link>
+            </NavLink>
             {isAuthenticated ? <AuthLinks /> : <GuestLinks />}
           </Nav>
         </Container>
@@ -58,4 +66,4 @@ const mapStateToProps = state => ({
   auth: state.rootReducer.auth,
 });
 
-export default connect(mapStateToProps, null)(withRouter(AppNavbar));
+export default connect(mapStateToProps, { loadUser })(withRouter(AppNavbar));
