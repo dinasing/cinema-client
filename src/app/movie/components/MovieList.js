@@ -61,7 +61,13 @@ export class MovieList extends Component {
       <>
         <NewMovieForm />
         <h2>Movies</h2>
-        {this.props.movies.loading ? <p>Loading movies ...</p> : this.movieList()}
+        {this.props.movies.loading ? (
+          <p>Loading movies ...</p>
+        ) : this.props.movies.movies[0] ? (
+          this.movieList()
+        ) : (
+          <p>There are no movies at the box office right now.</p>
+        )}
       </>
     );
   }

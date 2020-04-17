@@ -8,6 +8,7 @@ import {
   CLEAN_CINEMAS,
   ADD_CINEMA,
   ADD_CINEMA_FAIL,
+  GET_SIT_TYPES,
 } from '../../common/actions/types';
 
 const initialState = {
@@ -16,6 +17,8 @@ const initialState = {
   movieTimes: [],
   loading: false,
   movieTimesLoading: false,
+  sitsTypes: [],
+  newCinemaId: '',
 };
 
 export default function(state = initialState, action) {
@@ -53,7 +56,7 @@ export default function(state = initialState, action) {
       return { ...state, loading: true };
     case ADD_CINEMA:
       state.cinemas.unshift(action.payload);
-      return { ...state };
+      return { ...state, newCinemaId: action.payload.id };
     case ADD_CINEMA_FAIL:
     case DELETE_CINEMA:
     default:

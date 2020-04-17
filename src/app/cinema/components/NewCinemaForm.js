@@ -1,10 +1,12 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { addCinema } from '../actions/cinemaAction';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
+import { HallFormContainer } from './Hall';
 
-class NewMovieForm extends Component {
+class NewCinemaForm extends Component {
   constructor(props) {
     super(props);
   }
@@ -22,11 +24,6 @@ class NewMovieForm extends Component {
       [e.target.id]: e.target.value,
     });
   };
-  handleNumberOfHallsChange = e => {
-    this.setState({
-      numberOfHalls: e.target.value,
-    });
-  };
   handleSubmit = e => {
     e.preventDefault();
 
@@ -39,6 +36,7 @@ class NewMovieForm extends Component {
     };
     this.props.addCinema(newCinema);
   };
+
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
@@ -49,7 +47,6 @@ class NewMovieForm extends Component {
       }
     }
   }
-
   render() {
     return (
       <Container>
@@ -91,14 +88,20 @@ class NewMovieForm extends Component {
               onChange={this.handleChange}
               placeholder=""
             />
-
-            <Label htmlFor="number">number of halls</Label>
+            <Label htmlFor="numberOfHalls">number of halls</Label>
             <Input
               className="mb-3"
               type="number"
-              id="number"
-              onChange={this.handleNumberOfHallsChange}
+              id="numberOfHalls"
+              onChange={this.handleChange}
               defaultValue="1"
+              min="1"
+              max="20"
+            />
+            <HallFormContainer
+              handleChange={this.handleChange}
+              numberOfHalls={this.state.numberOfHalls}
+              sitsTypes={this.props.sitsTypes}
             />
             <Button>add</Button>
           </FormGroup>
@@ -113,4 +116,4 @@ const mapStateToProps = state => ({
   error: state.rootReducer.error,
 });
 
-export default connect(mapStateToProps, { addCinema, clearErrors })(NewMovieForm);
+export default connect(mapStateToProps, { addCinema, clearErrors })(NewCinemaForm);
