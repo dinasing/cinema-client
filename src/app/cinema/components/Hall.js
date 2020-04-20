@@ -1,80 +1,56 @@
-import React, { Component } from 'react';
-import { Input, Label, Row, Col } from 'reactstrap';
+import React from 'react';
+import { Input, Label, Row, Col, Button } from 'reactstrap';
 import { Options } from '../../common/components/Options';
 
 export const HallFormContainer = props => {
-  const newHallForms = [];
-  for (let i = 0; i < props.numberOfHalls; i++) {
-    newHallForms.push(
-      <HallForm
-        key={i}
-        number={i}
-        id={i}
-        handleChange={props.handleChange}
-        sitsTypes={props.sitsTypes}
-      />
-    );
-  }
-  return <div>{newHallForms}</div>;
-};
+  return (
+    <>
+      {props.cinemaHalls.map((cinemaHall, i) => (
+        <Row xs="2">
+          <Col>
+            <Label htmlFor={'hallTitle' + i}>hall title</Label>
+            <Input
+              required
+              className="mb-3"
+              type="text"
+              id={'hallTitle' + i}
+              onChange={props.handleCinemaHallTitleChange(i)}
+              value={cinemaHall.title}
+            />
+            <Button className="mb-3" onClick={props.handleRemoveCinemaHall(i)}>
+              delete hall
+            </Button>
+          </Col>
 
-class HallForm extends Component {
-  state = { numberOfRows: '1', schema: [] };
-  handleNumberOfRowsChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
-    this.setState({ numberOfRows: e.target.value });
-  };
-  render() {
-    return (
-      <Row xs="2">
-        <Col>
-          <Label htmlFor={'hallTitle' + this.props.id}>hall title</Label>
-          <Input
-            required
-            className="mb-3"
-            type="text"
-            id={'hallTitle' + this.props.id}
-            onChange={this.props.handleChange}
-            placeholder=""
-          />
-        </Col>
+          <Col>
+            <div className="mb-2">rows of the cinema hall</div>
+            <Button className="mb-3" onClick={props.handleAddRow(i)}>
+              add row
+            </Button>
+            {cinemaHall.schema.map((row, rowIndex) => (
+              <>
+                <RowForm
+                  key={i}
+                  number={i}
+                  id={i}
+                  handleChange={props.handleChange}
+                  sitsTypes={props.sitsTypes}
+                  handleNumberOfSitsChange={props.handleNumberOfSitsChange(i, rowIndex)}
+                  handleSitsTypeChange={props.handleSitsTypeChange(i, rowIndex)}
+                  rowIndex={rowIndex}
+                  cinemaHallIndex={i}
+                />
 
-        <Col>
-          <Label htmlFor={'numberOfRows' + this.props.id}>number of rows</Label>
-          <Input
-            required
-            className="mb-3"
-            type="number"
-            id={'numberOfRows' + this.props.id}
-            onChange={this.handleNumberOfRowsChange}
-            placeholder="1"
-            min="1"
-            max="30"
-          />
-          <RowFormContainer
-            handleChange={this.props.handleChange}
-            numberOfRows={this.state.numberOfRows}
-            sitsTypes={this.props.sitsTypes}
-          />
-        </Col>
-      </Row>
-    );
-  }
-}
-const RowFormContainer = props => {
-  const newRowForms = [];
-  for (let i = 0; i < props.numberOfRows; i++) {
-    newRowForms.push(
-      <RowForm
-        key={i}
-        number={i}
-        id={i}
-        handleChange={props.handleChange}
-        sitsTypes={props.sitsTypes}
-      />
-    );
-  }
-  return <>{newRowForms}</>;
+                <Button className="mb-3" onClick={props.handleRemoveRow(i, rowIndex)}>
+                  delete row
+                </Button>
+              </>
+            ))}
+          </Col>
+        </Row>
+      ))}
+    </>
+  );
 };
 
 const RowForm = props => (
@@ -86,7 +62,7 @@ const RowForm = props => (
         className="mb-3"
         type="number"
         id={'numberOfSits' + props.id}
-        onChange={props.handleChange}
+        onChange={props.handleNumberOfSitsChange}
         min="1"
         max="101"
       />
@@ -99,9 +75,11 @@ const RowForm = props => (
         className="mb-3"
         type="select"
         id={'sitType' + props.id}
-        onChange={props.handleChange}
-        placeholder=""
+        onChange={props.handleSitsTypeChange}
       >
+        <option value="" selected disabled>
+          select type
+        </option>
         <Options items={props.sitsTypes} />
       </Input>
     </Col>

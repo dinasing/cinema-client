@@ -11,17 +11,25 @@ import {
 import axios from 'axios';
 import { returnErrors } from '../../common/actions/errorAction';
 
-export const addCinema = ({ title, city, address, photo, description }) => dispatch => {
-  const body = {
+export const addCinema = ({
+  title,
+  city,
+  address,
+  photo,
+  description,
+  cinemaHalls,
+}) => dispatch => {
+  const cinema = {
     title,
     city,
     address,
     photo,
     description,
+    cinemaHalls,
   };
 
   axios
-    .post('/cinema', body)
+    .post('/cinema', cinema)
     .then(res => {
       dispatch({
         type: ADD_CINEMA,

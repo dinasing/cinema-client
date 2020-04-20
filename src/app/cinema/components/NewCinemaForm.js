@@ -9,16 +9,77 @@ import { HallFormContainer } from './Hall';
 class NewCinemaForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      title: '',
+      city: '',
+      address: '',
+      description: '',
+      cinemaHalls: [{ title: '', schema: [{ numberOfSits: '', sitsType: '' }] }],
+    };
   }
-  state = {
-    title: '',
-    city: '',
-    address: '',
-    description: '',
-    numberOfHalls: '1',
-    cinemaHalls: [],
+
+  handleCinemaHallTitleChange = stateIndex => e => {
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, index) => {
+      if (stateIndex !== index) return cinemaHall;
+      return { ...cinemaHall, title: e.target.value };
+    });
+
+    this.setState({ cinemaHalls: newCinemaHalls });
   };
 
+  handleNumberOfSitsChange = (stateCinemaHallIndex, stateRowIndex) => e => {
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
+      if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
+      const newSchema = cinemaHall.schema.map((row, rowIndex) => {
+        if (stateRowIndex !== rowIndex) return row;
+        return { ...row, numberOfSits: e.target.value };
+      });
+      return { ...cinemaHall, schema: newSchema };
+    });
+    this.setState({ cinemaHalls: newCinemaHalls });
+  };
+
+  handleSitsTypeChange = (stateCinemaHallIndex, stateRowIndex) => e => {
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
+      if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
+      const newSchema = cinemaHall.schema.map((row, rowIndex) => {
+        if (stateRowIndex !== rowIndex) return row;
+        return { ...row, sitsType: e.target.value };
+      });
+      return { ...cinemaHall, schema: newSchema };
+    });
+    this.setState({ cinemaHalls: newCinemaHalls });
+  };
+
+  handleRemoveCinemaHall = stateIndex => () => {
+    this.setState({
+      cinemaHalls: this.state.cinemaHalls.filter((cinema, index) => index !== stateIndex),
+    });
+  };
+  handleAddCinemaHall = () => {
+    this.setState({
+      cinemaHalls: this.state.cinemaHalls.concat([
+        { title: '', schema: [{ numberOfSits: '', sitsType: '' }] },
+      ]),
+    });
+  };
+  handleAddRow = stateCinemaHallIndex => () => {
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
+      if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
+      const newSchema = cinemaHall.schema.concat([{ numberOfSits: '', sitsType: '' }]);
+      return { ...cinemaHall, schema: newSchema };
+    });
+    this.setState({ cinemaHalls: newCinemaHalls });
+  };
+
+  handleRemoveRow = (stateCinemaHallIndex, stateRowIndex) => () => {
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
+      if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
+      const newSchema = cinemaHall.schema.filter((row, rowIndex) => stateRowIndex !== rowIndex);
+      return { ...cinemaHall, schema: newSchema };
+    });
+    this.setState({ cinemaHalls: newCinemaHalls });
+  };
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
@@ -27,12 +88,13 @@ class NewCinemaForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { title, city, address, description } = this.state;
+    const { title, city, address, description, cinemaHalls } = this.state;
     const newCinema = {
       title,
       city,
       address,
       description,
+      cinemaHalls,
     };
     this.props.addCinema(newCinema);
   };
@@ -88,22 +150,24 @@ class NewCinemaForm extends Component {
               onChange={this.handleChange}
               placeholder=""
             />
-            <Label htmlFor="numberOfHalls">number of halls</Label>
-            <Input
-              className="mb-3"
-              type="number"
-              id="numberOfHalls"
-              onChange={this.handleChange}
-              defaultValue="1"
-              min="1"
-              max="20"
-            />
-            <HallFormContainer
-              handleChange={this.handleChange}
-              numberOfHalls={this.state.numberOfHalls}
-              sitsTypes={this.props.sitsTypes}
-            />
-            <Button>add</Button>
+            <fieldset>
+              <legend>cinema halls</legend>
+              <Button className="mb-3" onClick={this.handleAddCinemaHall}>
+                add cinema hall
+              </Button>
+
+              <HallFormContainer
+                handleRemoveCinemaHall={this.handleRemoveCinemaHall}
+                handleNumberOfSitsChange={this.handleNumberOfSitsChange}
+                handleSitsTypeChange={this.handleSitsTypeChange}
+                handleRemoveRow={this.handleRemoveRow}
+                handleCinemaHallTitleChange={this.handleCinemaHallTitleChange}
+                sitsTypes={this.props.sitsTypes}
+                cinemaHalls={this.state.cinemaHalls}
+                handleAddRow={this.handleAddRow}
+              />
+            </fieldset>
+            <Button className="mb-3">add movie theater</Button>
           </FormGroup>
         </Form>
       </Container>
