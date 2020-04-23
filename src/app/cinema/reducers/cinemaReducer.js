@@ -56,7 +56,7 @@ export default function(state = initialState, action) {
       return { ...state, loading: true };
     case ADD_CINEMA:
       state.cinemas.unshift(action.payload);
-      return { state };
+      return { ...state };
     case ADD_CINEMA_FAIL:
     case DELETE_CINEMA:
     default:
