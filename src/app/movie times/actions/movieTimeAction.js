@@ -9,12 +9,13 @@ import {
   GET_MOVIES_FOR_MOVIE_TIMES,
   GET_CINEMA_HALLS_FOR_MOVIE_TIMES,
   GET_CINEMAS_FOR_MOVIE_TIMES,
+  GET_SITS_TYPES_FOR_MOVIE_TIMES,
 } from '../../common/actions/types';
 import axios from 'axios';
 import { returnErrors } from '../../common/actions/errorAction';
 import { tokenConfig } from '../../auth/actions/authAction';
 
-export const addMovieTime = ({ date, time, cinemaHallId, cinemaId, movieId }) => (
+export const addMovieTime = ({ date, time, cinemaHallId, cinemaId, movieId, prices }) => (
   dispatch,
   getState
 ) => {
@@ -24,6 +25,7 @@ export const addMovieTime = ({ date, time, cinemaHallId, cinemaId, movieId }) =>
     cinemaHallId,
     cinemaId,
     movieId,
+    prices,
   };
 
   axios
@@ -92,6 +94,21 @@ export const getCinemaHalls = () => dispatch => {
     .then(res => {
       dispatch({
         type: GET_CINEMA_HALLS_FOR_MOVIE_TIMES,
+        payload: res.data,
+      });
+    })
+    .catch(err => {
+      if (err.res) dispatch(returnErrors(err.response.data, err.response.status));
+      else dispatch(returnErrors(err.message));
+    });
+};
+
+export const getSitsTypes = () => dispatch => {
+  axios
+    .get('/sit-type')
+    .then(res => {
+      dispatch({
+        type: GET_SITS_TYPES_FOR_MOVIE_TIMES,
         payload: res.data,
       });
     })

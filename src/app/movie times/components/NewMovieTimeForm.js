@@ -24,8 +24,26 @@ class NewMovieTimeForm extends Component {
     return cinemaHalls.filter(cinemaHall => cinemaHall.cinemaId == cinemaId);
   }
 
+  createSitsTypesOptions(sitsTypes, cinemaHalls, cinemaHallId) {
+    const cinemaHall = cinemaHalls.filter(cinemaHall => cinemaHall.id == cinemaHallId)[0];
+    let cinemaHallSitsTypes = new Set();
+    for (const row of cinemaHall.schema) {
+      cinemaHallSitsTypes.add(Number(row.sitsType));
+    }
+
+    return sitsTypes.filter(sitsType => cinemaHallSitsTypes.has(sitsType.id));
+  }
+
   render() {
     const cinemaHalls = this.createCinemaHallOptions(this.props.cinemaHalls, this.props.cinemaId);
+    const sitsTypes = this.props.cinemaHallId
+      ? this.createSitsTypesOptions(
+          this.props.sitsTypes,
+          this.props.cinemaHalls,
+          this.props.cinemaHallId
+        )
+      : [];
+
     return (
       <Container>
         <Form onSubmit={this.props.handleSubmit}>
@@ -64,7 +82,7 @@ class NewMovieTimeForm extends Component {
               className="mb-3"
               type="select"
               id="cinemaHallId"
-              onChange={this.props.handleChange}
+              onChange={this.props.handleCinemaHallIdChange}
             >
               <option value="" selected disabled>
                 select hall
@@ -87,6 +105,22 @@ class NewMovieTimeForm extends Component {
               id="date"
               onChange={this.props.handleChange}
             />
+
+            {sitsTypes.map(sitsType => {
+              return (
+                <div key={sitsType.id}>
+                  <Label htmlFor={sitsType.id}>price ({sitsType.title})</Label>
+                  <Input
+                    className="mb-3"
+                    type="number"
+                    id={sitsType.id}
+                    min="0"
+                    defaultValue="0"
+                    onChange={this.props.handleSitsTypePriceChange(sitsType.id)}
+                  />
+                </div>
+              );
+            })}
             <Button>add</Button>
           </FormGroup>
         </Form>
