@@ -14,12 +14,19 @@ import {
 export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
   axios
-    .get('auth/user', tokenConfig(getState))
+    .get('/user/profile', tokenConfig(getState))
     .then(res => {
-      dispatch({
-        type: USER_LOADED,
-        payload: res.data,
-      });
+      if (getState().rootReducer.auth.token)
+        dispatch({
+          type: USER_LOADED,
+          payload: res.data,
+        });
+      else {
+        dispatch(returnErrors(err.response.data, err.response.status, 'AUTH_FAIL'));
+        dispatch({
+          type: AUTH_ERROR,
+        });
+      }
     })
     .catch(err => {
       dispatch(returnErrors(err.response.data, err.response.status, 'AUTH_FAIL'));
