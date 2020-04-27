@@ -8,9 +8,23 @@ import { loadUser } from '../../auth/actions/authAction';
 
 const AuthLinks = () => {
   return (
-    <NavItem>
-      <Logout />
-    </NavItem>
+    <>
+      <NavLink>
+        <Link to="/movies">Movies</Link>
+      </NavLink>
+      <NavLink>
+        <Link to="/movie-theaters">Movie theatres</Link>
+      </NavLink>
+      <NavLink>
+        <Link to="/movie-times">Movie times</Link>
+      </NavLink>
+      <NavLink>
+        <Link to="/settings">Settings</Link>
+      </NavLink>
+      <NavItem>
+        <Logout />
+      </NavItem>
+    </>
   );
 };
 
@@ -42,18 +56,6 @@ class AppNavbar extends Component {
         <Container>
           <NavbarBrand href="/">Cinema</NavbarBrand>
           <Nav className="ml-auto" navbar>
-            <NavLink>
-              <Link to="/movies">Movies</Link>
-            </NavLink>
-            <NavLink>
-              <Link to="/movie-theaters">Movie theatres</Link>
-            </NavLink>
-            <NavLink>
-              <Link to="/movie-times">Movie times</Link>
-            </NavLink>
-            <NavLink>
-              <Link to="/settings">Settings</Link>
-            </NavLink>
             {isAuthenticated ? <AuthLinks /> : <GuestLinks />}
           </Nav>
         </Container>
