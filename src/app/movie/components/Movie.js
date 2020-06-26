@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getMovieById, getMovieTimes } from '../actions/movieAction';
 import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
+import moment from "moment";
 
 class Movie extends Component {
   componentDidMount() {
@@ -10,8 +11,7 @@ class Movie extends Component {
     this.props.getMovieTimes(this.props.match.params.movie_id);
   }
   render() {
-    const { movie } = this.props.movies;
-    const { movieTimes } = this.props.movies;
+    const { movie, movieTimes } = this.props.movies;
     return (
       <>
         <h2>{movie.title}</h2>
@@ -21,7 +21,8 @@ class Movie extends Component {
                 <div key={movieTime.id}>
                   <Card>
                     <CardBody>
-                      <CardTitle>{movieTime.date}</CardTitle>
+                      <CardTitle>{moment(movieTime.date).format("DD.MM.YYYY")
+                        }</CardTitle>
                       <CardText>
                         {movieTime.cinema.title + '  ' + movieTime.time.slice(0, -3)}
                       </CardText>
