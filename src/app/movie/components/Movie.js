@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getMovieById, getMovieTimes } from '../actions/movieAction';
-import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
-import moment from "moment";
+import { Card, Media, CardText, CardBody, CardTitle } from 'reactstrap';
+import moment from 'moment';
+import { withMenu } from '../../menu/withMenu';
+import { MOVIES_MENU_ITEMS } from '../../menu/menuItemsConstants';
 
 class Movie extends Component {
   componentDidMount() {
@@ -15,14 +17,22 @@ class Movie extends Component {
     return (
       <>
         <h2>{movie.title}</h2>
+        <img
+          height="250px"
+          self-align="center"
+          src={
+            movie.poster
+              ? movie.poster
+              : 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Out_Of_Poster.jpg'
+          }
+        />
         {movieTimes[0]
           ? movieTimes.map(movieTime => {
               return (
                 <div key={movieTime.id}>
                   <Card>
                     <CardBody>
-                      <CardTitle>{moment(movieTime.date).format("DD.MM.YYYY")
-                        }</CardTitle>
+                      <CardTitle>{moment(movieTime.date).format('DD.MM.YYYY')}</CardTitle>
                       <CardText>
                         {movieTime.cinema.title + '  ' + movieTime.time.slice(0, -3)}
                       </CardText>
@@ -47,4 +57,6 @@ Movie.propTypes = {
 const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
 });
-export default connect(mapStateToProps, { getMovieById, getMovieTimes })(Movie);
+export default connect(mapStateToProps, { getMovieById, getMovieTimes })(
+  withMenu(Movie, MOVIES_MENU_ITEMS)
+);
