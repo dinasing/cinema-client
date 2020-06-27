@@ -13,7 +13,7 @@ const AuthLinks = () => {
         <Link to="/movies">Movies</Link>
       </NavItem>
       <NavItem className="ml-2">
-        <Link to="/movie-theaters">Movie theatres</Link>
+        <Link to="/movie-theaters">Movie theaters</Link>
       </NavItem>
       <NavItem className="ml-2">
         <Link to="/movie-times">Movie times</Link>
@@ -63,8 +63,8 @@ class AppNavbar extends Component {
                 <Logout />
               </NavItem>
             ) : (
-                <GuestLinks />
-              )}
+              <GuestLinks />
+            )}
           </Nav>
         </Container>
       </Navbar>

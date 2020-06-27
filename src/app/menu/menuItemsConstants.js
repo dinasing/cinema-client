@@ -6,8 +6,8 @@ export const MOVIES_MENU_ITEMS = [
 ];
 
 export const CINEMAS_MENU_ITEMS = [
-  { link: 'movie-theaters', name: 'all movie theatres' },
-  { link: 'movie-theaters/add', name: 'add movie theatres' },
-  { link: 'movie-theaters/edit', name: 'edit movie theatre' },
-  { link: 'movie-theaters/delete', name: 'delete movie theatre' },
+  { link: 'movie-theaters', name: 'all movie theaters' },
+  { link: 'movie-theaters/add', name: 'add movie theater' },
+  { link: 'movie-theaters/edit', name: 'edit movie theaters' },
+  { link: 'movie-theaters/delete', name: 'delete movie theaters' },
 ];
