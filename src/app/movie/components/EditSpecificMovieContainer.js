@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Input } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Options } from '../../common/components/Options';
 import { editMovie } from '../actions/movieAction';
 import { clearErrors } from '../../common/actions/errorAction';
 import { withMenu } from '../../menu/withMenu';
@@ -11,10 +10,10 @@ import EditMovieForm from './EditMovieForm';
 
 class EditMovieContainer extends Component {
   state = {
-    movieToEditId: '',
     editedMovieInfo: {},
     msg: null,
     isChangesSaved: false,
+    movieToEdit: {},
   };
   handleIdChange = e => {
     this.setState({
@@ -33,7 +32,7 @@ class EditMovieContainer extends Component {
     e.preventDefault();
     clearErrors();
     const editedMovie = this.state.editedMovieInfo;
-    editedMovie.id = this.state.movieToEditId;
+    editedMovie.id = this.state.movieToEdit.id;
     this.props.editMovie(editedMovie);
 
     this.setState({
@@ -53,6 +52,12 @@ class EditMovieContainer extends Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({
+      movieToEdit: this.props.movies.movie,
+    });
+  }
+
   onDismissSuccessAlert = () => {
     this.setState({
       isChangesSaved: false,
@@ -66,9 +71,7 @@ class EditMovieContainer extends Component {
   };
 
   render() {
-    const { movies } = this.props.movies;
-    const { movieToEditId, isChangesSaved, msg } = this.state;
-    const movieToEdit = movies.filter(movie => movieToEditId == movie.id)[0];
+    const { isChangesSaved, msg, movieToEdit } = this.state;
 
     return (
       <>
@@ -79,26 +82,15 @@ class EditMovieContainer extends Component {
         <Alert isOpen={isChangesSaved && !msg} toggle={this.onDismissSuccessAlert} color="primary">
           Changes saved successfully!
         </Alert>
-        <Input
-          defaultValue=""
-          required
-          className="mb-3"
-          type="select"
-          id="movieToEditId"
-          onChange={this.handleIdChange}
-        >
-          <option value="" disabled>
-            select movie to edit
-          </option>
-          <Options items={movies} />
-        </Input>
         {movieToEdit ? (
           <EditMovieForm
             movieToEdit={movieToEdit}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
           />
-        ) : null}
+        ) : (
+          `there is nothing to edit`
+        )}
       </>
     );
   }
@@ -110,7 +102,6 @@ EditMovieContainer.propTypes = {
 
 const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
-
   error: state.rootReducer.error,
 });
 export default connect(mapStateToProps, { editMovie })(

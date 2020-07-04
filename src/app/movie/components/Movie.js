@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { Link } from 'react-router-dom';
 import { getMovieById, getMovieTimes } from '../actions/movieAction';
-import { Card, Media, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
 import moment from 'moment';
 import { withMenu } from '../../menu/withMenu';
 import { MOVIES_MENU_ITEMS } from '../../menu/menuItemsConstants';
@@ -16,7 +18,13 @@ class Movie extends Component {
     const { movie, movieTimes } = this.props.movies;
     return (
       <>
-        <h2>{movie.title}</h2>
+        <h2>
+          {movie.title}{' '}
+          <small>
+            <Link to={'/movies/' + movie.id + '/edit/'}>edit</Link>
+          </small>
+        </h2>
+
         <img
           height="250px"
           self-align="center"

@@ -64,7 +64,7 @@ export const MovieCardWithDeleteButton = props => {
         </CardText>
       </CardBody>
       <CardFooter>
-        <Button onClick={() => props.deleteMovie(props.movie.id)} color="danger">
+        <Button onClick={() => props.deleteMovie(id)} color="danger">
           delete
         </Button>
       </CardFooter>
