@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Input } from 'reactstrap';
+import { Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { editMovie } from '../actions/movieAction';
 import { clearErrors } from '../../common/actions/errorAction';
@@ -14,12 +14,6 @@ class EditMovieContainer extends Component {
     msg: null,
     isChangesSaved: false,
     movieToEdit: {},
-  };
-  handleIdChange = e => {
-    this.setState({
-      [e.target.id]: e.target.value,
-      editedMovieInfo: {},
-    });
   };
 
   handleChange = e => {
