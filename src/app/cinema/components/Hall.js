@@ -17,14 +17,14 @@ export const HallFormContainer = props => {
               onChange={props.handleCinemaHallTitleChange(i)}
               value={cinemaHall.title}
             />
-            <Button className="mb-3" onClick={props.handleRemoveCinemaHall(i)}>
+            <Button color="danger" className="mb-3" onClick={props.handleRemoveCinemaHall(i)}>
               delete hall
             </Button>
           </Col>
 
           <Col>
             <div className="mb-2">rows of the cinema hall</div>
-            <Button className="mb-3" onClick={props.handleAddRow(i)}>
+            <Button color="primary" className="mb-3" onClick={props.handleAddRow(i)}>
               add row
             </Button>
             {cinemaHall.schema.map((row, rowIndex) => (
@@ -41,7 +41,11 @@ export const HallFormContainer = props => {
                   cinemaHallIndex={i}
                 />
 
-                <Button className="mb-3" onClick={props.handleRemoveRow(i, rowIndex)}>
+                <Button
+                  color="danger"
+                  className="mb-3"
+                  onClick={props.handleRemoveRow(i, rowIndex)}
+                >
                   delete row
                 </Button>
               </>

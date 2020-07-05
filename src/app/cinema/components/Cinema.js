@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { getCinemaById, getMovieTimes } from '../actions/cinemaAction';
 import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
+import { withMenu } from '../../menu/withMenu';
+import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
 
 class MovieTheater extends Component {
   componentDidMount() {
@@ -13,7 +16,12 @@ class MovieTheater extends Component {
     const { cinema, movieTimes } = this.props.cinemas;
     return (
       <>
-        <h2>{cinema.title}</h2>
+        <h2>
+          {cinema.title}{' '}
+          <small>
+            <Link to={'/movie-theaters/' + cinema.id + '/edit/'}>edit</Link>
+          </small>
+        </h2>
 
         {movieTimes[0]
           ? movieTimes.map(movieTime => {
@@ -44,4 +52,6 @@ MovieTheater.propTypes = {
 const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
 });
-export default connect(mapStateToProps, { getCinemaById, getMovieTimes })(MovieTheater);
+export default connect(mapStateToProps, { getCinemaById, getMovieTimes })(
+  withMenu(MovieTheater, CINEMAS_MENU_ITEMS)
+);

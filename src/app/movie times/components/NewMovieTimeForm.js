@@ -121,7 +121,7 @@ class NewMovieTimeForm extends Component {
                 </div>
               );
             })}
-            <Button>add</Button>
+            <Button color='primary'>save</Button>
           </FormGroup>
         </Form>
       </Container>

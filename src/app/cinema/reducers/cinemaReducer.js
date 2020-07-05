@@ -9,6 +9,7 @@ import {
   ADD_CINEMA,
   ADD_CINEMA_FAIL,
   GET_SIT_TYPES,
+  DELETE_CINEMA_FAIL,
 } from '../../common/actions/types';
 
 const initialState = {
@@ -57,8 +58,14 @@ export default function(state = initialState, action) {
     case ADD_CINEMA:
       state.cinemas.unshift(action.payload);
       return { ...state };
-    case ADD_CINEMA_FAIL:
     case DELETE_CINEMA:
+      return {
+        ...state,
+        cinemas: state.cinemas.filter(cinema => cinema.id !== action.payload),
+      };
+
+    case ADD_CINEMA_FAIL:
+    case DELETE_CINEMA_FAIL:
     default:
       return state;
   }

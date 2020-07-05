@@ -1,4 +1,3 @@
-/* eslint-disable */
 'use strict';
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
@@ -49,7 +48,7 @@ class NewSitTypeForm extends Component {
               onChange={this.props.handleChange}
               defaultValue="1"
             />
-            <Button>add type</Button>
+            <Button color='primary'>save type</Button>
           </FormGroup>
         </Form>
       </Container>

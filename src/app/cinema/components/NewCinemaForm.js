@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
 import { HallFormContainer } from './Hall';
+import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
+import { withMenu } from '../../menu/withMenu';
+import { getSitTypes } from '../../sitType/actions/sitTypeAction';
 
 class NewCinemaForm extends Component {
   constructor(props) {
@@ -14,8 +17,12 @@ class NewCinemaForm extends Component {
       city: '',
       address: '',
       description: '',
+      photo: '',
       cinemaHalls: [{ title: '', schema: [{ numberOfSits: '', sitsType: '' }] }],
     };
+  }
+  componentDidMount() {
+    this.props.getSitTypes();
   }
 
   handleCinemaHallTitleChange = stateIndex => e => {
@@ -88,12 +95,13 @@ class NewCinemaForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { title, city, address, description, cinemaHalls } = this.state;
+    const { title, city, address, description, cinemaHalls, photo } = this.state;
     const newCinema = {
       title,
       city,
       address,
       description,
+      photo,
       cinemaHalls,
     };
     this.props.addCinema(newCinema);
@@ -128,6 +136,8 @@ class NewCinemaForm extends Component {
             <Label htmlFor="city">city</Label>
             <Input
               required
+              icon="user"
+              
               className="mb-3"
               type="text"
               id="city"
@@ -150,9 +160,17 @@ class NewCinemaForm extends Component {
               onChange={this.handleChange}
               placeholder=""
             />
+            <Label htmlFor="photo">photo</Label>
+            <Input
+              className="mb-3"
+              type="text"
+              id="photo"
+              onChange={this.handleChange}
+              placeholder=""
+            />
             <fieldset>
               <legend>cinema halls</legend>
-              <Button className="mb-3" onClick={this.handleAddCinemaHall}>
+              <Button color="primary" className="mb-3" onClick={this.handleAddCinemaHall}>
                 add cinema hall
               </Button>
 
@@ -167,7 +185,9 @@ class NewCinemaForm extends Component {
                 handleAddRow={this.handleAddRow}
               />
             </fieldset>
-            <Button className="mb-3">add movie theater</Button>
+            <Button color="primary" className="mb-3">
+              save movie theater
+            </Button>
           </FormGroup>
         </Form>
       </Container>
@@ -178,6 +198,9 @@ class NewCinemaForm extends Component {
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,
+  sitsTypes: state.rootReducer.sitType.sitsTypes,
 });
 
-export default connect(mapStateToProps, { addCinema, clearErrors })(NewCinemaForm);
+export default connect(mapStateToProps, { addCinema, clearErrors, getSitTypes })(
+  withMenu(NewCinemaForm, CINEMAS_MENU_ITEMS)
+);

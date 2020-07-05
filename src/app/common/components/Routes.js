@@ -15,6 +15,10 @@ import { store } from '../../store';
 import NewMovieForm from '../../movie/components/NewMovieContainer';
 import NewCinemaForm from '../../cinema/components/NewCinemaForm';
 import EditMovieContainer from '../../movie/components/EditMovieContainer';
+import EditCinemaContainer from '../../cinema/components/EditCinemaContainer';
+import DeleteCinemaContainer from '../../cinema/components/DeleteCinemaContainer';
+import EditSpecificMovieContainer from '../../movie/components/EditSpecificMovieContainer';
+import EditSpecificCinema from '../../cinema/components/EditSpecificCinemaContainer';
 
 class Routes extends Component {
   constructor(props) {
@@ -37,7 +41,6 @@ class Routes extends Component {
           path="/signup"
           render={() => (isAuthenticated ? <Redirect to="/movies" /> : <SignUp />)}
         />
-        <ProtectedRoute exact path="/movies" component={Movies} store={store} />
         <ProtectedRoute exact path="/movies/edit" component={EditMovieContainer} store={store} />
         <ProtectedRoute
           exact
@@ -47,15 +50,38 @@ class Routes extends Component {
         />
         <ProtectedRoute exact path="/movies/add" component={NewMovieForm} store={store} />
 
-        <ProtectedRoute exact path="/movie-theaters/edit" component={Movies} store={store} />
-        <ProtectedRoute exact path="/movie-theaters/delete" component={Movies} store={store} />
+        <ProtectedRoute
+          exact
+          path="/movie-theaters/edit"
+          component={EditCinemaContainer}
+          store={store}
+        />
+        <ProtectedRoute
+          exact
+          path="/movie-theaters/delete"
+          component={DeleteCinemaContainer}
+          store={store}
+        />
         <ProtectedRoute exact path="/movie-theaters/add" component={NewCinemaForm} store={store} />
 
-        <ProtectedRoute path="/movies/:movie_id" component={Movie} store={store} />
+        <ProtectedRoute exact path="/movies/:movie_id" component={Movie} store={store} />
+        <ProtectedRoute
+          exact
+          path="/movies/:movie_id/edit/"
+          component={EditSpecificMovieContainer}
+          store={store}
+        />
         <ProtectedRoute path="/movie-times" component={MovieTimes} store={store} />
         <ProtectedRoute path="/settings" component={SitTypeFormContainer} store={store} />
         <ProtectedRoute exact path="/movie-theaters" component={MovieTheaters} store={store} />
+
+        <ProtectedRoute
+          path="/movie-theaters/:id/edit"
+          component={EditSpecificCinema}
+          store={store}
+        />
         <ProtectedRoute path="/movie-theaters/:id" component={MovieTheater} store={store} />
+        <ProtectedRoute exact path="/movies" component={Movies} store={store} />
         <Route path="*" component={() => '404 NOT FOUND'} />
       </Switch>
     );
