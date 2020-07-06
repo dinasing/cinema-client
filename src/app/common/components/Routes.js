@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Login from '../../auth/components/Login';
 import SignUp from '../../auth/components/SignUp';
 import MovieTimes from '../../movie times/components/MovieTimeContainer';
@@ -9,8 +10,7 @@ import Movie from '../../movie/components/Movie';
 import MovieTheater from '../../cinema/components/Cinema';
 import MovieTheaters from '../../cinema/components/CinemaList';
 import SitTypeFormContainer from '../../sitType/components/SitTypeContainer';
-import { connect } from 'react-redux';
-import { ProtectedRoute } from '../../common/components/ProtectedRoute';
+import { ProtectedRoute } from './ProtectedRoute';
 import { store } from '../../store';
 import NewMovieForm from '../../movie/components/NewMovieContainer';
 import NewCinemaForm from '../../cinema/components/NewCinemaForm';
@@ -19,11 +19,9 @@ import EditCinemaContainer from '../../cinema/components/EditCinemaContainer';
 import DeleteCinemaContainer from '../../cinema/components/DeleteCinemaContainer';
 import EditSpecificMovieContainer from '../../movie/components/EditSpecificMovieContainer';
 import EditSpecificCinema from '../../cinema/components/EditSpecificCinemaContainer';
+import CinemaHallsContainer from '../../cinema/components/CinemaHallsContainer';
 
 class Routes extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { isAuthenticated } = this.props.auth;
     return (
@@ -74,6 +72,13 @@ class Routes extends Component {
         <ProtectedRoute path="/movie-times" component={MovieTimes} store={store} />
         <ProtectedRoute path="/settings" component={SitTypeFormContainer} store={store} />
         <ProtectedRoute exact path="/movie-theaters" component={MovieTheaters} store={store} />
+
+        <ProtectedRoute
+          exact
+          path="/movie-theaters/:id/halls"
+          component={CinemaHallsContainer}
+          store={store}
+        />
 
         <ProtectedRoute
           path="/movie-theaters/:id/edit"

@@ -8,8 +8,8 @@ import {
   CLEAN_CINEMAS,
   ADD_CINEMA,
   ADD_CINEMA_FAIL,
-  GET_SIT_TYPES,
   DELETE_CINEMA_FAIL,
+  EDIT_CINEMA,
 } from '../../common/actions/types';
 
 const initialState = {
@@ -19,7 +19,6 @@ const initialState = {
   loading: false,
   movieTimesLoading: false,
   sitsTypes: [],
-  newCinemaId: '',
 };
 
 export default function(state = initialState, action) {
@@ -63,7 +62,17 @@ export default function(state = initialState, action) {
         ...state,
         cinemas: state.cinemas.filter(cinema => cinema.id !== action.payload),
       };
-
+    case EDIT_CINEMA:
+      return {
+        ...state,
+        cinemas: state.cinemas.map(cinema => {
+          if (cinema.id == action.payload.id)
+            for (const key in action.payload) {
+              cinema[key] = action.payload[key];
+            }
+          return cinema;
+        }),
+      };
     case ADD_CINEMA_FAIL:
     case DELETE_CINEMA_FAIL:
     default:

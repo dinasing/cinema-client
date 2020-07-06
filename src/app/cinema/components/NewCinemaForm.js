@@ -1,10 +1,9 @@
-/* eslint-disable */
 import React, { Component } from 'react';
-import { addCinema } from '../actions/cinemaAction';
-import { connect } from 'react-redux';
-import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
-import { HallFormContainer } from './Hall';
+import { connect } from 'react-redux';
+import { addCinema } from '../actions/cinemaAction';
+import { clearErrors } from '../../common/actions/errorAction';
+import { HallFormContainer } from './NewHall';
 import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
 import { withMenu } from '../../menu/withMenu';
 import { getSitTypes } from '../../sitType/actions/sitTypeAction';
@@ -137,7 +136,6 @@ class NewCinemaForm extends Component {
             <Input
               required
               icon="user"
-              
               className="mb-3"
               type="text"
               id="city"
