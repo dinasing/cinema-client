@@ -24,7 +24,14 @@ export class MovieTheaters extends Component {
               <Card key={cinema.id}>
                 <Row xs="4">
                   <Col>
-                    <CardImg src={cinema.photo ? cinema.photo : null} />
+                    <CardImg
+                      height="120px"
+                      src={
+                        cinema.photo
+                          ? cinema.photo
+                          : 'https://i.pinimg.com/originals/8a/eb/d8/8aebd875fbddd22bf3971c3a7159bdc7.png'
+                      }
+                    />
                   </Col>
                   <Col>
                     <CardBody>

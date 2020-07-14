@@ -22,9 +22,14 @@ export const CinemaListWithDelete = props => {
   const cinemas = props.cinemas.map(cinema => (
     <Card key={cinema.id}>
       <Row xs="4">
-        <Col>
-          <CardImg src={cinema.photo ? cinema.photo : null} />
-        </Col>
+        <CardImg
+          height="150px"
+          src={
+            cinema.photo
+              ? cinema.photo
+              : 'https://i.pinimg.com/originals/8a/eb/d8/8aebd875fbddd22bf3971c3a7159bdc7.png'
+          }
+        />
         <Col>
           <CardBody>
             <CardTitle>
