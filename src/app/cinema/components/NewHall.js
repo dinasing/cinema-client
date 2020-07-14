@@ -34,9 +34,9 @@ export const HallFormContainer = props => {
                   number={i}
                   id={i}
                   handleChange={props.handleChange}
-                  sitsTypes={props.sitsTypes}
-                  handleNumberOfSitsChange={props.handleNumberOfSitsChange(i, rowIndex)}
-                  handleSitsTypeChange={props.handleSitsTypeChange(i, rowIndex)}
+                  seatsTypes={props.seatsTypes}
+                  handleNumberOfSeatsChange={props.handleNumberOfSeatsChange(i, rowIndex)}
+                  handleSeatsTypeChange={props.handleSeatsTypeChange(i, rowIndex)}
                   rowIndex={rowIndex}
                   cinemaHallIndex={i}
                 />
@@ -60,31 +60,31 @@ export const HallFormContainer = props => {
 export const RowForm = props => (
   <Row xs="2">
     <Col>
-      <Label htmlFor={'numberOfSits' + props.id}>number of sits</Label>
+      <Label htmlFor={'numberOfSeats' + props.id}>number of seats</Label>
       <Input
         required
         className="mb-3"
         type="number"
-        id={'numberOfSits' + props.id}
-        onChange={props.handleNumberOfSitsChange}
+        id={'numberOfSeats' + props.id}
+        onChange={props.handleNumberOfSeatsChange}
         min="1"
         max="101"
       />
     </Col>
 
     <Col>
-      <Label htmlFor={'sitType' + props.id}>type of sits</Label>
+      <Label htmlFor={'seatType' + props.id}>type of seats</Label>
       <Input
         required
         className="mb-3"
         type="select"
-        id={'sitType' + props.id}
-        onChange={props.handleSitsTypeChange}
+        id={'seatType' + props.id}
+        onChange={props.handleSeatsTypeChange}
       >
         <option value="" selected disabled>
           select type
         </option>
-        <Options items={props.sitsTypes} />
+        <Options items={props.seatsTypes} />
       </Input>
     </Col>
   </Row>

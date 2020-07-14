@@ -55,7 +55,7 @@ MovieTheaters.propTypes = {
 };
 const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
-  sitsTypes: state.rootReducer.sitType.sitsTypes,
+  seatsTypes: state.rootReducer.seatType.seatsTypes,
 });
 export default connect(mapStateToProps, { getCinemas })(
   withMenu(MovieTheaters, CINEMAS_MENU_ITEMS)

@@ -4,7 +4,7 @@ import errorReducer from './errorReducer';
 import cinemaReducer from '../../cinema/reducers/cinemaReducer';
 import cinemaHallReducer from '../../cinema/reducers/cinemaHallReducer';
 import movieReducer from '../../movie/reducers/movieReducer';
-import sitTypeReducer from '../../sitType/reducers/sitTypeReducer';
+import seatTypeReducer from '../../seatType/reducers/seatTypeReducer';
 import movieTimeReducer from '../../movie times/reducers/movieTimeReducer';
 
 const rootReducer = combineReducers({
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   cinema: cinemaReducer,
   cinemaHall: cinemaHallReducer,
   movie: movieReducer,
-  sitType: sitTypeReducer,
+  seatType: seatTypeReducer,
   movieTime: movieTimeReducer,
 });
 

@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 import { withMenu } from '../../menu/withMenu';
 import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
 import HallSchema from './HallSchema';
-import { getSitTypes } from '../../sitType/actions/sitTypeAction';
+import { getSeatTypes } from '../../seatType/actions/seatTypeAction';
 
 class CinemaHallContainer extends Component {
   componentDidMount() {
-    this.props.getSitTypes();
+    this.props.getSeatTypes();
   }
 
   render() {
     let { cinemaHalls } = this.props.cinemaHalls;
-    const { sitsTypes } = this.props.sitsTypes;
+    const { seatTypes } = this.props.seatsTypes;
     const cinemaId = this.props.match.params.id;
     cinemaHalls = cinemaHalls.filter(hall => this.props.match.params.id == hall.cinemaId);
     const cinemaHallsComponent = cinemaHalls.map(hall => {
@@ -23,11 +23,11 @@ class CinemaHallContainer extends Component {
           <p>hall {hall.title}</p>
           <HallSchema schema={hall.schema} hallTitle={hall.title} />
           <p>
-            sits types:{' '}
+            seats types:{' '}
             <p>
-              {sitsTypes.map(sitsType => (
+              {seatTypes.map(seatsType => (
                 <>
-                  {sitsType.id} - {sitsType.title}{' '}
+                  {seatsType.id} - {seatsType.title}{' '}
                 </>
               ))}
             </p>
@@ -51,13 +51,13 @@ class CinemaHallContainer extends Component {
 
 CinemaHallContainer.propTypes = {
   cinemaHalls: PropTypes.object.isRequired,
-  sitsTypes: PropTypes.object.isRequired,
-  getSitTypes: PropTypes.func.isRequired,
+  seatsTypes: PropTypes.object.isRequired,
+  getSeatTypes: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
   cinemaHalls: state.rootReducer.cinemaHall,
-  sitsTypes: state.rootReducer.sitType,
+  seatsTypes: state.rootReducer.seatType,
 });
-export default connect(mapStateToProps, { getSitTypes })(
+export default connect(mapStateToProps, { getSeatTypes })(
   withMenu(CinemaHallContainer, CINEMAS_MENU_ITEMS)
 );

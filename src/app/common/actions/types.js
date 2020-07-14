@@ -36,13 +36,13 @@ export const MOVIES_LOADING = 'MOVIES_LOADING';
 export const MOVIE_TIMES_LOADING = 'MOVIE_TIMES_LOADING';
 export const ADD_MOVIES_FAIL = 'ADD_MOVIES_FAIL';
 
-export const GET_SIT_TYPES = 'GET_SIT_TYPES';
-export const GET_SIT_TYPE = 'GET_SIT_TYPE';
-export const ADD_SIT_TYPE = 'ADD_SIT_TYPE';
-export const ADD_SIT_TYPE_FAIL = 'ADD_SIT_TYPE_FAIL';
-export const EDIT_SIT_TYPE = 'EDIT_SIT_TYPE';
-export const DELETE_SIT_TYPE = 'DELETE_SIT_TYPE';
-export const SIT_TYPE_LOADING = 'SIT_TYPE_LOADING';
+export const GET_SEAT_TYPES = 'GET_SEAT_TYPES';
+export const GET_SEAT_TYPE = 'GET_SEAT_TYPE';
+export const ADD_SEAT_TYPE = 'ADD_SEAT_TYPE';
+export const ADD_SEAT_TYPE_FAIL = 'ADD_SEAT_TYPE_FAIL';
+export const EDIT_SEAT_TYPE = 'EDIT_SEAT_TYPE';
+export const DELETE_SEAT_TYPE = 'DELETE_SEAT_TYPE';
+export const SEAT_TYPE_LOADING = 'SEAT_TYPE_LOADING';
 
 export const GET_MOVIE_TIME = 'GET_MOVIE_TIME';
 export const ADD_MOVIE_TIME = 'ADD_MOVIE_TIME';
