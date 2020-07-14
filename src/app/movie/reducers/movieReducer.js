@@ -8,7 +8,8 @@ import {
   MOVIE_TIMES_LOADING,
   EDIT_MOVIE,
   ADD_MOVIES,
-  ADD_MOVIES_FAIL, EDIT_MOVIE_FAIL
+  ADD_MOVIES_FAIL,
+  EDIT_MOVIE_FAIL,
 } from '../../common/actions/types';
 
 const initialState = {
@@ -19,7 +20,7 @@ const initialState = {
   movieTimesLoading: false,
 };
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case GET_MOVIES:
       return {
@@ -59,10 +60,9 @@ export default function (state = initialState, action) {
         movies: state.movies.map(movie => {
           if (movie.id == action.payload.id)
             for (const key in action.payload) {
-              movie[key] = action.payload[key]
+              movie[key] = action.payload[key];
             }
           return movie;
-
         }),
       };
     case MOVIE_TIMES_LOADING:
@@ -73,7 +73,7 @@ export default function (state = initialState, action) {
     case ADD_MOVIES:
       state.movies.unshift(action.payload);
       return { ...state };
-    case ADD_MOVIES_FAIL, EDIT_MOVIE_FAIL:
+    case (ADD_MOVIES_FAIL, EDIT_MOVIE_FAIL):
     default:
       return state;
   }

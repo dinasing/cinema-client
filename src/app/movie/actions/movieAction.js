@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   GET_MOVIES,
   MOVIES_LOADING,
@@ -8,9 +9,9 @@ import {
   DELETE_MOVIE,
   EDIT_MOVIE,
   ADD_MOVIES,
-  ADD_MOVIES_FAIL, EDIT_MOVIE_FAIL, LOGIN_FAIL,
+  ADD_MOVIES_FAIL,
+  EDIT_MOVIE_FAIL,
 } from '../../common/actions/types';
-import axios from 'axios';
 import { returnErrors, clearErrors } from '../../common/actions/errorAction';
 import { tokenConfig } from '../../auth/actions/authAction';
 
@@ -103,7 +104,6 @@ export const editMovie = movie => (dispatch, getState) => {
       });
     })
     .catch(err => {
-      console.log(err)
       dispatch(returnErrors(err.response.data, err.response.status, 'EDIT_MOVIE_FAIL'));
       dispatch({
         type: EDIT_MOVIE_FAIL,
