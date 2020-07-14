@@ -65,7 +65,7 @@ class AddCinemaHallContainer extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const cinemaId = this.props.params.match.id;
+    const cinemaId = this.props.match.params.id;
     const { title, schema } = this.state;
     const newHall = {
       title,
