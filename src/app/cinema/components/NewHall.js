@@ -57,7 +57,7 @@ export const HallFormContainer = props => {
   );
 };
 
-const RowForm = props => (
+export const RowForm = props => (
   <Row xs="2">
     <Col>
       <Label htmlFor={'numberOfSits' + props.id}>number of sits</Label>

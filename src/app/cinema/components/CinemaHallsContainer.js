@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { withMenu } from '../../menu/withMenu';
 import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
 import HallSchema from './HallSchema';
@@ -14,6 +15,7 @@ class CinemaHallContainer extends Component {
   render() {
     let { cinemaHalls } = this.props.cinemaHalls;
     const { sitsTypes } = this.props.sitsTypes;
+    const cinemaId = this.props.match.params.id;
     cinemaHalls = cinemaHalls.filter(hall => this.props.match.params.id == hall.cinemaId);
     const cinemaHallsComponent = cinemaHalls.map(hall => {
       return (
@@ -35,7 +37,12 @@ class CinemaHallContainer extends Component {
     });
     return (
       <>
-        <h3>cinema halls</h3>
+        <h3>
+          cinema halls{' '}
+          <small>
+            <Link to={'/movie-theaters/' + cinemaId + '/add-hall/'}>add hall</Link>
+          </small>
+        </h3>
         {cinemaHallsComponent}
       </>
     );
