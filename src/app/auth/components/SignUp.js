@@ -83,7 +83,7 @@ class SignUp extends Component {
               placeholder=""
             />
 
-            <Button>sign up</Button>
+            <Button color="primary">sign up</Button>
           </FormGroup>
         </Form>
       </Container>
