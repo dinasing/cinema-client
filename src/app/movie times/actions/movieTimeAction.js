@@ -9,7 +9,7 @@ import {
   GET_MOVIES_FOR_MOVIE_TIMES,
   GET_CINEMA_HALLS_FOR_MOVIE_TIMES,
   GET_CINEMAS_FOR_MOVIE_TIMES,
-  GET_SITS_TYPES_FOR_MOVIE_TIMES,
+  GET_SEATS_TYPES_FOR_MOVIE_TIMES,
 } from '../../common/actions/types';
 import axios from 'axios';
 import { returnErrors } from '../../common/actions/errorAction';
@@ -103,12 +103,12 @@ export const getCinemaHalls = () => dispatch => {
     });
 };
 
-export const getSitsTypes = () => dispatch => {
+export const getSeatsTypes = () => dispatch => {
   axios
-    .get('/sit-type')
+    .get('/seat-type')
     .then(res => {
       dispatch({
-        type: GET_SITS_TYPES_FOR_MOVIE_TIMES,
+        type: GET_SEATS_TYPES_FOR_MOVIE_TIMES,
         payload: res.data,
       });
     })

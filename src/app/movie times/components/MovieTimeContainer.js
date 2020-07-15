@@ -6,7 +6,7 @@ import {
   getCinemas,
   getMovies,
   getCinemaHalls,
-  getSitsTypes,
+  getSeatsTypes,
 } from '../actions/movieTimeAction';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
@@ -24,7 +24,7 @@ class MovieTimeFormContainer extends Component {
     cinemaHallId: '',
     time: '',
     date: '',
-    sitsTypes: '',
+    seatsTypes: '',
     prices: [],
     msg: null,
   };
@@ -37,19 +37,19 @@ class MovieTimeFormContainer extends Component {
 
   handleCinemaHallIdChange = e => {
     this.setState({ cinemaHallId: e.target.value });
-    let { cinemaHalls, sitsTypes } = this.props.movieTime;
-    const sitsTypesOptions = this.createSitsTypesOptions(sitsTypes, cinemaHalls, e.target.value);
-    this.setState({ sitsTypes: sitsTypesOptions });
+    let { cinemaHalls, seatsTypes } = this.props.movieTime;
+    const seatsTypesOptions = this.createSeatsTypesOptions(seatsTypes, cinemaHalls, e.target.value);
+    this.setState({ seatsTypes: seatsTypesOptions });
     let newPrices = [];
-    for (const sitsType of sitsTypesOptions) {
-      newPrices.push({ sitsTypeId: sitsType.id, amountOfMoney: 0 });
+    for (const seatsType of seatsTypesOptions) {
+      newPrices.push({ seatsTypeId: seatsType.id, amountOfMoney: 0 });
     }
     this.setState({ prices: newPrices });
   };
 
-  handleSitsTypePriceChange = id => e => {
+  handleSeatsTypePriceChange = id => e => {
     const newPrices = this.state.prices.map(price => {
-      if (id !== price.sitsTypeId) return price;
+      if (id !== price.seatsTypeId) return price;
       return { ...price, amountOfMoney: e.target.value };
     });
     this.setState({
@@ -57,14 +57,14 @@ class MovieTimeFormContainer extends Component {
     });
   };
 
-  createSitsTypesOptions(sitsTypes, cinemaHalls, cinemaHallId) {
+  createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId) {
     const cinemaHall = cinemaHalls.filter(cinemaHall => cinemaHall.id == cinemaHallId)[0];
-    let cinemaHallSitsTypes = new Set();
+    let cinemaHallSeatsTypes = new Set();
     for (const row of cinemaHall.schema) {
-      cinemaHallSitsTypes.add(Number(row.sitsType));
+      cinemaHallSeatsTypes.add(Number(row.seatsType));
     }
 
-    return sitsTypes.filter(sitsType => cinemaHallSitsTypes.has(sitsType.id));
+    return seatsTypes.filter(seatsType => cinemaHallSeatsTypes.has(seatsType.id));
   }
 
   handleSubmit = e => {
@@ -86,7 +86,7 @@ class MovieTimeFormContainer extends Component {
     this.props.getCinemas();
     this.props.getMovies();
     this.props.getCinemaHalls();
-    this.props.getSitsTypes();
+    this.props.getSeatsTypes();
   }
 
   componentDidUpdate(prevProps) {
@@ -101,7 +101,7 @@ class MovieTimeFormContainer extends Component {
   }
 
   render() {
-    let { movies, cinemas, cinemaHalls, sitsTypes } = this.props.movieTime;
+    let { movies, cinemas, cinemaHalls, seatsTypes } = this.props.movieTime;
     return (
       <Container>
         {this.state.msg ? <Alert color="warning">{this.state.msg}</Alert> : null}
@@ -115,9 +115,9 @@ class MovieTimeFormContainer extends Component {
           cinemaHallId={this.state.cinemaHallId}
           movieId={this.state.movieId}
           movies={movies}
-          sitsTypes={sitsTypes}
+          seatsTypes={seatsTypes}
           handleCinemaHallIdChange={this.handleCinemaHallIdChange}
-          handleSitsTypePriceChange={this.handleSitsTypePriceChange}
+          handleSeatsTypePriceChange={this.handleSeatsTypePriceChange}
         />
       </Container>
     );
@@ -128,7 +128,7 @@ MovieTimeFormContainer.propTypes = {
   clearErrors: PropTypes.func.isRequired,
   getCinemas: PropTypes.func.isRequired,
   getMovies: PropTypes.func.isRequired,
-  getSitsTypes: PropTypes.func.isRequired,
+  getSeatsTypes: PropTypes.func.isRequired,
   getCinemaHalls: PropTypes.func.isRequired,
   movieTime: PropTypes.object,
 };
@@ -144,5 +144,5 @@ export default connect(mapStateToProps, {
   getCinemaHalls,
   getCinemas,
   getMovies,
-  getSitsTypes,
+  getSeatsTypes,
 })(MovieTimeFormContainer);

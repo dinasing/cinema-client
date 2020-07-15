@@ -24,21 +24,21 @@ class NewMovieTimeForm extends Component {
     return cinemaHalls.filter(cinemaHall => cinemaHall.cinemaId == cinemaId);
   }
 
-  createSitsTypesOptions(sitsTypes, cinemaHalls, cinemaHallId) {
+  createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId) {
     const cinemaHall = cinemaHalls.filter(cinemaHall => cinemaHall.id == cinemaHallId)[0];
-    let cinemaHallSitsTypes = new Set();
+    let cinemaHallSeatsTypes = new Set();
     for (const row of cinemaHall.schema) {
-      cinemaHallSitsTypes.add(Number(row.sitsType));
+      cinemaHallSeatsTypes.add(Number(row.seatsType));
     }
 
-    return sitsTypes.filter(sitsType => cinemaHallSitsTypes.has(sitsType.id));
+    return seatsTypes.filter(seatsType => cinemaHallSeatsTypes.has(seatsType.id));
   }
 
   render() {
     const cinemaHalls = this.createCinemaHallOptions(this.props.cinemaHalls, this.props.cinemaId);
-    const sitsTypes = this.props.cinemaHallId
-      ? this.createSitsTypesOptions(
-          this.props.sitsTypes,
+    const seatsTypes = this.props.cinemaHallId
+      ? this.createSeatsTypesOptions(
+          this.props.seatsTypes,
           this.props.cinemaHalls,
           this.props.cinemaHallId
         )
@@ -106,22 +106,22 @@ class NewMovieTimeForm extends Component {
               onChange={this.props.handleChange}
             />
 
-            {sitsTypes.map(sitsType => {
+            {seatsTypes.map(seatsType => {
               return (
-                <div key={sitsType.id}>
-                  <Label htmlFor={sitsType.id}>price ({sitsType.title})</Label>
+                <div key={seatsType.id}>
+                  <Label htmlFor={seatsType.id}>price ({seatsType.title})</Label>
                   <Input
                     className="mb-3"
                     type="number"
-                    id={sitsType.id}
+                    id={seatsType.id}
                     min="0"
                     defaultValue="0"
-                    onChange={this.props.handleSitsTypePriceChange(sitsType.id)}
+                    onChange={this.props.handleSeatsTypePriceChange(seatsType.id)}
                   />
                 </div>
               );
             })}
-            <Button color='primary'>save</Button>
+            <Button color="primary">save</Button>
           </FormGroup>
         </Form>
       </Container>
