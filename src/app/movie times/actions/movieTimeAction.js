@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   GET_MOVIE_TIMES,
   GET_MOVIE_TIME,
@@ -11,7 +12,6 @@ import {
   GET_CINEMAS_FOR_MOVIE_TIMES,
   GET_SITS_TYPES_FOR_MOVIE_TIMES,
 } from '../../common/actions/types';
-import axios from 'axios';
 import { returnErrors } from '../../common/actions/errorAction';
 import { tokenConfig } from '../../auth/actions/authAction';
 
@@ -30,15 +30,15 @@ export const addMovieTime = ({ date, time, cinemaHallId, cinemaId, movieId, pric
 
   axios
     .post('/movie-time', body, tokenConfig(getState))
-    .then(res => {
+    .then(response => {
       dispatch({
         type: ADD_MOVIE_TIME,
-        payload: res.data,
+        payload: response.data,
       });
     })
-    .catch(err => {
-      if (err.response) {
-        dispatch(returnErrors(err.response.data, err.response.status, 'ADD_MOVIE_TIME_FAIL'));
+    .catch(error => {
+      if (error.response) {
+        dispatch(returnErrors(error.response.data, error.response.status, 'ADD_MOVIE_TIME_FAIL'));
       }
       dispatch({
         type: ADD_MOVIE_TIME_FAIL,
@@ -50,71 +50,82 @@ export const getMovieTimes = () => dispatch => {
   dispatch(setMovieTimeLoading());
   axios
     .get('/movie-time')
-    .then(res =>
+    .then(response =>
       dispatch({
         type: GET_MOVIE_TIMES,
-        payload: res.data,
+        payload: response.data,
       })
     )
-    .catch(err => {
-      if (err.res) dispatch(returnErrors(err.response.data, err.response.status));
+    .catch(error => {
+      if (error.response) {
+        dispatch(returnErrors(error.response.data, error.response.status));
+      }
     });
 };
 
 export const getMovies = () => dispatch => {
   axios
     .get('/movie/for-movie-times')
-    .then(res =>
+    .then(response =>
       dispatch({
         type: GET_MOVIES_FOR_MOVIE_TIMES,
-        payload: res.data,
+        payload: response.data,
       })
     )
-    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+    .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
 };
 
 export const getCinemas = () => dispatch => {
   axios
     .get('/cinema')
-    .then(res => {
+    .then(response => {
       dispatch({
         type: GET_CINEMAS_FOR_MOVIE_TIMES,
-        payload: res.data,
+        payload: response.data,
       });
     })
-    .catch(err => {
-      if (err.res) dispatch(returnErrors(err.response.data, err.response.status));
-      else dispatch(returnErrors(err.message));
+    .catch(error => {
+      if (error.response) {
+        dispatch(returnErrors(error.response.data, error.response.status));
+      } else {
+        dispatch(returnErrors(error.message));
+      }
     });
 };
 
 export const getCinemaHalls = () => dispatch => {
   axios
     .get('/cinema-hall')
-    .then(res => {
+    .then(response => {
       dispatch({
         type: GET_CINEMA_HALLS_FOR_MOVIE_TIMES,
-        payload: res.data,
+        payload: response.data,
       });
     })
-    .catch(err => {
-      if (err.res) dispatch(returnErrors(err.response.data, err.response.status));
-      else dispatch(returnErrors(err.message));
+    .catch(error => {
+      if (error.response) {
+        dispatch(returnErrors(error.response.data, error.response.status));
+      } else {
+        dispatch(returnErrors(error.message));
+      }
     });
 };
 
 export const getSitsTypes = () => dispatch => {
   axios
-    .get('/sit-type')
-    .then(res => {
+    .get('/seat-type')
+    .then(response => {
       dispatch({
         type: GET_SITS_TYPES_FOR_MOVIE_TIMES,
-        payload: res.data,
+        payload: response.data,
       });
     })
-    .catch(err => {
-      if (err.res) dispatch(returnErrors(err.response.data, err.response.status));
-      else dispatch(returnErrors(err.message));
+    .catch(error => {
+      if (error.response) {
+        dispatch(returnErrors(error.response.data, error.response.status));
+      } else {
+        dispatch(returnErrors(error.message));
+      }
     });
 };
 
@@ -122,13 +133,13 @@ export const getMovieTimeById = id => dispatch => {
   dispatch(setMovieTimeLoading());
   axios
     .get('/movie-time/' + id)
-    .then(res =>
+    .then(response =>
       dispatch({
         type: GET_MOVIE_TIME,
-        payload: res.data,
+        payload: response.data,
       })
     )
-    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+    .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
 };
 export const deleteMovieTime = id => dispatch => {
   axios
@@ -139,7 +150,7 @@ export const deleteMovieTime = id => dispatch => {
         payload: id,
       });
     })
-    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+    .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
 };
 
 export const editMovieTime = movieTme => dispatch => {
@@ -151,7 +162,7 @@ export const editMovieTime = movieTme => dispatch => {
         payload: movieTme,
       });
     })
-    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+    .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
 };
 
 export const setMovieTimeLoading = () => {
