@@ -28,11 +28,6 @@ class Routes extends Component {
     return (
       <Switch>
         <Route
-          exact
-          path="/"
-          render={() => (isAuthenticated ? <Redirect to="/movies" /> : <Login />)}
-        />
-        <Route
           path="/login"
           render={() => (isAuthenticated ? <Redirect to="/movies" /> : <Login />)}
         />
@@ -41,12 +36,7 @@ class Routes extends Component {
           render={() => (isAuthenticated ? <Redirect to="/movies" /> : <SignUp />)}
         />
         <ProtectedRoute exact path="/movies/edit" component={EditMovieContainer} store={store} />
-        <ProtectedRoute
-          exact
-          path="/movies/delete"
-          component={DeleteMovieContainer}
-          store={store}
-        />
+
         <ProtectedRoute exact path="/movies/add" component={NewMovieForm} store={store} />
 
         <ProtectedRoute
@@ -94,6 +84,11 @@ class Routes extends Component {
         />
         <ProtectedRoute path="/movie-theaters/:id" component={MovieTheater} store={store} />
         <ProtectedRoute exact path="/movies" component={Movies} store={store} />
+        <Route
+          exact
+          path="/"
+          render={() => (isAuthenticated ? <Redirect to="/movies" /> : <Login />)}
+        />
         <Route path="*" component={() => '404 NOT FOUND'} />
       </Switch>
     );
