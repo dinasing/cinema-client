@@ -24,20 +24,10 @@ class NewMovieTimeForm extends Component {
     return cinemaHalls.filter(cinemaHall => cinemaHall.cinemaId == cinemaId);
   }
 
-  createSitsTypesOptions(sitsTypes, cinemaHalls, cinemaHallId) {
-    const cinemaHall = cinemaHalls.filter(cinemaHall => cinemaHall.id == cinemaHallId)[0];
-    let cinemaHallSitsTypes = new Set();
-    for (const row of cinemaHall.schema) {
-      cinemaHallSitsTypes.add(Number(row.sitsType));
-    }
-
-    return sitsTypes.filter(sitsType => cinemaHallSitsTypes.has(sitsType.id));
-  }
-
   render() {
     const cinemaHalls = this.createCinemaHallOptions(this.props.cinemaHalls, this.props.cinemaId);
     const sitsTypes = this.props.cinemaHallId
-      ? this.createSitsTypesOptions(
+      ? this.props.createSitsTypesOptions(
           this.props.sitsTypes,
           this.props.cinemaHalls,
           this.props.cinemaHallId
