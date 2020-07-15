@@ -5,7 +5,6 @@ import Login from '../../auth/components/Login';
 import SignUp from '../../auth/components/SignUp';
 import MovieTimes from '../../movie times/components/MovieTimeContainer';
 import Movies from '../../movie/components/MovieList';
-import DeleteMovieContainer from '../../movie/components/DeleteMovieContainer';
 import Movie from '../../movie/components/Movie';
 import MovieTheater from '../../cinema/components/Cinema';
 import MovieTheaters from '../../cinema/components/CinemaList';
@@ -16,7 +15,6 @@ import NewMovieForm from '../../movie/components/NewMovieContainer';
 import NewCinemaForm from '../../cinema/components/NewCinemaForm';
 import EditMovieContainer from '../../movie/components/EditMovieContainer';
 import EditCinemaContainer from '../../cinema/components/EditCinemaContainer';
-import DeleteCinemaContainer from '../../cinema/components/DeleteCinemaContainer';
 import EditSpecificMovieContainer from '../../movie/components/EditSpecificMovieContainer';
 import EditSpecificCinema from '../../cinema/components/EditSpecificCinemaContainer';
 import CinemaHallsContainer from '../../cinema/components/CinemaHallsContainer';
@@ -45,12 +43,7 @@ class Routes extends Component {
           component={EditCinemaContainer}
           store={store}
         />
-        <ProtectedRoute
-          exact
-          path="/movie-theaters/delete"
-          component={DeleteCinemaContainer}
-          store={store}
-        />
+
         <ProtectedRoute exact path="/movie-theaters/add" component={NewCinemaForm} store={store} />
 
         <ProtectedRoute exact path="/movies/:movie_id" component={Movie} store={store} />

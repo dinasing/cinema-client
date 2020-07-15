@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getCinemas } from '../actions/cinemaAction';
-import { withMenu } from '../../menu/withMenu';
-import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
 import { Card, CardImg, CardBody, CardTitle, Col, Row } from 'reactstrap';
 
 export class MovieTheaters extends Component {
@@ -15,7 +13,12 @@ export class MovieTheaters extends Component {
     const { cinemas } = this.props.cinemas;
     return (
       <>
-        <h2>movie theaters</h2>
+        <h2>
+          movie theaters{' '}
+          <small>
+            <Link to={'/movie-theaters/add'}>add</Link>
+          </small>
+        </h2>
         {this.props.cinemas.loading ? (
           <p>Loading cinemas ...</p>
         ) : (
@@ -57,6 +60,4 @@ const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
   seatsTypes: state.rootReducer.seatType.seatsTypes,
 });
-export default connect(mapStateToProps, { getCinemas })(
-  withMenu(MovieTheaters, CINEMAS_MENU_ITEMS)
-);
+export default connect(mapStateToProps, { getCinemas })(MovieTheaters);

@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { addCinema } from '../actions/cinemaAction';
 import { clearErrors } from '../../common/actions/errorAction';
 import { HallFormContainer } from './NewHall';
-import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
-import { withMenu } from '../../menu/withMenu';
 import { getSeatTypes } from '../../seatType/actions/seatTypeAction';
 
 class NewCinemaForm extends Component {
@@ -199,6 +197,4 @@ const mapStateToProps = state => ({
   seatsTypes: state.rootReducer.seatType.seatTypes,
 });
 
-export default connect(mapStateToProps, { addCinema, clearErrors, getSeatTypes })(
-  withMenu(NewCinemaForm, CINEMAS_MENU_ITEMS)
-);
+export default connect(mapStateToProps, { addCinema, clearErrors, getSeatTypes })(NewCinemaForm);

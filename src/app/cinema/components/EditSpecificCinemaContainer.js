@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
-import { withMenu } from '../../menu/withMenu';
-import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
 import { editCinema } from '../actions/cinemaAction';
 import { clearErrors } from '../../common/actions/errorAction';
 import EditCinemaForm from './EditCinemaForm';
@@ -96,6 +94,4 @@ const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
   error: state.rootReducer.error,
 });
-export default connect(mapStateToProps, { editCinema })(
-  withMenu(EditSpecificCinemaContainer, CINEMAS_MENU_ITEMS)
-);
+export default connect(mapStateToProps, { editCinema })(EditSpecificCinemaContainer);
