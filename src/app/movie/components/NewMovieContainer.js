@@ -4,8 +4,6 @@ import { addMovie } from '../actions/movieAction';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
-import { MOVIES_MENU_ITEMS } from '../../menu/menuItemsConstants';
-import { withMenu } from '../../menu/withMenu';
 import MovieForm from './MovieForm';
 
 class NewMovieContainer extends Component {
@@ -68,11 +66,10 @@ class NewMovieContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,
   addMovie: state.rootReducer.func,
   movies: state.rootReducer.movie,
 });
 
-export default connect(mapStateToProps, { addMovie, clearErrors })(withMenu(NewMovieContainer, MOVIES_MENU_ITEMS));
+export default connect(mapStateToProps, { addMovie, clearErrors })(NewMovieContainer);

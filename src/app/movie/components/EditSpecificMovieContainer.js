@@ -4,8 +4,6 @@ import { Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { editMovie } from '../actions/movieAction';
 import { clearErrors } from '../../common/actions/errorAction';
-import { withMenu } from '../../menu/withMenu';
-import { MOVIES_MENU_ITEMS } from '../../menu/menuItemsConstants';
 import EditMovieForm from './EditMovieForm';
 
 class EditMovieContainer extends Component {
@@ -98,6 +96,4 @@ const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
   error: state.rootReducer.error,
 });
-export default connect(mapStateToProps, { editMovie })(
-  withMenu(EditMovieContainer, MOVIES_MENU_ITEMS)
-);
+export default connect(mapStateToProps, { editMovie })(EditMovieContainer);
