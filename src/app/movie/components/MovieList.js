@@ -21,12 +21,7 @@ export const MovieCard = props => {
   const { poster, id, title, release_date, end_date } = props.movie;
   return (
     <Card>
-      <CardImg
-        height="70%"
-        src={
-          poster ? poster : 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Out_Of_Poster.jpg'
-        }
-      />
+      <CardImg height="70%" src={poster ? poster : 'https://kinoactive.ru/uploads/no-poster.jpg'} />
       <CardBody>
         <CardTitle>
           <Link to={'/movies/' + id}> {title}</Link>

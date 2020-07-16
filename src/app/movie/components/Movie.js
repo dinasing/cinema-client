@@ -71,11 +71,7 @@ class Movie extends Component {
         <img
           height="250px"
           self-align="center"
-          src={
-            movie.poster
-              ? movie.poster
-              : 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Out_Of_Poster.jpg'
-          }
+          src={movie.poster ? movie.poster : 'https://kinoactive.ru/uploads/no-poster.jpg'}
         />
         {movieTimes[0]
           ? movieTimes.map(movieTime => {

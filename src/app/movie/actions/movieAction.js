@@ -11,6 +11,8 @@ import {
   ADD_MOVIES,
   ADD_MOVIES_FAIL,
   EDIT_MOVIE_FAIL,
+  GET_MOVIES_FROM_THE_MOVIE_DB,
+  GET_MOVIES_FROM_THE_MOVIE_DB_FAIL,
 } from '../../common/actions/types';
 import { returnErrors, clearErrors } from '../../common/actions/errorAction';
 import { tokenConfig } from '../../auth/actions/authAction';
@@ -107,6 +109,27 @@ export const editMovie = movie => (dispatch, getState) => {
       dispatch(returnErrors(err.response.data, err.response.status, 'EDIT_MOVIE_FAIL'));
       dispatch({
         type: EDIT_MOVIE_FAIL,
+      });
+    });
+};
+
+export const performSearchFromTheMovieDB = movieTitle => dispatch => {
+  axios
+    .get(
+      `https://api.themoviedb.org/3/search/movie?query=${movieTitle}&api_key=5886c0d8ba5d3a8a90ea37b8b1dc8ca1`
+    )
+    .then(res => {
+      dispatch({
+        type: GET_MOVIES_FROM_THE_MOVIE_DB,
+        payload: res.data,
+      });
+    })
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'GET_MOVIES_FROM_THE_MOVIE_DB_FAIL')
+      );
+      dispatch({
+        type: GET_MOVIES_FROM_THE_MOVIE_DB_FAIL,
       });
     });
 };

@@ -1,10 +1,11 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { addMovie } from '../actions/movieAction';
+import { addMovie, performSearchFromTheMovieDB } from '../actions/movieAction';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
 import MovieForm from './MovieForm';
+import SearchInMovieDBResults from './SearchInMovieDBResults';
 
 class NewMovieContainer extends Component {
   constructor(props) {
@@ -53,12 +54,21 @@ class NewMovieContainer extends Component {
     }
   }
 
+  searchInputChangeHandle = e => {
+    this.props.performSearchFromTheMovieDB(e.target.value);
+  };
+
   render() {
+    const { results } = this.props.movies.moviesFromTheMovieDB;
+    const { title, poster, release_date, description, language } = this.state;
     return (
       <Container>
         {this.state.msg ? <Alert color="warning">{this.state.msg}</Alert> : null}
 
         <h2>add new movie</h2>
+        <Input placeholder="Enter movie title..." onChange={this.searchInputChangeHandle} />
+        <br />
+        <SearchInMovieDBResults moviesFromTheMovieDB={results} />
         <MovieForm handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
       </Container>
     );
@@ -72,4 +82,6 @@ const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
 });
 
-export default connect(mapStateToProps, { addMovie, clearErrors })(NewMovieContainer);
+export default connect(mapStateToProps, { addMovie, clearErrors, performSearchFromTheMovieDB })(
+  NewMovieContainer
+);
