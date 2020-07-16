@@ -1,4 +1,3 @@
-/* eslint-disable */
 'use strict';
 import React, { Component } from 'react';
 import {
@@ -26,7 +25,7 @@ class MovieTimeFormContainer extends Component {
     date: '',
     sitsTypes: '',
     prices: [],
-    msg: null,
+    message: null,
   };
 
   handleChange = e => {
@@ -36,20 +35,25 @@ class MovieTimeFormContainer extends Component {
   };
 
   handleCinemaHallIdChange = e => {
-    this.setState({ cinemaHallId: e.target.value });
-    let { cinemaHalls, sitsTypes } = this.props.movieTime;
-    const sitsTypesOptions = this.createSitsTypesOptions(sitsTypes, cinemaHalls, e.target.value);
-    this.setState({ sitsTypes: sitsTypesOptions });
-    let newPrices = [];
-    for (const sitsType of sitsTypesOptions) {
-      newPrices.push({ sitsTypeId: sitsType.id, amountOfMoney: 0 });
-    }
-    this.setState({ prices: newPrices });
+    const { cinemaHalls, sitsTypes } = this.props.movieTime;
+    const sitsTypesOptions = this.createSitsTypesOptions(sitsTypes, cinemaHalls, +e.target.value);
+    const newPrices = sitsTypesOptions.map(sitsType => ({
+      sitsTypeId: sitsType.id,
+      amountOfMoney: 0,
+    }));
+
+    this.setState({
+      prices: newPrices,
+      cinemaHallId: Number(e.target.value),
+      sitsTypes: sitsTypesOptions,
+    });
   };
 
   handleSitsTypePriceChange = id => e => {
     const newPrices = this.state.prices.map(price => {
-      if (id !== price.sitsTypeId) return price;
+      if (id !== price.sitsTypeId) {
+        return price;
+      }
       return { ...price, amountOfMoney: e.target.value };
     });
     this.setState({
@@ -58,18 +62,14 @@ class MovieTimeFormContainer extends Component {
   };
 
   createSitsTypesOptions(sitsTypes, cinemaHalls, cinemaHallId) {
-    const cinemaHall = cinemaHalls.filter(cinemaHall => cinemaHall.id == cinemaHallId)[0];
-    let cinemaHallSitsTypes = new Set();
-    for (const row of cinemaHall.schema) {
-      cinemaHallSitsTypes.add(Number(row.sitsType));
-    }
-
+    const cinemaHall = cinemaHalls.find(cinemaHall => cinemaHall.id === cinemaHallId);
+    const cinemaHallSitsTypes = new Set(cinemaHall.schema.map(row => Number(row.seatsType)));
     return sitsTypes.filter(sitsType => cinemaHallSitsTypes.has(sitsType.id));
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ msg: null });
+    this.setState({ message: null });
     const { date, time, cinemaHallId, cinemaId, movieId, prices } = this.state;
     const newMovieTime = {
       date,
@@ -93,9 +93,9 @@ class MovieTimeFormContainer extends Component {
     const { error } = this.props;
     if (error !== prevProps.error) {
       if (error.id === 'ADD_SIT_TYPE_FAIL') {
-        this.setState({ msg: error.msg.msg });
+        this.setState({ message: error.msg.msg });
       } else {
-        this.setState({ msg: null });
+        this.setState({ message: null });
       }
     }
   }
@@ -104,7 +104,7 @@ class MovieTimeFormContainer extends Component {
     let { movies, cinemas, cinemaHalls, sitsTypes } = this.props.movieTime;
     return (
       <Container>
-        {this.state.msg ? <Alert color="warning">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="warning">{this.state.message}</Alert> : null}
 
         <NewMovieTimeForm
           handleChange={this.handleChange}
@@ -118,6 +118,7 @@ class MovieTimeFormContainer extends Component {
           sitsTypes={sitsTypes}
           handleCinemaHallIdChange={this.handleCinemaHallIdChange}
           handleSitsTypePriceChange={this.handleSitsTypePriceChange}
+          createSitsTypesOptions={this.createSitsTypesOptions}
         />
       </Container>
     );
