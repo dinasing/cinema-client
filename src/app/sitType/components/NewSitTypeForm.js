@@ -30,7 +30,7 @@ class NewSitTypeForm extends Component {
       <Container>
         <Form onSubmit={this.props.handleSubmit}>
           <FormGroup>
-            <h2>add new type of sits for cinema</h2>
+            <h2>add new type of sits for cinemas</h2>
             <Label htmlFor="title">title</Label>
             <Input
               required

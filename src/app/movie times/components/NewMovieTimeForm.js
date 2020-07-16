@@ -26,6 +26,14 @@ class NewMovieTimeForm extends Component {
 
   render() {
     const cinemaHalls = this.createCinemaHallOptions(this.props.cinemaHalls, this.props.cinemaId);
+    const sitsTypes = this.props.cinemaHallId
+      ? this.props.createSitsTypesOptions(
+          this.props.sitsTypes,
+          this.props.cinemaHalls,
+          this.props.cinemaHallId
+        )
+      : [];
+
     return (
       <Container>
         <Form onSubmit={this.props.handleSubmit}>
@@ -64,7 +72,7 @@ class NewMovieTimeForm extends Component {
               className="mb-3"
               type="select"
               id="cinemaHallId"
-              onChange={this.props.handleChange}
+              onChange={this.props.handleCinemaHallIdChange}
             >
               <option value="" selected disabled>
                 select hall
@@ -87,6 +95,22 @@ class NewMovieTimeForm extends Component {
               id="date"
               onChange={this.props.handleChange}
             />
+
+            {sitsTypes.map(sitsType => {
+              return (
+                <div key={sitsType.id}>
+                  <Label htmlFor={sitsType.id}>price ({sitsType.title})</Label>
+                  <Input
+                    className="mb-3"
+                    type="number"
+                    id={sitsType.id}
+                    min="0"
+                    defaultValue="0"
+                    onChange={this.props.handleSitsTypePriceChange(sitsType.id)}
+                  />
+                </div>
+              );
+            })}
             <Button>add</Button>
           </FormGroup>
         </Form>
