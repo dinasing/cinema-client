@@ -8,21 +8,19 @@ export default class SearchInMovieDBResults extends Component {
     if (!movies[0]) {
       return null;
     }
-    const moviesWithEditedPosterLinks = movies.map(movie => {
-      movie.poster_path = movie.poster_path
-        ? `http://image.tmdb.org/t/p/w185${movie.poster_path}`
-        : null;
-      return movie;
-    });
 
     return (
       <Table>
-        {moviesWithEditedPosterLinks.map(movie => (
+        {movies.map(movie => (
           <tr>
             <td>
               <img
                 width="185px"
-                src={movie.poster_path || 'https://kinoactive.ru/uploads/no-poster.jpg'}
+                src={
+                  movie.poster_path
+                    ? `http://image.tmdb.org/t/p/w185${movie.poster_path}`
+                    : 'https://kinoactive.ru/uploads/no-poster.jpg'
+                }
                 alt="poster"
               />
             </td>
@@ -33,7 +31,9 @@ export default class SearchInMovieDBResults extends Component {
               <tr>{movie.overview}</tr>
               <br />
               <tr>
-                <Button color="primary">use info</Button>
+                <Button color="primary" onClick={this.props.setMovieInfoFromTheMovieDB(movie)}>
+                  use info
+                </Button>
               </tr>
             </td>
           </tr>

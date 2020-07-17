@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
 import MovieForm from './MovieForm';
+import EditMovieForm from './EditMovieForm';
 import SearchInMovieDBResults from './SearchInMovieDBResults';
 
 class NewMovieContainer extends Component {
@@ -58,9 +59,30 @@ class NewMovieContainer extends Component {
     this.props.performSearchFromTheMovieDB(e.target.value);
   };
 
+  setMovieInfoFromTheMovieDB = movie => () => {
+    this.setState({
+      title: movie.title,
+      release_date: movie.release_date,
+      end_date: '',
+      genre: '',
+      description: movie.overview,
+      poster: movie.poster_path ? `http://image.tmdb.org/t/p/w500${movie.poster_path}` : '',
+      language: '',
+    });
+  };
+
   render() {
     const { results } = this.props.movies.moviesFromTheMovieDB;
-    const { title, poster, release_date, description, language } = this.state;
+    const { title, release_date, end_date, genre, description, poster, language } = this.state;
+    const newMovie = {
+      title,
+      release_date,
+      end_date,
+      genre,
+      description,
+      poster,
+      language,
+    };
     return (
       <Container>
         {this.state.msg ? <Alert color="warning">{this.state.msg}</Alert> : null}
@@ -68,8 +90,15 @@ class NewMovieContainer extends Component {
         <h2>add new movie</h2>
         <Input placeholder="Enter movie title..." onChange={this.searchInputChangeHandle} />
         <br />
-        <SearchInMovieDBResults moviesFromTheMovieDB={results} />
-        <MovieForm handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
+        <SearchInMovieDBResults
+          moviesFromTheMovieDB={results}
+          setMovieInfoFromTheMovieDB={this.setMovieInfoFromTheMovieDB}
+        />
+        <EditMovieForm
+          movieToEdit={newMovie}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+        />
       </Container>
     );
   }
