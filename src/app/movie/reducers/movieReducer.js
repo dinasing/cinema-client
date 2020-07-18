@@ -12,6 +12,8 @@ import {
   EDIT_MOVIE_FAIL,
   GET_MOVIES_FROM_THE_MOVIE_DB,
   GET_MOVIES_FROM_THE_MOVIE_DB_FAIL,
+  GET_GENRES_FAIL,
+  GET_GENRES,
 } from '../../common/actions/types';
 
 const initialState = {
@@ -21,6 +23,7 @@ const initialState = {
   loading: false,
   movieTimesLoading: false,
   moviesFromTheMovieDB: { results: [] },
+  genres: [],
 };
 
 export default function(state = initialState, action) {
@@ -81,8 +84,13 @@ export default function(state = initialState, action) {
         ...state,
         moviesFromTheMovieDB: action.payload,
       };
+    case GET_GENRES:
+      return {
+        ...state,
+        genres: action.payload,
+      };
 
-    case (ADD_MOVIES_FAIL, EDIT_MOVIE_FAIL, GET_MOVIES_FROM_THE_MOVIE_DB_FAIL):
+    case (ADD_MOVIES_FAIL, EDIT_MOVIE_FAIL, GET_MOVIES_FROM_THE_MOVIE_DB_FAIL, GET_GENRES_FAIL):
     default:
       return state;
   }

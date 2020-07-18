@@ -13,9 +13,13 @@ import {
   EDIT_MOVIE_FAIL,
   GET_MOVIES_FROM_THE_MOVIE_DB,
   GET_MOVIES_FROM_THE_MOVIE_DB_FAIL,
+  GET_GENRES,
+  GET_GENRES_FAIL,
 } from '../../common/actions/types';
 import { returnErrors, clearErrors } from '../../common/actions/errorAction';
 import { tokenConfig } from '../../auth/actions/authAction';
+
+const apiKey = '5886c0d8ba5d3a8a90ea37b8b1dc8ca1';
 
 export const addMovie = ({
   title,
@@ -115,9 +119,7 @@ export const editMovie = movie => (dispatch, getState) => {
 
 export const performSearchFromTheMovieDB = movieTitle => dispatch => {
   axios
-    .get(
-      `https://api.themoviedb.org/3/search/movie?query=${movieTitle}&api_key=5886c0d8ba5d3a8a90ea37b8b1dc8ca1`
-    )
+    .get(`https://api.themoviedb.org/3/search/movie?query=${movieTitle}&api_key=${apiKey}`)
     .then(res => {
       dispatch({
         type: GET_MOVIES_FROM_THE_MOVIE_DB,
@@ -130,6 +132,23 @@ export const performSearchFromTheMovieDB = movieTitle => dispatch => {
       );
       dispatch({
         type: GET_MOVIES_FROM_THE_MOVIE_DB_FAIL,
+      });
+    });
+};
+
+export const getMovieGenres = () => dispatch => {
+  axios
+    .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`)
+    .then(res => {
+      dispatch({
+        type: GET_GENRES,
+        payload: res.data.genres,
+      });
+    })
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status, 'GET_GENRES_FAIL'));
+      dispatch({
+        type: GET_GENRES_FAIL,
       });
     });
 };
