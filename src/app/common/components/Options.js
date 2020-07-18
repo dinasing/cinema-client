@@ -6,7 +6,7 @@ export const Options = props => {
     for (const item of props.items) {
       options.push(
         <option value={item.id} key={item.id}>
-          {item.title}
+          {props.field ? item[props.field] : item.title}
         </option>
       );
     }
