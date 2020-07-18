@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
+import { Options } from '../../common/components/Options';
 
 class EditMovieForm extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class EditMovieForm extends Component {
       title: '',
       release_date: '',
       end_date: '',
-      genre: '',
+      genre: [],
       description: '',
       poster: '',
       language: '',
@@ -80,11 +81,14 @@ class EditMovieForm extends Component {
             <Input
               required
               className="mb-3"
-              type="text"
+              type="select"
               id="genre"
-              onChange={this.props.handleChange}
-              defaultValue={this.state.genre}
-            />
+              onChange={this.props.handleGenresChange}
+              value={this.state.genre}
+              multiple
+            >
+              <Options items={this.props.genres} field="name" />
+            </Input>
 
             <Label htmlFor="poster">link to poster</Label>
             <Input

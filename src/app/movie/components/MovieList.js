@@ -15,13 +15,13 @@ import {
   CardFooter,
 } from 'reactstrap';
 import moment from 'moment';
-import { getMovies, deleteMovie, editMovie } from '../actions/movieAction';
+import { getMovies, deleteMovie, editMovie, getMovieGenres } from '../actions/movieAction';
 
 export const MovieCard = props => {
   const { poster, id, title, release_date, end_date } = props.movie;
   return (
     <Card>
-      <CardImg height="70%" src={poster ? poster : 'https://kinoactive.ru/uploads/no-poster.jpg'} />
+      <CardImg src={poster ? poster : 'https://kinoactive.ru/uploads/no-poster.jpg'} />
       <CardBody>
         <CardTitle>
           <Link to={'/movies/' + id}> {title}</Link>
@@ -39,6 +39,7 @@ export const MovieCard = props => {
 export class MovieList extends Component {
   componentDidMount() {
     this.props.getMovies();
+    this.props.getMovieGenres();
   }
 
   handleDelete = id => {
@@ -78,10 +79,13 @@ export class MovieList extends Component {
 MovieList.propTypes = {
   getMovies: PropTypes.func.isRequired,
   deleteMovie: PropTypes.func.isRequired,
+  getMovieGenres: PropTypes.func.isRequired,
   movies: PropTypes.object,
 };
 const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
 });
 
-export default connect(mapStateToProps, { getMovies, deleteMovie, editMovie })(MovieList);
+export default connect(mapStateToProps, { getMovies, deleteMovie, editMovie, getMovieGenres })(
+  MovieList
+);

@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { addMovie, performSearchFromTheMovieDB } from '../actions/movieAction';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
@@ -16,7 +17,7 @@ class NewMovieContainer extends Component {
     title: '',
     release_date: '',
     end_date: '',
-    genre: '',
+    genre: [],
     description: '',
     poster: '',
     language: '',
@@ -28,6 +29,18 @@ class NewMovieContainer extends Component {
       [e.target.id]: e.target.value,
     });
   };
+
+  handleGenresChange = e => {
+    const genre = [];
+    for (const option of e.target.options) {
+      if (option.selected) {
+        genre.push(option.value);
+      }
+    }
+
+    this.setState({ genre });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.setState({ msg: null });
@@ -64,7 +77,7 @@ class NewMovieContainer extends Component {
       title: movie.title,
       release_date: movie.release_date,
       end_date: '',
-      genre: '',
+      genre: movie.genre_ids,
       description: movie.overview,
       poster: movie.poster_path ? `http://image.tmdb.org/t/p/w500${movie.poster_path}` : '',
       language: '',
@@ -73,6 +86,7 @@ class NewMovieContainer extends Component {
 
   render() {
     const { results } = this.props.movies.moviesFromTheMovieDB;
+    const { genres } = this.props.movies;
     const { title, release_date, end_date, genre, description, poster, language } = this.state;
     const newMovie = {
       title,
@@ -95,19 +109,27 @@ class NewMovieContainer extends Component {
           setMovieInfoFromTheMovieDB={this.setMovieInfoFromTheMovieDB}
         />
         <EditMovieForm
+          genres={genres}
           movieToEdit={newMovie}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
+          handleGenresChange={this.handleGenresChange}
         />
       </Container>
     );
   }
 }
 
+NewMovieContainer.propTypes = {
+  addMovie: PropTypes.func.isRequired,
+  performSearchFromTheMovieDB: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
+  movies: PropTypes.object,
+};
+
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,
-  addMovie: state.rootReducer.func,
   movies: state.rootReducer.movie,
 });
 
