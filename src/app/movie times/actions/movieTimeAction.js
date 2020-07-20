@@ -141,6 +141,7 @@ export const getMovieTimeById = id => dispatch => {
     )
     .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
 };
+
 export const deleteMovieTime = id => dispatch => {
   axios
     .delete(`/movie-time/${id}`)

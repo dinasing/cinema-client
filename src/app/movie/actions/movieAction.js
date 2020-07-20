@@ -69,6 +69,7 @@ export const getMovieById = id => dispatch => {
     })
   );
 };
+
 export const getMovieTimes = id => dispatch => {
   dispatch(setMoviesToInitialState());
   dispatch(setMoviesTimesLoading());

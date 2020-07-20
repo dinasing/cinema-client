@@ -65,6 +65,7 @@ export const getCinemaById = id => dispatch => {
     })
   );
 };
+
 export const getMovieTimes = id => dispatch => {
   dispatch(setCinemasToInitialState());
   dispatch(setMoviesTimesLoading());
@@ -75,9 +76,11 @@ export const getMovieTimes = id => dispatch => {
     })
   );
 };
+
 export const setMoviesTimesLoading = () => {
   return { type: MOVIE_TIMES_LOADING };
 };
+
 export const setCinemasToInitialState = () => {
   return { type: CLEAN_CINEMAS };
 };

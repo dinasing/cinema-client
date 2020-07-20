@@ -37,9 +37,6 @@ const MovieCard = props => {
 };
 
 export class MovieList extends Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
     this.props.getMovies();
   }
@@ -56,6 +53,7 @@ export class MovieList extends Component {
       );
     });
   }
+
   render() {
     return (
       <>
@@ -77,7 +75,9 @@ MovieList.propTypes = {
   deleteMovie: PropTypes.func.isRequired,
   movies: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
 });
+
 export default connect(mapStateToProps, { getMovies, deleteMovie, editMovie })(MovieList);

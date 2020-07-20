@@ -23,12 +23,14 @@ class Login extends Component {
       [e.target.id]: e.target.value,
     });
   };
+
   handleSubmit = e => {
     e.preventDefault();
     const { email, password } = this.state;
     const user = { email, password };
     this.props.login(user);
   };
+
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
@@ -40,6 +42,7 @@ class Login extends Component {
       }
     }
   }
+
   render() {
     return (
       <Container>

@@ -102,6 +102,7 @@ class MovieTimeFormContainer extends Component {
 
   render() {
     let { movies, cinemas, cinemaHalls, sitsTypes } = this.props.movieTime;
+
     return (
       <Container>
         {this.state.message ? <Alert color="warning">{this.state.message}</Alert> : null}
@@ -124,6 +125,7 @@ class MovieTimeFormContainer extends Component {
     );
   }
 }
+
 MovieTimeFormContainer.propTypes = {
   addMovieTime: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
@@ -133,6 +135,7 @@ MovieTimeFormContainer.propTypes = {
   getCinemaHalls: PropTypes.func.isRequired,
   movieTime: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,

@@ -53,6 +53,7 @@ export const getSitTypeById = id => dispatch => {
     })
   );
 };
+
 export const deleteSitType = id => dispatch => {
   axios
     .delete(`/sit-type/${id}`)

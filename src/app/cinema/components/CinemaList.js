@@ -11,6 +11,7 @@ export class MovieTheaters extends Component {
     this.props.getSitTypes();
     this.props.getCinemas();
   }
+
   render() {
     const { cinemas } = this.props.cinemas;
     return (
@@ -33,13 +34,16 @@ export class MovieTheaters extends Component {
     );
   }
 }
+
 MovieTheaters.propTypes = {
   getCinemas: PropTypes.func.isRequired,
   getSitTypes: PropTypes.func.isRequired,
   cinemas: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
   sitsTypes: state.rootReducer.sitType.sitsTypes,
 });
+
 export default connect(mapStateToProps, { getCinemas, getSitTypes })(MovieTheaters);

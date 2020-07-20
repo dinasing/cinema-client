@@ -1,5 +1,3 @@
-/* eslint-disable */
-'use strict';
 import React, { Component } from 'react';
 import { addSitType } from '../actions/sitTypeAction';
 import { connect } from 'react-redux';
@@ -11,12 +9,8 @@ import NewSitTypeFrom from './NewSitTypeForm';
 class SitTypeFormContainer extends Component {
   constructor(props) {
     super(props);
+    this.
   }
-  state = {
-    title: '',
-    numberOfPeople: '1',
-    message: null,
-  };
 
   handleChange = e => {
     this.setState({
@@ -55,11 +49,13 @@ class SitTypeFormContainer extends Component {
     );
   }
 }
+
 SitTypeFormContainer.propTypes = {
   addSitType: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
   sitType: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,
