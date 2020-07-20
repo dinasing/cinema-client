@@ -1,4 +1,3 @@
-/* eslint-disable */
 'use strict';
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
@@ -6,22 +5,21 @@ import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
 class NewSitTypeForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      cinemas: [],
+      title: '',
+      numberOfPeople: '',
+      message: null,
+    };
   }
-  state = {
-    cinemas: [],
-    title: '',
-    numberOfPeople: '',
-    msg: null,
-  };
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
+
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_SIT_TYPE_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      error.id === 'ADD_SIT_TYPE_FAIL'
+        ? this.setState({ message: error.message.message })
+        : this.setState({ message: null });
     }
   }
 
