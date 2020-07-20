@@ -1,30 +1,40 @@
-/* eslint-disable */
 import React, { Component } from 'react';
-import { addMovie } from '../actions/movieAction';
 import { connect } from 'react-redux';
-import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
+import { addMovie } from '../actions/movieAction';
+import { clearErrors } from '../../common/actions/errorAction';
 
 class NewMovieForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      title: '',
+      release_date: '',
+      end_date: '',
+      genre: '',
+      description: '',
+      poster: '',
+      language: '',
+      message: null,
+    };
   }
-  state = {
-    title: '',
-    release_date: '',
-    end_date: '',
-    genre: '',
-    description: '',
-    poster: '',
-    language: '',
-    message: null,
-  };
+
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+
+    if (error !== prevProps.error) {
+      error.id === 'ADD_MOVIES_FAIL'
+        ? this.setState({ message: error.message.message })
+        : this.setState({ message: null });
+    }
+  }
 
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
     });
   };
+
   handleSubmit = e => {
     e.preventDefault();
     this.setState({ message: null });
@@ -40,17 +50,6 @@ class NewMovieForm extends Component {
     };
     this.props.addMovie(newMovie);
   };
-
-  componentDidUpdate(prevProps) {
-    const { error } = this.props;
-    if (error !== prevProps.error) {
-      if (error.id === 'ADD_MOVIES_FAIL') {
-        this.setState({ message: error.message.message });
-      } else {
-        this.setState({ message: null });
-      }
-    }
-  }
 
   render() {
     return (
