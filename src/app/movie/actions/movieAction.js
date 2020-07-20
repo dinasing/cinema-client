@@ -34,10 +34,10 @@ export const addMovie = ({
 
   axios
     .post('/movie', body)
-    .then(res => {
+    .then(response => {
       dispatch({
         type: ADD_MOVIES,
-        payload: res.data,
+        payload: response.data,
       });
     })
     .catch(err => {
@@ -52,20 +52,20 @@ export const addMovie = ({
 
 export const getMovies = () => dispatch => {
   dispatch(setMoviesLoading());
-  axios.get('/movie').then(res =>
+  axios.get('/movie').then(response =>
     dispatch({
       type: GET_MOVIES,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
 
 export const getMovieById = id => dispatch => {
   dispatch(setMoviesLoading());
-  axios.get('/movie/' + id).then(res =>
+  axios.get('/movie/' + id).then(response =>
     dispatch({
       type: GET_MOVIE,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
@@ -73,10 +73,10 @@ export const getMovieTimes = id => dispatch => {
   dispatch(setMoviesToInitialState());
   dispatch(setMoviesTimesLoading());
 
-  axios.get('/movie/' + id + '/movie-time/').then(res =>
+  axios.get('/movie/' + id + '/movie-time/').then(response =>
     dispatch({
       type: GET_MOVIE_TIMES,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
