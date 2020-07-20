@@ -15,7 +15,7 @@ class SitTypeFormContainer extends Component {
   state = {
     title: '',
     numberOfPeople: '1',
-    msg: null,
+    message: null,
   };
 
   handleChange = e => {
@@ -26,7 +26,7 @@ class SitTypeFormContainer extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ msg: null });
+    this.setState({ message: null });
     const { title, numberOfPeople } = this.state;
     const newSitType = {
       title,
@@ -39,9 +39,9 @@ class SitTypeFormContainer extends Component {
     const { error } = this.props;
     if (error !== prevProps.error) {
       if (error.id === 'ADD_SIT_TYPE_FAIL') {
-        this.setState({ msg: error.msg.msg });
+        this.setState({ message: error.message.message });
       } else {
-        this.setState({ msg: null });
+        this.setState({ message: null });
       }
     }
   }
@@ -49,7 +49,7 @@ class SitTypeFormContainer extends Component {
   render() {
     return (
       <Container>
-        {this.state.msg ? <Alert color="warning">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="warning">{this.state.message}</Alert> : null}
         <NewSitTypeFrom handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
       </Container>
     );
