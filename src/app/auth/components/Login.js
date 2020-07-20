@@ -10,7 +10,7 @@ class Login extends Component {
   state = {
     email: '',
     password: '',
-    msg: null,
+    message: null,
   };
 
   static propTypes = {
@@ -33,17 +33,17 @@ class Login extends Component {
     const { error } = this.props;
     if (error !== prevProps.error) {
       if (error.id === 'LOGIN_FAIL') {
-        this.setState({ msg: error.msg.msg });
-        console.log(this.state.msg);
+        this.setState({ message: error.message.message });
+        console.log(this.state.message);
       } else {
-        this.setState({ msg: null });
+        this.setState({ message: null });
       }
     }
   }
   render() {
     return (
       <Container>
-        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="danger">{this.state.message}</Alert> : null}
 
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>

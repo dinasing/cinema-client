@@ -15,21 +15,21 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
   axios
     .get('/user/profile', tokenConfig(getState))
-    .then(res => {
+    .then(response => {
       if (getState().rootReducer.auth.token)
         dispatch({
           type: USER_LOADED,
-          payload: res.data,
+          payload: response.data,
         });
       else {
-        dispatch(returnErrors(err.response.data, err.response.status, 'AUTH_FAIL'));
+        dispatch(returnErrors(error.response.data, error.response.status, 'AUTH_FAIL'));
         dispatch({
           type: AUTH_ERROR,
         });
       }
     })
-    .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status, 'AUTH_FAIL'));
+    .catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status, 'AUTH_FAIL'));
       dispatch({
         type: AUTH_ERROR,
       });
@@ -75,14 +75,14 @@ export const register = ({ firstName, lastName, email, password }) => dispatch =
 
   axios
     .post('/auth/signup', body, config)
-    .then(res =>
+    .then(response =>
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data,
+        payload: response.data,
       })
     )
-    .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'));
+    .catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status, 'REGISTER_FAIL'));
       dispatch({
         type: REGISTER_FAIL,
       });
@@ -102,14 +102,14 @@ export const login = ({ email, password }) => dispatch => {
 
   axios
     .post('/auth/login', body, config)
-    .then(res =>
+    .then(response =>
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data,
+        payload: response.data,
       })
     )
-    .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
+    .catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status, 'LOGIN_FAIL'));
       dispatch({
         type: LOGIN_FAIL,
       });
