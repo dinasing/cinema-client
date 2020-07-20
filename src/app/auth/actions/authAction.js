@@ -36,24 +36,20 @@ export const loadUser = () => (dispatch, getState) => {
     });
 };
 
-// Logout User
 export const logout = () => {
   return {
     type: LOGOUT_SUCCESS,
   };
 };
-// Setup config/headers and token
+
 export const tokenConfig = getState => {
-  // Get token from localstorage
   const token = getState().rootReducer.auth.token;
-  // Headers
   const config = {
     headers: {
       'Content-type': 'application/json',
     },
   };
 
-  // If token, add to headers
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
@@ -61,16 +57,13 @@ export const tokenConfig = getState => {
   return config;
 };
 
-// Register User
 export const register = ({ firstName, lastName, email, password }) => dispatch => {
-  // Headers
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  // Request body
   const body = JSON.stringify({ firstName, lastName, email, password });
 
   axios
@@ -90,14 +83,12 @@ export const register = ({ firstName, lastName, email, password }) => dispatch =
 };
 
 export const login = ({ email, password }) => dispatch => {
-  // Headers
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  // Request body
   const body = JSON.stringify({ email, password });
 
   axios
