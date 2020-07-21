@@ -92,11 +92,8 @@ class MovieTimeFormContainer extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_SIT_TYPE_FAIL') {
-        this.setState({ message: error.msg.msg });
-      } else {
-        this.setState({ message: null });
-      }
+      const message = error.id === 'ADD_MOVIE_TIME_FAIL' ? error.message.message : null;
+      this.setState({ message });
     }
   }
 

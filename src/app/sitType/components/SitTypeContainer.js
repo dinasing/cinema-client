@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
-import { addSitType } from '../actions/sitTypeAction';
 import { connect } from 'react-redux';
-import { clearErrors } from '../../common/actions/errorAction';
 import { Container, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { addSitType } from '../actions/sitTypeAction';
+import { clearErrors } from '../../common/actions/errorAction';
 import NewSitTypeFrom from './NewSitTypeForm';
 
 class SitTypeFormContainer extends Component {
   constructor(props) {
     super(props);
-    this.
+    this.state = {
+      title: '',
+      numberOfPeople: '1',
+      message: null,
+    };
   }
-
-  handleChange = e => {
-    this.setState({
-      [e.target.id]: e.target.value,
-    });
-  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -32,13 +30,16 @@ class SitTypeFormContainer extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_SIT_TYPE_FAIL') {
-        this.setState({ message: error.message.message });
-      } else {
-        this.setState({ message: null });
-      }
+      const message = error.id === 'ADD_SIT_TYPE_FAIL' ? error.message.message : null;
+      this.setState({ message });
     }
   }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  };
 
   render() {
     return (
