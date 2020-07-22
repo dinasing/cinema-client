@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { login } from '../actions/authAction';
@@ -34,12 +33,8 @@ class Login extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'LOGIN_FAIL') {
-        this.setState({ message: error.message.message });
-        console.log(this.state.message);
-      } else {
-        this.setState({ message: null });
-      }
+      const message = error.id === 'LOGIN_FAIL' ? error.message.message : null;
+      this.setState({ message });
     }
   }
 
@@ -47,7 +42,6 @@ class Login extends Component {
     return (
       <Container>
         {this.state.message ? <Alert color="danger">{this.state.message}</Alert> : null}
-
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <h1>log in</h1>
