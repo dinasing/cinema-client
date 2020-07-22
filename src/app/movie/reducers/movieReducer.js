@@ -64,7 +64,6 @@ export default function(state = initialState, action) {
       return { ...state, movieTimesLoading: true };
     case MOVIES_LOADING:
       return { ...state, loading: true };
-
     case ADD_MOVIES:
       state.movies.unshift(action.payload);
       return { ...state };

@@ -43,7 +43,6 @@ export default function(state = initialState, action) {
         ...state,
         movieTimes: state.movieTimes.filter(movieTime => movieTime.id !== action.payload),
       };
-
     case EDIT_MOVIE_TIME:
       return {
         ...state,
