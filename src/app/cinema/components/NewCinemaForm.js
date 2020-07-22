@@ -1,9 +1,7 @@
-/* eslint-disable */
 import React, { Component } from 'react';
-import { addCinema } from '../actions/cinemaAction';
 import { connect } from 'react-redux';
+import { addCinema } from '../actions/cinemaAction';
 import { clearErrors } from '../../common/actions/errorAction';
-import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
 import { HallFormContainer } from './Hall';
 
 class NewCinemaForm extends Component {
@@ -31,8 +29,8 @@ class NewCinemaForm extends Component {
     const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
       if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
       const newSchema = cinemaHall.schema.map((row, rowIndex) => {
-        if (stateRowIndex !== rowIndex) return row;
-        return { ...row, numberOfSits: e.target.value };
+        row = stateRowIndex !== rowIndex ? row : { ...row, numberOfSits: e.target.value };
+        return row;
       });
       return { ...cinemaHall, schema: newSchema };
     });
@@ -43,8 +41,8 @@ class NewCinemaForm extends Component {
     const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
       if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
       const newSchema = cinemaHall.schema.map((row, rowIndex) => {
-        if (stateRowIndex !== rowIndex) return row;
-        return { ...row, sitsType: e.target.value };
+        row = stateRowIndex !== rowIndex ? row : { ...row, numberOfSits: e.target.value };
+        return row;
       });
       return { ...cinemaHall, schema: newSchema };
     });
