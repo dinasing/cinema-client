@@ -10,7 +10,6 @@ import {
   CardBody,
   CardTitle,
   Button,
-  CardFooter,
   FormGroup,
 } from 'reactstrap';
 import NewMovieForm from './NewMovieForm';
@@ -64,12 +63,13 @@ export class MovieList extends Component {
         ) : this.props.movies.movies[0] ? (
           this.movieList()
         ) : (
-          <p>There are no movies at the box office right now.</p>
-        )}
+              <p>There are no movies at the box office right now.</p>
+            )}
       </>
     );
   }
 }
+
 MovieList.propTypes = {
   getMovies: PropTypes.func.isRequired,
   deleteMovie: PropTypes.func.isRequired,
