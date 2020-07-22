@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCinemaById, getMovieTimes } from '../actions/cinemaAction';
 import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
+import { getCinemaById, getMovieTimes } from '../actions/cinemaAction';
 
 class MovieTheater extends Component {
   componentDidMount() {
@@ -12,11 +12,12 @@ class MovieTheater extends Component {
 
   render() {
     const { cinema, movieTimes } = this.props.cinemas;
+
     return (
       <>
         <h2>{cinema.title}</h2>
 
-        {movieTimes[0]
+        {movieTimes.length
           ? movieTimes.map(movieTime => {
               return (
                 <div key={movieTime.id}>
