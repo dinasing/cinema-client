@@ -19,20 +19,20 @@ class MovieTheater extends Component {
 
         {movieTimes.length
           ? movieTimes.map(movieTime => {
-              return (
-                <div key={movieTime.id}>
-                  <Card>
-                    <CardBody>
-                      <CardTitle>{movieTime.date}</CardTitle>
-                      <CardText>{movieTime.movie.title + '  ' + movieTime.time}</CardText>
-                    </CardBody>
-                  </Card>
-                </div>
-              );
-            })
+            return (
+              <div key={movieTime.id}>
+                <Card>
+                  <CardBody>
+                    <CardTitle>{movieTime.date}</CardTitle>
+                    <CardText>{movieTime.movie.title + '  ' + movieTime.time}</CardText>
+                  </CardBody>
+                </Card>
+              </div>
+            );
+          })
           : this.props.cinemas.movieTimesLoading
-          ? 'Loading ...'
-          : 'There are no movie times for the "' + cinema.title + '" right now.'}
+            ? 'Loading ...'
+            : 'There are no movie times for the "' + cinema.title + '" right now.'}
       </>
     );
   }

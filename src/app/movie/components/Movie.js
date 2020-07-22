@@ -17,24 +17,24 @@ class Movie extends Component {
     return (
       <>
         <h2>{movie.title}</h2>
-        {movieTimes[0]
+        {movieTimes.length
           ? movieTimes.map(movieTime => {
-              return (
-                <div key={movieTime.id}>
-                  <Card>
-                    <CardBody>
-                      <CardTitle>{movieTime.date}</CardTitle>
-                      <CardText>
-                        {movieTime.cinema.title + '  ' + movieTime.time.slice(0, -3)}
-                      </CardText>
-                    </CardBody>
-                  </Card>
-                </div>
-              );
-            })
+            return (
+              <div key={movieTime.id}>
+                <Card>
+                  <CardBody>
+                    <CardTitle>{movieTime.date}</CardTitle>
+                    <CardText>
+                      {movieTime.cinema.title + '  ' + movieTime.time.slice(0, -3)}
+                    </CardText>
+                  </CardBody>
+                </Card>
+              </div>
+            );
+          })
           : this.props.movies.movieTimesLoading
-          ? 'Loading ...'
-          : 'There are no movie times for "' + movie.title + '" right now'}
+            ? 'Loading ...'
+            : 'There are no movie times for "' + movie.title + '" right now'}
       </>
     );
   }

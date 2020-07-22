@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getCinemas } from '../actions/cinemaAction';
@@ -22,14 +22,14 @@ export class MovieTheaters extends Component {
         {this.props.cinemas.loading ? (
           <p>Loading cinemas ...</p>
         ) : (
-          cinemas.map(cinema => {
-            return (
-              <div key={cinema.id}>
-                <Link to={'/movie-theaters/' + cinema.id}> {cinema.title}</Link>
-              </div>
-            );
-          })
-        )}
+            cinemas.map(cinema => {
+              return (
+                <div key={cinema.id}>
+                  <Link to={'/movie-theaters/' + cinema.id}> {cinema.title}</Link>
+                </div>
+              );
+            })
+          )}
       </>
     );
   }
