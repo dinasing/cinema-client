@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { addMovie, performSearchFromTheMovieDB } from '../actions/movieAction';
@@ -21,7 +20,7 @@ class NewMovieContainer extends Component {
     description: '',
     poster: '',
     language: '',
-    msg: null,
+    message: null,
   };
 
   handleChange = e => {
@@ -43,7 +42,7 @@ class NewMovieContainer extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ msg: null });
+    this.setState({ message: null });
     const { title, release_date, end_date, genre, description, poster, language } = this.state;
     const newMovie = {
       title,
@@ -60,11 +59,8 @@ class NewMovieContainer extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_MOVIES_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      const message = error.id === 'ADD_MOVIES_FAIL' ? error.message.message : null;
+      this.setState({ message });
     }
   }
 
@@ -97,9 +93,10 @@ class NewMovieContainer extends Component {
       poster,
       language,
     };
+
     return (
       <Container>
-        {this.state.msg ? <Alert color="warning">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="warning">{this.state.message}</Alert> : null}
 
         <h2>add new movie</h2>
         <Input placeholder="Enter movie title..." onChange={this.searchInputChangeHandle} />
@@ -110,8 +107,8 @@ class NewMovieContainer extends Component {
         />
         <EditMovieForm
           genres={genres}
-          movieToEdit={newMovie}
           handleChange={this.handleChange}
+          movieToEdit={newMovie}
           handleSubmit={this.handleSubmit}
           handleGenresChange={this.handleGenresChange}
         />
