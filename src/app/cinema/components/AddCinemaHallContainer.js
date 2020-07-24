@@ -97,7 +97,7 @@ class AddCinemaHallContainer extends Component {
 }
 
 AddCinemaHallContainer.propTypes = {
-  addCinamaHall: PropTypes.func.isRequired,
+  addCinemaHall: PropTypes.func.isRequired,
   getSitTypes: PropTypes.func.isRequired,
 };
 
