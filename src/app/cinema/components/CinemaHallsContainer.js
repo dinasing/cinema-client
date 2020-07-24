@@ -18,7 +18,10 @@ class CinemaHallContainer extends Component {
     const cinemaHallsComponent = cinemaHalls.map(hall => {
       return (
         <>
-          <p>hall {hall.title}</p>
+          <p>
+            hall {hall.title}{' '}
+            <Link to={`/movie-theaters/${cinemaId}/halls/${hall.id}/edit`}>edit</Link>
+          </p>
           <HallSchema schema={hall.schema} hallTitle={hall.title} />
           <p>
             seats types:{' '}
@@ -33,6 +36,7 @@ class CinemaHallContainer extends Component {
         </>
       );
     });
+
     return (
       <>
         <h3>
