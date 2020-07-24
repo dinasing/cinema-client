@@ -5,6 +5,7 @@ import { RowForm } from './NewHall';
 export default class NewHallFormForExistingCinema extends Component {
   render() {
     const { schema, seatsTypes } = this.props;
+
     return (
       <Form onSubmit={this.props.handleSubmit}>
         <Row xs="2">
@@ -15,6 +16,7 @@ export default class NewHallFormForExistingCinema extends Component {
               className="mb-3"
               type="text"
               id={'hallTitle'}
+              defaultValue={this.props.title}
               onChange={this.props.handleTitleChange}
             />
           </Col>
@@ -27,6 +29,8 @@ export default class NewHallFormForExistingCinema extends Component {
               {schema.map((row, rowIndex) => (
                 <>
                   <RowForm
+                    numberOfSeats={row.numberOfSeats}
+                    seatsType={row.seatsType}
                     seatsTypes={seatsTypes}
                     id={rowIndex}
                     handleNumberOfSeatsChange={this.props.handleNumberOfSeatsChange(rowIndex)}

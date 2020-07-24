@@ -67,6 +67,7 @@ export const RowForm = props => (
         type="number"
         id={'numberOfSeats' + props.id}
         onChange={props.handleNumberOfSeatsChange}
+        defaultValue={props.numberOfSeats}
         min="1"
         max="101"
       />
@@ -80,6 +81,7 @@ export const RowForm = props => (
         type="select"
         id={'seatType' + props.id}
         onChange={props.handleSeatsTypeChange}
+        defaultValue={+props.seatsType}
       >
         <option value="" selected disabled>
           select type
