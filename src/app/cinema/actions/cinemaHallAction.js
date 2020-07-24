@@ -59,7 +59,7 @@ export const getCinemaHallById = id => dispatch => {
   );
 };
 
-export const editCinema = cinemaHall => (dispatch, getState) => {
+export const editCinemaHall = cinemaHall => (dispatch, getState) => {
   axios
     .put(`/cinema-hall/${cinemaHall.id}`, cinemaHall, tokenConfig(getState))
     .then(() => {
