@@ -64,6 +64,7 @@ class EditMovieContainer extends Component {
 
   render() {
     const { isChangesSaved, msg, movieToEdit } = this.state;
+    const { genres } = this.props.movies;
 
     return (
       <>
@@ -76,6 +77,7 @@ class EditMovieContainer extends Component {
         </Alert>
         {movieToEdit ? (
           <EditMovieForm
+            genres={genres}
             movieToEdit={movieToEdit}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
