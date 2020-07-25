@@ -48,8 +48,13 @@ class CinemaHallContainer extends Component {
     let { cinemaHalls } = this.props.cinemaHalls;
     const { seatTypes } = this.props.seatsTypes;
     const cinemaId = this.props.match.params.id;
-    const { isDeleteModalOpen } = this.state;
+    const { isDeleteModalOpen, hallIdToDelete } = this.state;
     cinemaHalls = cinemaHalls.filter(hall => this.props.match.params.id == hall.cinemaId);
+
+    const cinemaHallToDeleteTitle = hallIdToDelete
+      ? cinemaHalls.find(hall => hallIdToDelete == hall.id).title
+      : '';
+
     const cinemaHallsComponent = cinemaHalls.map(hall => {
       return (
         <>
@@ -74,7 +79,9 @@ class CinemaHallContainer extends Component {
       <>
         <h3>
           <Modal isOpen={isDeleteModalOpen} toggle={this.toggleDeleteModal}>
-            <ModalHeader>Are you sure you want to delete cinema hall?</ModalHeader>
+            <ModalHeader>
+              Are you sure you want to delete cinema hall {cinemaHallToDeleteTitle}?
+            </ModalHeader>
             <ModalFooter>
               {' '}
               <Button onClick={this.deleteCinemaHallHandle} color="danger">
