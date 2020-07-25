@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { addMovie, performSearchFromTheMovieDB } from '../actions/movieAction';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
-import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
-import MovieForm from './MovieForm';
+import { Container, Input, Alert } from 'reactstrap';
 import EditMovieForm from './EditMovieForm';
 import SearchInMovieDBResults from './SearchInMovieDBResults';
 
