@@ -1,14 +1,11 @@
-/* eslint-disable */
-'use strict';
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
+import { DateRange } from 'react-date-range';
 import { Options } from '../../common/components/Options';
 
 class NewMovieTimeForm extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
@@ -97,15 +94,15 @@ class NewMovieTimeForm extends Component {
               id="time"
               onChange={this.props.handleChange}
             />
-            <Label htmlFor="date">date</Label>
-            <Input
-              required
-              className="mb-3"
-              type="date"
-              id="date"
-              onChange={this.props.handleChange}
+            <Label htmlFor="dateRange">date</Label>
+            <br />
+            <DateRange
+              id="dateRange"
+              ranges={[this.props.dateRange]}
+              onChange={this.props.handleDateRangeChange}
+              moveRangeOnFirstSelection={false}
             />
-
+            <br />
             {seatsTypes.map(seatsType => {
               return (
                 <div key={seatsType.id}>

@@ -1,5 +1,3 @@
-/* eslint-disable */
-'use strict';
 import React, { Component } from 'react';
 import {
   addMovieTime,
@@ -17,17 +15,22 @@ import NewMovieTimeForm from './NewMovieTimeForm';
 class MovieTimeFormContainer extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      cinemaId: '',
+      movieId: '',
+      cinemaHallId: '',
+      time: '',
+      date: '',
+      seatsTypes: '',
+      prices: [],
+      msg: null,
+      dateRange: {
+        startDate: new Date(),
+        endDate: null,
+        key: 'selection',
+      },
+    };
   }
-  state = {
-    cinemaId: '',
-    movieId: '',
-    cinemaHallId: '',
-    time: '',
-    date: '',
-    seatsTypes: '',
-    prices: [],
-    msg: null,
-  };
 
   handleChange = e => {
     this.setState({
@@ -100,20 +103,28 @@ class MovieTimeFormContainer extends Component {
     }
   }
 
+  handleDateRangeChange = range => {
+    this.setState({ dateRange: range.selection });
+  };
+
   render() {
-    let { movies, cinemas, cinemaHalls, seatsTypes } = this.props.movieTime;
+    const { movies, cinemas, cinemaHalls, seatsTypes } = this.props.movieTime;
+    const { dateRange, cinemaId, cinemaHallId, movieId, msg } = this.state;
+
     return (
       <Container>
-        {this.state.msg ? <Alert color="warning">{this.state.msg}</Alert> : null}
+        {msg ? <Alert color="warning">{msg}</Alert> : null}
 
         <NewMovieTimeForm
+          handleDateRangeChange={this.handleDateRangeChange}
+          dateRange={dateRange}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
           cinemas={cinemas}
           cinemaHalls={cinemaHalls}
-          cinemaId={this.state.cinemaId}
-          cinemaHallId={this.state.cinemaHallId}
-          movieId={this.state.movieId}
+          cinemaId={cinemaId}
+          cinemaHallId={cinemaHallId}
+          movieId={movieId}
           movies={movies}
           seatsTypes={seatsTypes}
           handleCinemaHallIdChange={this.handleCinemaHallIdChange}
