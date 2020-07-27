@@ -23,9 +23,7 @@ class NewMovieForm extends Component {
     const { error } = this.props;
 
     if (error !== prevProps.error) {
-      error.id === 'ADD_MOVIES_FAIL'
-        ? this.setState({ message: error.message.message })
-        : this.setState({ message: null });
+      this.setState({ message: error.id === 'ADD_MOVIES_FAIL' ? error.message.message : null });
     }
   }
 
