@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getMovieById, getMovieTimes } from '../actions/movieAction';
 import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
+import { getMovieById, getMovieTimes } from '../actions/movieAction';
 
 class Movie extends Component {
   componentDidMount() {
@@ -11,8 +11,7 @@ class Movie extends Component {
   }
 
   render() {
-    const { movie } = this.props.movies;
-    const { movieTimes } = this.props.movies;
+    const { movie, movieTimes } = this.props.movies;
 
     return (
       <>
