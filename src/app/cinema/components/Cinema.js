@@ -75,6 +75,12 @@ class MovieTheater extends Component {
         <p>
           {cinema.city}, {cinema.address}
         </p>
+        <p>
+          Movie sessions{' '}
+          <small>
+            <Link to={'/movie-theaters/' + cinema.id + '/add-movie-session/'}>add</Link>
+          </small>
+        </p>
         {movieTimes[0]
           ? movieTimes.map(movieTime => {
               return (
