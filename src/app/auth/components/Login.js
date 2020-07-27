@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { login } from '../actions/authAction';
 import { connect } from 'react-redux';
-import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Label, Input, Form, FormGroup, Alert } from 'reactstrap';
+import { login } from '../actions/authAction';
+import { clearErrors } from '../../common/actions/errorAction';
 
 class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-    message: null,
-  };
+  constructor(props) {
+    super(props);
 
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-    error: PropTypes.object.isRequired,
-  };
+    state = {
+      email: '',
+      password: '',
+      message: null,
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      this.setState({ message: error.id === 'LOGIN_FAIL' ? error.message.message : null });
+    }
+  }
 
   handleChange = e => {
     this.setState({
@@ -29,14 +35,6 @@ class Login extends Component {
     const user = { email, password };
     this.props.login(user);
   };
-
-  componentDidUpdate(prevProps) {
-    const { error } = this.props;
-    if (error !== prevProps.error) {
-      const message = error.id === 'LOGIN_FAIL' ? error.message.message : null;
-      this.setState({ message });
-    }
-  }
 
   render() {
     return (
@@ -70,6 +68,11 @@ class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  error: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.auth.isAuthenticated,
