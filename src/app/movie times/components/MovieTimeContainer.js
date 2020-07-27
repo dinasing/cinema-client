@@ -20,8 +20,6 @@ class MovieTimeFormContainer extends Component {
       movieId: '',
       cinemaHallId: '',
       time: '',
-      date: '',
-      seatsTypes: '',
       prices: [],
       msg: null,
       dateRange: {
@@ -73,9 +71,18 @@ class MovieTimeFormContainer extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.setState({ msg: null });
-    const { date, time, cinemaHallId, cinemaId, movieId, prices } = this.state;
+    const {
+      dateRange: { startDate, endDate },
+      time,
+      cinemaHallId,
+      cinemaId,
+      movieId,
+      prices,
+    } = this.state;
+
     const newMovieTime = {
-      date,
+      startDate,
+      endDate,
       time,
       cinemaHallId,
       cinemaId,
@@ -134,6 +141,7 @@ class MovieTimeFormContainer extends Component {
     );
   }
 }
+
 MovieTimeFormContainer.propTypes = {
   addMovieTime: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
