@@ -1,4 +1,3 @@
-'use strict';
 import React, { Component } from 'react';
 import {
   addMovieTime,
@@ -16,17 +15,17 @@ import NewMovieTimeForm from './NewMovieTimeForm';
 class MovieTimeFormContainer extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      cinemaId: '',
+      movieId: '',
+      cinemaHallId: '',
+      time: '',
+      date: '',
+      prices: [],
+      message: null,
+    };
   }
-  state = {
-    cinemaId: '',
-    movieId: '',
-    cinemaHallId: '',
-    time: '',
-    date: '',
-    sitsTypes: '',
-    prices: [],
-    message: null,
-  };
 
   handleChange = e => {
     this.setState({
@@ -44,18 +43,15 @@ class MovieTimeFormContainer extends Component {
 
     this.setState({
       prices: newPrices,
-      cinemaHallId: Number(e.target.value),
+      cinemaHallId: +e.target.value,
       sitsTypes: sitsTypesOptions,
     });
   };
 
   handleSitsTypePriceChange = id => e => {
-    const newPrices = this.state.prices.map(price => {
-      if (id !== price.sitsTypeId) {
-        return price;
-      }
-      return { ...price, amountOfMoney: e.target.value };
-    });
+    const newPrices = this.state.prices.map(price =>
+      id !== price.sitsTypeId ? price : { ...price, amountOfMoney: e.target.value }
+    );
     this.setState({
       prices: newPrices,
     });
@@ -63,7 +59,7 @@ class MovieTimeFormContainer extends Component {
 
   createSitsTypesOptions(sitsTypes, cinemaHalls, cinemaHallId) {
     const cinemaHall = cinemaHalls.find(cinemaHall => cinemaHall.id === cinemaHallId);
-    const cinemaHallSitsTypes = new Set(cinemaHall.schema.map(row => Number(row.seatsType)));
+    const cinemaHallSitsTypes = new Set(cinemaHall.schema.map(row => +row.seatsType));
     return sitsTypes.filter(sitsType => cinemaHallSitsTypes.has(sitsType.id));
   }
 
@@ -92,8 +88,7 @@ class MovieTimeFormContainer extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      const message = error.id === 'ADD_MOVIE_TIME_FAIL' ? error.message.message : null;
-      this.setState({ message });
+      this.setState({ message: error.id === 'ADD_MOVIE_TIME_FAIL' ? error.message.message : null });
     }
   }
 
