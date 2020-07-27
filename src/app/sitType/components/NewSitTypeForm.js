@@ -1,4 +1,3 @@
-'use strict';
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
 
