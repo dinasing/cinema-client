@@ -19,6 +19,7 @@ class NewCinemaForm extends Component {
   handleCinemaHallTitleChange = stateIndex => e => {
     const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, index) => {
       if (stateIndex !== index) return cinemaHall;
+
       return { ...cinemaHall, title: e.target.value };
     });
 
@@ -30,22 +31,28 @@ class NewCinemaForm extends Component {
       if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
       const newSchema = cinemaHall.schema.map((row, rowIndex) => {
         row = stateRowIndex !== rowIndex ? row : { ...row, numberOfSits: e.target.value };
+
         return row;
       });
+
       return { ...cinemaHall, schema: newSchema };
     });
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
   handleSitsTypeChange = (stateCinemaHallIndex, stateRowIndex) => e => {
-    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
-      if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
-      const newSchema = cinemaHall.schema.map((row, rowIndex) => {
-        row = stateRowIndex !== rowIndex ? row : { ...row, numberOfSits: e.target.value };
-        return row;
-      });
-      return { ...cinemaHall, schema: newSchema };
-    });
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) =>
+      stateCinemaHallIndex !== cinemaHallIndex
+        ? cinemaHall
+        : {
+            ...cinemaHall,
+            schema: cinemaHall.schema.map((row, rowIndex) => {
+              row = stateRowIndex !== rowIndex ? row : { ...row, numberOfSits: e.target.value };
+
+              return row;
+            }),
+          }
+    );
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
@@ -67,6 +74,7 @@ class NewCinemaForm extends Component {
     const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
       if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
       const newSchema = cinemaHall.schema.concat([{ numberOfSits: '', sitsType: '' }]);
+
       return { ...cinemaHall, schema: newSchema };
     });
     this.setState({ cinemaHalls: newCinemaHalls });
@@ -76,6 +84,7 @@ class NewCinemaForm extends Component {
     const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
       if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
       const newSchema = cinemaHall.schema.filter((row, rowIndex) => stateRowIndex !== rowIndex);
+
       return { ...cinemaHall, schema: newSchema };
     });
     this.setState({ cinemaHalls: newCinemaHalls });
@@ -104,11 +113,7 @@ class NewCinemaForm extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_CINEMA_FAIL') {
-        this.setState({ message: error.message.message });
-      } else {
-        this.setState({ message: null });
-      }
+      this.setState({ message: error.id === 'ADD_CINEMA_FAIL' ? error.message.message : null });
     }
   }
 
