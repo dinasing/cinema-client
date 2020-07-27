@@ -15,21 +15,9 @@ import axios from 'axios';
 import { returnErrors } from '../../common/actions/errorAction';
 import { tokenConfig } from '../../auth/actions/authAction';
 
-export const addMovieTime = ({ date, time, cinemaHallId, cinemaId, movieId, prices }) => (
-  dispatch,
-  getState
-) => {
-  const body = {
-    date,
-    time,
-    cinemaHallId,
-    cinemaId,
-    movieId,
-    prices,
-  };
-
+export const addMovieTime = newMovieTime => (dispatch, getState) => {
   axios
-    .post('/movie-time', body, tokenConfig(getState))
+    .post('/movie-time', newMovieTime, tokenConfig(getState))
     .then(res => {
       dispatch({
         type: ADD_MOVIE_TIME,
