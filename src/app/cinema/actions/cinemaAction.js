@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   GET_CINEMAS,
   GET_CINEMA,
@@ -8,7 +9,6 @@ import {
   ADD_CINEMA,
   ADD_CINEMA_FAIL,
 } from '../../common/actions/types';
-import axios from 'axios';
 import { returnErrors } from '../../common/actions/errorAction';
 
 export const addCinema = cinema => dispatch => {
