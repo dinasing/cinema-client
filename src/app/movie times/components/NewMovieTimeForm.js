@@ -1,22 +1,12 @@
-/* eslint-disable */
-'use strict';
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
 import { Options } from '../../common/components/Options';
 
 class NewMovieTimeForm extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_MOVIE_TIME_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      this.setState({ message: error.id === 'ADD_MOVIE_TIME_FAIL' ? error.message.message : null });
     }
   }
 
@@ -118,4 +108,5 @@ class NewMovieTimeForm extends Component {
     );
   }
 }
+
 export default NewMovieTimeForm;
