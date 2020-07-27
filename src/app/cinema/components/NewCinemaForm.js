@@ -17,26 +17,26 @@ class NewCinemaForm extends Component {
   }
 
   handleCinemaHallTitleChange = stateIndex => e => {
-    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, index) => {
-      if (stateIndex !== index) return cinemaHall;
-
-      return { ...cinemaHall, title: e.target.value };
-    });
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, index) =>
+      stateIndex !== index ? cinemaHall : { ...cinemaHall, title: e.target.value }
+    );
 
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
   handleNumberOfSitsChange = (stateCinemaHallIndex, stateRowIndex) => e => {
-    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
-      if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
-      const newSchema = cinemaHall.schema.map((row, rowIndex) => {
-        row = stateRowIndex !== rowIndex ? row : { ...row, numberOfSits: e.target.value };
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) =>
+      stateCinemaHallIndex !== cinemaHallIndex
+        ? cinemaHall
+        : {
+            ...cinemaHall,
+            schema: cinemaHall.schema.map((row, rowIndex) => {
+              row = stateRowIndex !== rowIndex ? row : { ...row, numberOfSits: e.target.value };
 
-        return row;
-      });
-
-      return { ...cinemaHall, schema: newSchema };
-    });
+              return row;
+            }),
+          }
+    );
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
@@ -71,12 +71,11 @@ class NewCinemaForm extends Component {
   };
 
   handleAddRow = stateCinemaHallIndex => () => {
-    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
-      if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
-      const newSchema = cinemaHall.schema.concat([{ numberOfSits: '', sitsType: '' }]);
-
-      return { ...cinemaHall, schema: newSchema };
-    });
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) =>
+      stateCinemaHallIndex !== cinemaHallIndex
+        ? cinemaHall
+        : { ...cinemaHall, schema: cinemaHall.schema.concat([{ numberOfSits: '', sitsType: '' }]) }
+    );
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
