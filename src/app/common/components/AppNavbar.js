@@ -16,9 +16,6 @@ const AuthLinks = () => {
         <Link to="/movie-theaters">Movie theaters</Link>
       </NavItem>
       <NavItem className="ml-2">
-        <Link to="/movie-times">Movie times</Link>
-      </NavItem>
-      <NavItem className="ml-2">
         <Link to="/settings">Settings</Link>
       </NavItem>
     </>
