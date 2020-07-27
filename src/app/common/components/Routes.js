@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from '../../auth/components/Login';
 import SignUp from '../../auth/components/SignUp';
-import MovieTimes from '../../movie times/components/MovieTimeContainer';
+import NewMovieTimeFromContainer from '../../movie times/components/NewMovieTimeFromContainer';
 import Movies from '../../movie/components/MovieList';
 import Movie from '../../movie/components/Movie';
 import MovieTheater from '../../cinema/components/Cinema';
@@ -53,7 +53,7 @@ class Routes extends Component {
           component={EditSpecificMovieContainer}
           store={store}
         />
-        <ProtectedRoute path="/movie-times" component={MovieTimes} store={store} />
+
         <ProtectedRoute path="/settings" component={SeatTypeFormContainer} store={store} />
         <ProtectedRoute exact path="/movie-theaters" component={MovieTheaters} store={store} />
 
@@ -75,6 +75,13 @@ class Routes extends Component {
           component={AddCinemaHallContainer}
           store={store}
         />
+
+        <ProtectedRoute
+          path="/movie-theaters/:id/add-movie-session"
+          component={NewMovieTimeFromContainer}
+          store={store}
+        />
+
         <ProtectedRoute path="/movie-theaters/:id" component={MovieTheater} store={store} />
         <ProtectedRoute exact path="/movies" component={Movies} store={store} />
         <Route
