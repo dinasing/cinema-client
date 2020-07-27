@@ -57,7 +57,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         movies: state.movies.map(movie => {
-          return movie.id == action.payload.id ? action.payload : movie;
+          return movie.id === action.payload.id ? action.payload : movie;
         }),
       };
     case MOVIE_TIMES_LOADING:
