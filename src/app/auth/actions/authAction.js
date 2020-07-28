@@ -16,44 +16,41 @@ export const loadUser = () => (dispatch, getState) => {
   axios
     .get('/user/profile', tokenConfig(getState))
     .then(res => {
-      if (getState().rootReducer.auth.token)
+      if (getState().rootReducer.auth.token) {
         dispatch({
           type: USER_LOADED,
           payload: res.data,
         });
-      else {
-        dispatch(returnErrors(err.response.data, err.response.status, 'AUTH_FAIL'));
+      } else {
+        dispatch(returnErrors(error.response.data, error.response.status, 'AUTH_FAIL'));
         dispatch({
           type: AUTH_ERROR,
         });
       }
     })
-    .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status, 'AUTH_FAIL'));
+    .catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status, 'AUTH_FAIL'));
       dispatch({
         type: AUTH_ERROR,
       });
     });
 };
 
-// Logout User
 export const logout = () => {
   return {
     type: LOGOUT_SUCCESS,
   };
 };
-// Setup config/headers and token
+
 export const tokenConfig = getState => {
-  // Get token from localstorage
-  const token = getState().rootReducer.auth.token;
-  // Headers
+  const { token } = getState().rootReducer.auth;
+
   const config = {
     headers: {
       'Content-type': 'application/json',
     },
   };
 
-  // If token, add to headers
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
@@ -61,16 +58,13 @@ export const tokenConfig = getState => {
   return config;
 };
 
-// Register User
 export const register = ({ firstName, lastName, email, password }) => dispatch => {
-  // Headers
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  // Request body
   const body = JSON.stringify({ firstName, lastName, email, password });
 
   axios
@@ -81,8 +75,8 @@ export const register = ({ firstName, lastName, email, password }) => dispatch =
         payload: res.data,
       })
     )
-    .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'));
+    .catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status, 'REGISTER_FAIL'));
       dispatch({
         type: REGISTER_FAIL,
       });
@@ -90,14 +84,12 @@ export const register = ({ firstName, lastName, email, password }) => dispatch =
 };
 
 export const login = ({ email, password }) => dispatch => {
-  // Headers
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  // Request body
   const body = JSON.stringify({ email, password });
 
   axios
@@ -108,8 +100,8 @@ export const login = ({ email, password }) => dispatch => {
         payload: res.data,
       })
     )
-    .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
+    .catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status, 'LOGIN_FAIL'));
       dispatch({
         type: LOGIN_FAIL,
       });
