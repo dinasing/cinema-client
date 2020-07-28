@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-  addMovieTime,
-  getCinemas,
-  getMovies,
-  getCinemaHalls,
-  getSeatsTypes,
-} from '../actions/movieTimeAction';
+import { addMovieTime, getMovies, getCinemaHalls, getSeatsTypes } from '../actions/movieTimeAction';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
 import { Container, Alert } from 'reactstrap';
@@ -93,16 +87,18 @@ class MovieTimeFormContainer extends Component {
   };
 
   componentDidMount() {
-    this.props.getCinemas();
     this.props.getMovies();
     this.props.getCinemaHalls();
     this.props.getSeatsTypes();
+    this.setState({
+      cinemaId: this.props.match.params.id,
+    });
   }
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_SIT_TYPE_FAIL') {
+      if (error.id === 'ADD_MOVIE_TIME_FAIL') {
         this.setState({ msg: error.msg.msg });
       } else {
         this.setState({ msg: null });
@@ -145,7 +141,6 @@ class MovieTimeFormContainer extends Component {
 MovieTimeFormContainer.propTypes = {
   addMovieTime: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
-  getCinemas: PropTypes.func.isRequired,
   getMovies: PropTypes.func.isRequired,
   getSeatsTypes: PropTypes.func.isRequired,
   getCinemaHalls: PropTypes.func.isRequired,
@@ -161,7 +156,6 @@ export default connect(mapStateToProps, {
   addMovieTime,
   clearErrors,
   getCinemaHalls,
-  getCinemas,
   getMovies,
   getSeatsTypes,
 })(MovieTimeFormContainer);

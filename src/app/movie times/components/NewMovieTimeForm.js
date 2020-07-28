@@ -32,13 +32,10 @@ class NewMovieTimeForm extends Component {
   }
 
   render() {
-    const cinemaHalls = this.createCinemaHallOptions(this.props.cinemaHalls, this.props.cinemaId);
-    const seatsTypes = this.props.cinemaHallId
-      ? this.createSeatsTypesOptions(
-          this.props.seatsTypes,
-          this.props.cinemaHalls,
-          this.props.cinemaHallId
-        )
+    const { cinemaHalls, cinemaId, seatsTypes, cinemaHallId } = this.props;
+    const cinemaHallsOptions = this.createCinemaHallOptions(cinemaHalls, cinemaId);
+    const seatsTypesOptions = cinemaHallId
+      ? this.createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId)
       : [];
 
     return (
@@ -60,19 +57,6 @@ class NewMovieTimeForm extends Component {
               </option>
               <Options items={this.props.movies} />
             </Input>
-            <Label htmlFor="cinemaId">movie theater</Label>
-            <Input
-              required
-              className="mb-3"
-              type="select"
-              id="cinemaId"
-              onChange={this.props.handleChange}
-            >
-              <option value="" selected disabled>
-                select movie theater
-              </option>
-              <Options items={this.props.cinemas} />
-            </Input>
             <Label htmlFor="cinemaHallId">hall</Label>
             <Input
               required
@@ -84,7 +68,7 @@ class NewMovieTimeForm extends Component {
               <option value="" selected disabled>
                 select hall
               </option>
-              <Options items={cinemaHalls} />
+              <Options items={cinemaHallsOptions} />
             </Input>
             <Label htmlFor="time">time</Label>
             <Input
@@ -103,7 +87,7 @@ class NewMovieTimeForm extends Component {
               moveRangeOnFirstSelection={false}
             />
             <br />
-            {seatsTypes.map(seatsType => {
+            {seatsTypesOptions.map(seatsType => {
               return (
                 <div key={seatsType.id}>
                   <Label htmlFor={seatsType.id}>price ({seatsType.title})</Label>
