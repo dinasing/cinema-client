@@ -75,28 +75,26 @@ class MovieTheater extends Component {
         <p>
           {cinema.city}, {cinema.address}
         </p>
-        <p>
-          Movie sessions{' '}
-          <small>
-            <Link to={'/movie-theaters/' + cinema.id + '/add-movie-session/'}>add</Link>
-          </small>
-        </p>
+        <h5>
+          Movie sessions{' '}<small>
+            <Link to={'/movie-theaters/' + cinema.id + '/add-movie-session/'}>add</Link></small>
+        </h5>
         {movieTimes[0]
           ? movieTimes.map(movieTime => {
-              return (
-                <div key={movieTime.id}>
-                  <Card>
-                    <CardBody>
-                      <CardTitle>{movieTime.date}</CardTitle>
-                      <CardText>{movieTime.movie.title + '  ' + movieTime.time}</CardText>
-                    </CardBody>
-                  </Card>
-                </div>
-              );
-            })
+            return (
+              <div key={movieTime.id}>
+                <Card>
+                  <CardBody>
+                    <CardTitle>{movieTime.date}</CardTitle>
+                    <CardText>{movieTime.movie.title + '  ' + movieTime.time}</CardText>
+                  </CardBody>
+                </Card>
+              </div>
+            );
+          })
           : this.props.cinemas.movieTimesLoading
-          ? 'Loading ...'
-          : 'There are no movie times for the "' + cinema.title + '" right now.'}
+            ? 'Loading ...'
+            : 'There are no movie times for the "' + cinema.title + '" right now.'}
       </>
     );
   }
