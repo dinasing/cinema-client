@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { addSitType } from '../actions/sitTypeAction';
+import { addSeatType } from '../actions/seatTypeAction';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
 import { Container, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
-import NewSitTypeFrom from './NewSitTypeForm';
+import NewSeatTypeFrom from './NewSeatTypeForm';
 
-class SitTypeFormContainer extends Component {
+class SeatTypeFormContainer extends Component {
   constructor(props) {
     super(props);
   }
@@ -26,21 +26,17 @@ class SitTypeFormContainer extends Component {
     e.preventDefault();
     this.setState({ message: null });
     const { title, numberOfPeople } = this.state;
-    const newSitType = {
+    const newSeatType = {
       title,
       numberOfPeople,
     };
-    this.props.addSitType(newSitType);
+    this.props.addSeatType(newSeatType);
   };
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_SIT_TYPE_FAIL') {
-        this.setState({ message: error.message.message });
-      } else {
-        this.setState({ message: null });
-      }
+      this.setState({ message: error.id === 'ADD_SEAT_TYPE_FAIL' ? error.message.message : null });
     }
   }
 
@@ -48,20 +44,22 @@ class SitTypeFormContainer extends Component {
     return (
       <Container>
         {this.state.message ? <Alert color="warning">{this.state.message}</Alert> : null}
-        <NewSitTypeFrom handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
+        <NewSeatTypeFrom handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
       </Container>
     );
   }
 }
-SitTypeFormContainer.propTypes = {
-  addSitType: PropTypes.func.isRequired,
+
+SeatTypeFormContainer.propTypes = {
+  addSeatType: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
-  sitType: PropTypes.object,
+  seatType: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,
-  sitType: state.rootReducer.sitType,
+  seatType: state.rootReducer.seatType,
 });
 
-export default connect(mapStateToProps, { addSitType, clearErrors })(SitTypeFormContainer);
+export default connect(mapStateToProps, { addSeatType, clearErrors })(SeatTypeFormContainer);
