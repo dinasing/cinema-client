@@ -15,11 +15,11 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
   axios
     .get('/user/profile', tokenConfig(getState))
-    .then(res => {
+    .then(response => {
       if (getState().rootReducer.auth.token) {
         dispatch({
           type: USER_LOADED,
-          payload: res.data,
+          payload: response.data,
         });
       } else {
         dispatch(returnErrors(error.response.data, error.response.status, 'AUTH_FAIL'));
@@ -69,10 +69,10 @@ export const register = ({ firstName, lastName, email, password }) => dispatch =
 
   axios
     .post('/auth/signup', body, config)
-    .then(res =>
+    .then(response =>
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data,
+        payload: response.data,
       })
     )
     .catch(error => {
@@ -94,10 +94,10 @@ export const login = ({ email, password }) => dispatch => {
 
   axios
     .post('/auth/login', body, config)
-    .then(res =>
+    .then(response =>
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data,
+        payload: response.data,
       })
     )
     .catch(error => {

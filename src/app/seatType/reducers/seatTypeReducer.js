@@ -33,18 +33,16 @@ export default function(state = initialState, action) {
         ...state,
         seatsTypes: state.seatsTypes.filter(seatType => seatType.id !== action.payload),
       };
-
     case EDIT_SEAT_TYPE:
       return {
         ...state,
         seatsTypes: state.seatsTypes.map(seatType => {
-          return seatType.id == action.payload.id ? action.payload : seatType;
+          return +seatType.id === +action.payload.id ? action.payload : seatType;
         }),
       };
     case ADD_SEAT_TYPE:
       state.seatsTypes.unshift(action.payload);
       return { ...state };
-
     case ADD_SEAT_TYPE_FAIL:
     default:
       return state;

@@ -15,7 +15,7 @@ const initialState = {
   cinemaHalls: [],
   cinemaHall: {},
   loading: false,
-  sitsTypes: [],
+  seatsTypes: [],
   newCinemaId: '',
 };
 

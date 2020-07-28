@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AppNavbar from './AppNavbar';

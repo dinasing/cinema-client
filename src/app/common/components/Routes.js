@@ -9,7 +9,7 @@ import DeleteMovieContainer from '../../movie/components/DeleteMovieContainer';
 import Movie from '../../movie/components/Movie';
 import MovieTheater from '../../cinema/components/Cinema';
 import MovieTheaters from '../../cinema/components/CinemaList';
-import SitTypeFormContainer from '../../sitType/components/SitTypeContainer';
+import SeatTypeFormContainer from '../../seatType/components/SeatTypeContainer';
 import { ProtectedRoute } from './ProtectedRoute';
 import { store } from '../../store';
 import NewMovieForm from '../../movie/components/NewMovieContainer';
@@ -24,6 +24,7 @@ import CinemaHallsContainer from '../../cinema/components/CinemaHallsContainer';
 class Routes extends Component {
   render() {
     const { isAuthenticated } = this.props.auth;
+
     return (
       <Switch>
         <Route
@@ -70,7 +71,7 @@ class Routes extends Component {
           store={store}
         />
         <ProtectedRoute path="/movie-times" component={MovieTimes} store={store} />
-        <ProtectedRoute path="/settings" component={SitTypeFormContainer} store={store} />
+        <ProtectedRoute path="/settings" component={SeatTypeFormContainer} store={store} />
         <ProtectedRoute exact path="/movie-theaters" component={MovieTheaters} store={store} />
 
         <ProtectedRoute

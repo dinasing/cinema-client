@@ -5,29 +5,32 @@ import { Badge, UncontrolledTooltip } from 'reactstrap';
 export default class HallSchema extends Component {
   render() {
     const { schema, hallTitle } = this.props;
-    return <Sits schema={schema} hallTitle={hallTitle} />;
+    return <Seats schema={schema} hallTitle={hallTitle} />;
   }
 }
 
-const Sits = props => {
+const Seats = props => {
   const { schema, hallTitle } = props;
 
-  const sits = schema.map((row, rowIndex) => {
-    const rowSits = new Array(Number(row.numberOfSits)).fill().map((sit, sitIndex) => {
-      sit = (
+  const seats = schema.map((row, rowIndex) => {
+    const rowSits = new Array(Number(row.numberOfSits)).fill().map((seat, seatIndex) => {
+      seat = (
         <>
-          <Badge color="primary" id={`hallTitle-${hallTitle}_row${rowIndex + 1}sit${sitIndex + 1}`}>
-            {sitIndex + 1}
+          <Badge
+            color="primary"
+            id={`hallTitle-${hallTitle}_row${rowIndex + 1}seat${seatIndex + 1}`}
+          >
+            {seatIndex + 1}
           </Badge>{' '}
           <UncontrolledTooltip
             placement="right"
-            target={`hallTitle-${hallTitle}_row${rowIndex + 1}sit${sitIndex + 1}`}
+            target={`hallTitle-${hallTitle}_row${rowIndex + 1}seat${seatIndex + 1}`}
           >
-            {`row: ${rowIndex + 1},\nsit: ${sitIndex + 1},\ntype: ${row.sitsType}`}
+            {`row: ${rowIndex + 1},\nseat: ${seatIndex + 1},\ntype: ${row.seatsType}`}
           </UncontrolledTooltip>
         </>
       );
-      return sit;
+      return seat;
     });
     const newRow = (
       <h6 className="text-center">
@@ -39,5 +42,5 @@ const Sits = props => {
     return newRow;
   });
 
-  return <>{sits}</>;
+  return <>{seats}</>;
 };

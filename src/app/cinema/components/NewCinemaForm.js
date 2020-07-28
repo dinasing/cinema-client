@@ -6,7 +6,7 @@ import { clearErrors } from '../../common/actions/errorAction';
 import { HallFormContainer } from './NewHall';
 import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
 import { withMenu } from '../../menu/withMenu';
-import { getSitTypes } from '../../sitType/actions/sitTypeAction';
+import { getSeatTypes } from '../../seatType/actions/seatTypeAction';
 
 class NewCinemaForm extends Component {
   constructor(props) {
@@ -17,11 +17,11 @@ class NewCinemaForm extends Component {
       address: '',
       description: '',
       photo: '',
-      cinemaHalls: [{ title: '', schema: [{ numberOfSits: '', sitsType: '' }] }],
+      cinemaHalls: [{ title: '', schema: [{ numberOfSeats: '', seatsType: '' }] }],
     };
   }
   componentDidMount() {
-    this.props.getSitTypes();
+    this.props.getSeatTypes();
   }
 
   handleCinemaHallTitleChange = stateIndex => e => {
@@ -33,24 +33,24 @@ class NewCinemaForm extends Component {
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
-  handleNumberOfSitsChange = (stateCinemaHallIndex, stateRowIndex) => e => {
+  handleNumberOfSeatsChange = (stateCinemaHallIndex, stateRowIndex) => e => {
     const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
       if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
       const newSchema = cinemaHall.schema.map((row, rowIndex) => {
         if (stateRowIndex !== rowIndex) return row;
-        return { ...row, numberOfSits: e.target.value };
+        return { ...row, numberOfSeats: e.target.value };
       });
       return { ...cinemaHall, schema: newSchema };
     });
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
-  handleSitsTypeChange = (stateCinemaHallIndex, stateRowIndex) => e => {
+  handleSeatsTypeChange = (stateCinemaHallIndex, stateRowIndex) => e => {
     const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
       if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
       const newSchema = cinemaHall.schema.map((row, rowIndex) => {
         if (stateRowIndex !== rowIndex) return row;
-        return { ...row, sitsType: e.target.value };
+        return { ...row, seatsType: e.target.value };
       });
       return { ...cinemaHall, schema: newSchema };
     });
@@ -62,17 +62,19 @@ class NewCinemaForm extends Component {
       cinemaHalls: this.state.cinemaHalls.filter((cinema, index) => index !== stateIndex),
     });
   };
+
   handleAddCinemaHall = () => {
     this.setState({
       cinemaHalls: this.state.cinemaHalls.concat([
-        { title: '', schema: [{ numberOfSits: '', sitsType: '' }] },
+        { title: '', schema: [{ numberOfSeats: '', seatsType: '' }] },
       ]),
     });
   };
+
   handleAddRow = stateCinemaHallIndex => () => {
     const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
       if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
-      const newSchema = cinemaHall.schema.concat([{ numberOfSits: '', sitsType: '' }]);
+      const newSchema = cinemaHall.schema.concat([{ numberOfSeats: '', seatsType: '' }]);
       return { ...cinemaHall, schema: newSchema };
     });
     this.setState({ cinemaHalls: newCinemaHalls });
@@ -86,11 +88,13 @@ class NewCinemaForm extends Component {
     });
     this.setState({ cinemaHalls: newCinemaHalls });
   };
+
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
     });
   };
+
   handleSubmit = e => {
     e.preventDefault();
 
@@ -110,16 +114,16 @@ class NewCinemaForm extends Component {
     const { error } = this.props;
     if (error !== prevProps.error) {
       if (error.id === 'ADD_CINEMA_FAIL') {
-        this.setState({ msg: error.msg.msg });
+        this.setState({ message: error.message.message });
       } else {
-        this.setState({ msg: null });
+        this.setState({ message: null });
       }
     }
   }
   render() {
     return (
       <Container>
-        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="danger">{this.state.message}</Alert> : null}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <h2>add new movie theater</h2>
@@ -174,11 +178,11 @@ class NewCinemaForm extends Component {
 
               <HallFormContainer
                 handleRemoveCinemaHall={this.handleRemoveCinemaHall}
-                handleNumberOfSitsChange={this.handleNumberOfSitsChange}
-                handleSitsTypeChange={this.handleSitsTypeChange}
+                handleNumberOfSeatsChange={this.handleNumberOfSeatsChange}
+                handleSeatsTypeChange={this.handleSeatsTypeChange}
                 handleRemoveRow={this.handleRemoveRow}
                 handleCinemaHallTitleChange={this.handleCinemaHallTitleChange}
-                sitsTypes={this.props.sitsTypes}
+                seatsTypes={this.props.seatsTypes}
                 cinemaHalls={this.state.cinemaHalls}
                 handleAddRow={this.handleAddRow}
               />
@@ -196,9 +200,9 @@ class NewCinemaForm extends Component {
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,
-  sitsTypes: state.rootReducer.sitType.sitsTypes,
+  seatsTypes: state.rootReducer.seatType.seatsTypes,
 });
 
-export default connect(mapStateToProps, { addCinema, clearErrors, getSitTypes })(
+export default connect(mapStateToProps, { addCinema, clearErrors, getSeatTypes })(
   withMenu(NewCinemaForm, CINEMAS_MENU_ITEMS)
 );
