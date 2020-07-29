@@ -9,6 +9,7 @@ import {
   EDIT_MOVIE,
   ADD_MOVIES,
   ADD_MOVIES_FAIL,
+  EDIT_MOVIE_FAIL,
 } from '../../common/actions/types';
 
 const initialState = {
@@ -57,18 +58,21 @@ export default function(state = initialState, action) {
       return {
         ...state,
         movies: state.movies.map(movie => {
-          return movie.id == action.payload.id ? action.payload : movie;
+          if (+movie.id === +action.payload.id)
+            for (const key in action.payload) {
+              movie[key] = action.payload[key];
+            }
+          return movie;
         }),
       };
     case MOVIE_TIMES_LOADING:
       return { ...state, movieTimesLoading: true };
     case MOVIES_LOADING:
       return { ...state, loading: true };
-
     case ADD_MOVIES:
       state.movies.unshift(action.payload);
       return { ...state };
-    case ADD_MOVIES_FAIL:
+    case (ADD_MOVIES_FAIL, EDIT_MOVIE_FAIL):
     default:
       return state;
   }

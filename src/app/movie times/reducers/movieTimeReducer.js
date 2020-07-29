@@ -8,7 +8,7 @@ import {
   GET_CINEMAS_FOR_MOVIE_TIMES,
   GET_MOVIES_FOR_MOVIE_TIMES,
   GET_CINEMA_HALLS_FOR_MOVIE_TIMES,
-  GET_SITS_TYPES_FOR_MOVIE_TIMES,
+  GET_SEATS_TYPES_FOR_MOVIE_TIMES,
 } from '../../common/actions/types';
 
 const initialState = {
@@ -19,9 +19,9 @@ const initialState = {
   cinemaId: '',
   cinemaHallId: '',
   cinemaHalls: [],
-  sitsTypes: [],
+  seatsTypes: [],
   cinemasLoading: false,
-  msg: null,
+  message: null,
 };
 
 export default function(state = initialState, action) {
@@ -69,10 +69,10 @@ export default function(state = initialState, action) {
         ...state,
         movies: action.payload,
       };
-    case GET_SITS_TYPES_FOR_MOVIE_TIMES:
+    case GET_SEATS_TYPES_FOR_MOVIE_TIMES:
       return {
         ...state,
-        sitsTypes: action.payload,
+        seatsTypes: action.payload,
       };
     case ADD_MOVIE_TIME_FAIL:
     default:

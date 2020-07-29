@@ -1,9 +1,7 @@
-/* eslint-disable */
-'use strict';
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
 
-class NewSitTypeForm extends Component {
+class NewSeatTypeForm extends Component {
   constructor(props) {
     super(props);
   }
@@ -11,17 +9,13 @@ class NewSitTypeForm extends Component {
     cinemas: [],
     title: '',
     numberOfPeople: '',
-    msg: null,
+    message: null,
   };
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_SIT_TYPE_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      this.setState({ message: error.id === 'ADD_SEAT_TYPE_FAIL' ? error.message.message : null });
     }
   }
 
@@ -30,7 +24,7 @@ class NewSitTypeForm extends Component {
       <Container>
         <Form onSubmit={this.props.handleSubmit}>
           <FormGroup>
-            <h2>add new type of sits for cinemas</h2>
+            <h2>add new type of seats for cinemas</h2>
             <Label htmlFor="title">title</Label>
             <Input
               required
@@ -49,11 +43,12 @@ class NewSitTypeForm extends Component {
               onChange={this.props.handleChange}
               defaultValue="1"
             />
-            <Button>add type</Button>
+            <Button color="primary">save type</Button>
           </FormGroup>
         </Form>
       </Container>
     );
   }
 }
-export default NewSitTypeForm;
+
+export default NewSeatTypeForm;

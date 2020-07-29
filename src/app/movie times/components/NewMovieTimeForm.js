@@ -1,34 +1,26 @@
-/* eslint-disable */
-'use strict';
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
 import { Options } from '../../common/components/Options';
 
 class NewMovieTimeForm extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_MOVIE_TIME_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      this.setState({
+        message: error.id === 'ADD_MOVIE_TIME_FAIL' ? error.message.message : null,
+      });
     }
   }
 
   createCinemaHallOptions(cinemaHalls, cinemaId) {
-    return cinemaHalls.filter(cinemaHall => cinemaHall.cinemaId == cinemaId);
+    return cinemaHalls.filter(cinemaHall => cinemaHall.cinemaId === cinemaId);
   }
 
   render() {
     const cinemaHalls = this.createCinemaHallOptions(this.props.cinemaHalls, this.props.cinemaId);
-    const sitsTypes = this.props.cinemaHallId
-      ? this.props.createSitsTypesOptions(
-          this.props.sitsTypes,
+    const seatsTypes = this.props.cinemaHallId
+      ? this.props.createSeatsTypesOptions(
+          this.props.seatsTypes,
           this.props.cinemaHalls,
           this.props.cinemaHallId
         )
@@ -96,26 +88,27 @@ class NewMovieTimeForm extends Component {
               onChange={this.props.handleChange}
             />
 
-            {sitsTypes.map(sitsType => {
+            {seatsTypes.map(seatsType => {
               return (
-                <div key={sitsType.id}>
-                  <Label htmlFor={sitsType.id}>price ({sitsType.title})</Label>
+                <div key={seatsType.id}>
+                  <Label htmlFor={seatsType.id}>price ({seatsType.title})</Label>
                   <Input
                     className="mb-3"
                     type="number"
-                    id={sitsType.id}
+                    id={seatsType.id}
                     min="0"
                     defaultValue="0"
-                    onChange={this.props.handleSitsTypePriceChange(sitsType.id)}
+                    onChange={this.props.handleSeatsTypePriceChange(seatsType.id)}
                   />
                 </div>
               );
             })}
-            <Button>add</Button>
+            <Button color="primary">save</Button>
           </FormGroup>
         </Form>
       </Container>
     );
   }
 }
+
 export default NewMovieTimeForm;

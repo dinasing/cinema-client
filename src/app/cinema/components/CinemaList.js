@@ -1,31 +1,42 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCinemas } from '../actions/cinemaAction';
 import { Link } from 'react-router-dom';
-import NewCinemaForm from './NewCinemaForm';
-import { getSitTypes } from '../../sitType/actions/sitTypeAction';
+import { getCinemas } from '../actions/cinemaAction';
+import { withMenu } from '../../menu/withMenu';
+import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
+import { Card, CardImg, CardBody, CardTitle, Col, Row } from 'reactstrap';
 
 export class MovieTheaters extends Component {
   componentDidMount() {
-    this.props.getSitTypes();
     this.props.getCinemas();
   }
+
   render() {
     const { cinemas } = this.props.cinemas;
+
     return (
       <>
-        <NewCinemaForm sitsTypes={this.props.sitsTypes} />
-
-        <h2>Movie theaters</h2>
+        <h2>movie theaters</h2>
         {this.props.cinemas.loading ? (
           <p>Loading cinemas ...</p>
         ) : (
           cinemas.map(cinema => {
             return (
-              <div key={cinema.id}>
-                <Link to={'/movie-theaters/' + cinema.id}> {cinema.title}</Link>
-              </div>
+              <Card key={cinema.id}>
+                <Row xs="4">
+                  <Col>
+                    <CardImg src={cinema.photo ? cinema.photo : null} />
+                  </Col>
+                  <Col>
+                    <CardBody>
+                      <CardTitle>
+                        <Link to={'/movie-theaters/' + cinema.id}> {cinema.title}</Link>
+                      </CardTitle>
+                    </CardBody>
+                  </Col>
+                </Row>
+              </Card>
             );
           })
         )}
@@ -33,13 +44,17 @@ export class MovieTheaters extends Component {
     );
   }
 }
+
 MovieTheaters.propTypes = {
   getCinemas: PropTypes.func.isRequired,
-  getSitTypes: PropTypes.func.isRequired,
   cinemas: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
-  sitsTypes: state.rootReducer.sitType.sitsTypes,
+  seatsTypes: state.rootReducer.seatType.seatsTypes,
 });
-export default connect(mapStateToProps, { getCinemas, getSitTypes })(MovieTheaters);
+
+export default connect(mapStateToProps, { getCinemas })(
+  withMenu(MovieTheaters, CINEMAS_MENU_ITEMS)
+);

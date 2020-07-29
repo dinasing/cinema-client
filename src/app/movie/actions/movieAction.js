@@ -9,9 +9,12 @@ import {
   EDIT_MOVIE,
   ADD_MOVIES,
   ADD_MOVIES_FAIL,
+  EDIT_MOVIE_FAIL,
+  LOGIN_FAIL,
 } from '../../common/actions/types';
 import axios from 'axios';
-import { returnErrors } from '../../common/actions/errorAction';
+import { returnErrors, clearErrors } from '../../common/actions/errorAction';
+import { tokenConfig } from '../../auth/actions/authAction';
 
 export const addMovie = ({
   title,
@@ -21,7 +24,7 @@ export const addMovie = ({
   description,
   poster,
   language,
-}) => dispatch => {
+}) => (dispatch, getState) => {
   const body = {
     title,
     release_date,
@@ -33,16 +36,16 @@ export const addMovie = ({
   };
 
   axios
-    .post('/movie', body)
-    .then(res => {
+    .post('/movie', body, tokenConfig(getState))
+    .then(response => {
       dispatch({
         type: ADD_MOVIES,
-        payload: res.data,
+        payload: response.data,
       });
     })
-    .catch(err => {
-      if (err.response) {
-        dispatch(returnErrors(err.response.data, err.response.status, 'ADD_MOVIES_FAIL'));
+    .catch(error => {
+      if (error.response) {
+        dispatch(returnErrors(error.response.data, error.response.status, 'ADD_MOVIES_FAIL'));
       }
       dispatch({
         type: ADD_MOVIES_FAIL,
@@ -52,20 +55,20 @@ export const addMovie = ({
 
 export const getMovies = () => dispatch => {
   dispatch(setMoviesLoading());
-  axios.get('/movie').then(res =>
+  axios.get('/movie').then(response =>
     dispatch({
       type: GET_MOVIES,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
 
 export const getMovieById = id => dispatch => {
   dispatch(setMoviesLoading());
-  axios.get('/movie/' + id).then(res =>
+  axios.get('/movie/' + id).then(response =>
     dispatch({
       type: GET_MOVIE,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
@@ -73,35 +76,41 @@ export const getMovieTimes = id => dispatch => {
   dispatch(setMoviesToInitialState());
   dispatch(setMoviesTimesLoading());
 
-  axios.get('/movie/' + id + '/movie-time/').then(res =>
+  axios.get('/movie/' + id + '/movie-time/').then(response =>
     dispatch({
       type: GET_MOVIE_TIMES,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
-export const deleteMovie = id => dispatch => {
+export const deleteMovie = id => (dispatch, getState) => {
   axios
-    .delete(`/movie/${id}`)
+    .delete(`/movie/${id}`, tokenConfig(getState))
     .then(() => {
       dispatch({
         type: DELETE_MOVIE,
         payload: id,
       });
     })
-    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+    .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
 };
 
-export const editMovie = movie => dispatch => {
+export const editMovie = movie => (dispatch, getState) => {
   axios
-    .put(`/movie/${movie.id}`, movie)
+    .put(`/movie/${movie.id}`, movie, tokenConfig(getState))
     .then(() => {
       dispatch({
         type: EDIT_MOVIE,
         payload: movie,
       });
     })
-    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+    .catch(error => {
+      console.log(error);
+      dispatch(returnErrors(error.response.data, error.response.status, 'EDIT_MOVIE_FAIL'));
+      dispatch({
+        type: EDIT_MOVIE_FAIL,
+      });
+    });
 };
 
 export const setMoviesLoading = () => {

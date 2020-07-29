@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { logout } from '../actions/authAction';
 import { NavLink } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { logout } from '../actions/authAction';
 
 export class Logout extends Component {
   static propTypes = {
@@ -12,7 +12,7 @@ export class Logout extends Component {
     return (
       <Fragment>
         <NavLink onClick={this.props.logout} href="#">
-          Logout
+          Sign out
         </NavLink>
       </Fragment>
     );

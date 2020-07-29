@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   GET_CINEMAS,
   GET_CINEMA,
@@ -7,18 +8,18 @@ import {
   CLEAN_CINEMAS,
   ADD_CINEMA,
   ADD_CINEMA_FAIL,
+  EDIT_CINEMA,
+  EDIT_CINEMA_FAIL,
+  DELETE_CINEMA,
+  DELETE_CINEMA_FAIL,
 } from '../../common/actions/types';
-import axios from 'axios';
 import { returnErrors } from '../../common/actions/errorAction';
+import { tokenConfig } from '../../auth/actions/authAction';
 
-export const addCinema = ({
-  title,
-  city,
-  address,
-  photo,
-  description,
-  cinemaHalls,
-}) => dispatch => {
+export const addCinema = ({ title, city, address, photo, description, cinemaHalls }) => (
+  dispatch,
+  getState
+) => {
   const cinema = {
     title,
     city,
@@ -29,16 +30,16 @@ export const addCinema = ({
   };
 
   axios
-    .post('/cinema', cinema)
-    .then(res => {
+    .post('/cinema', cinema, tokenConfig(getState))
+    .then(response => {
       dispatch({
         type: ADD_CINEMA,
-        payload: res.data,
+        payload: response.data,
       });
     })
-    .catch(err => {
-      if (err.response) {
-        dispatch(returnErrors(err.response.data, err.response.status, 'ADD_CINEMA_FAIL'));
+    .catch(error => {
+      if (error.response) {
+        dispatch(returnErrors(error.response.data, error.response.status, 'ADD_CINEMA_FAIL'));
       }
       dispatch({
         type: ADD_CINEMA_FAIL,
@@ -48,36 +49,72 @@ export const addCinema = ({
 
 export const getCinemas = () => dispatch => {
   dispatch(setCinemasLoading());
-  axios.get('/cinema').then(res =>
+  axios.get('/cinema').then(response =>
     dispatch({
       type: GET_CINEMAS,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
 
 export const getCinemaById = id => dispatch => {
   dispatch(setCinemasLoading());
-  axios.get('/cinema/' + id).then(res =>
+  axios.get('/cinema/' + id).then(response =>
     dispatch({
       type: GET_CINEMA,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
 export const getMovieTimes = id => dispatch => {
   dispatch(setCinemasToInitialState());
   dispatch(setMoviesTimesLoading());
-  axios.get('/cinema/' + id + '/movie-time/').then(res =>
+  axios.get('/cinema/' + id + '/movie-time/').then(response =>
     dispatch({
       type: GET_MOVIE_TIMES_FOR_CINEMA,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
+
+export const editCinema = cinema => (dispatch, getState) => {
+  axios
+    .put(`/cinema/${cinema.id}`, cinema, tokenConfig(getState))
+    .then(() => {
+      dispatch({
+        type: EDIT_CINEMA,
+        payload: cinema,
+      });
+    })
+    .catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status, 'EDIT_CINEMA_FAIL'));
+      dispatch({
+        type: EDIT_CINEMA_FAIL,
+      });
+    });
+};
+
+export const deleteCinema = id => (dispatch, getState) => {
+  axios
+    .delete(`/cinema/${id}`, tokenConfig(getState))
+    .then(() => {
+      dispatch({
+        type: DELETE_CINEMA,
+        payload: id,
+      });
+    })
+    .catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status, 'DELETE_CINEMA_FAIL'));
+      dispatch({
+        type: DELETE_CINEMA_FAIL,
+      });
+    });
+};
+
 export const setMoviesTimesLoading = () => {
   return { type: MOVIE_TIMES_LOADING };
 };
+
 export const setCinemasToInitialState = () => {
   return { type: CLEAN_CINEMAS };
 };
