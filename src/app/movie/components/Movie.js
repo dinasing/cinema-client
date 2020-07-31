@@ -11,9 +11,10 @@ import {
   Modal,
   ModalFooter,
   ModalHeader,
+  Container,
 } from 'reactstrap';
-import moment from 'moment';
 import { getMovieById, getMovieTimes, deleteMovie } from '../actions/movieAction';
+import MovieTimesList from '../components/MovieTimesList';
 
 class Movie extends Component {
   state = {
@@ -45,7 +46,7 @@ class Movie extends Component {
     const { movie, movieTimes } = this.props.movies;
     if (this.state.isMovieDeleted) return <Redirect to="/movies" />;
     return (
-      <>
+      <Container>
         <h2>
           {movie.title}{' '}
           <small>
@@ -73,25 +74,15 @@ class Movie extends Component {
           self-align="center"
           src={movie.poster ? movie.poster : 'https://kinoactive.ru/uploads/no-poster.jpg'}
         />
-        {movieTimes[0]
-          ? movieTimes.map(movieTime => {
-              return (
-                <div key={movieTime.id}>
-                  <Card>
-                    <CardBody>
-                      <CardTitle>{moment(movieTime.date).format('DD.MM.YYYY')}</CardTitle>
-                      <CardText>
-                        {movieTime.cinema.title + '  ' + movieTime.time.slice(0, -3)}
-                      </CardText>
-                    </CardBody>
-                  </Card>
-                </div>
-              );
-            })
-          : this.props.movies.movieTimesLoading
-          ? 'Loading ...'
-          : 'There are no movie times for "' + movie.title + '" right now'}
-      </>
+        <br />
+        {movieTimes.length ? (
+          <MovieTimesList movieTimes={movieTimes} />
+        ) : this.props.movies.movieTimesLoading ? (
+          'Loading ...'
+        ) : (
+          'There are no movie times for "' + movie.title + '" right now'
+        )}
+      </Container>
     );
   }
 }
@@ -104,4 +95,8 @@ Movie.propTypes = {
 const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
 });
-export default connect(mapStateToProps, { getMovieById, getMovieTimes, deleteMovie })(Movie);
+export default connect(mapStateToProps, {
+  getMovieById,
+  getMovieTimes,
+  deleteMovie,
+})(Movie);
