@@ -2,18 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import {
-  Card,
-  CardText,
-  CardBody,
-  CardTitle,
-  Button,
-  Modal,
-  ModalFooter,
-  ModalHeader,
-} from 'reactstrap';
+import { Button, Modal, ModalFooter, ModalHeader } from 'reactstrap';
 import { getCinemaById, getMovieTimes, deleteCinema } from '../actions/cinemaAction';
 import { getCinemaHalls } from '../actions/cinemaHallAction';
+import MovieTimesList from '../../movie times/components/MovieTimesList';
 
 class MovieTheater extends Component {
   state = {
@@ -76,25 +68,18 @@ class MovieTheater extends Component {
           {cinema.city}, {cinema.address}
         </p>
         <h5>
-          Movie sessions{' '}<small>
-            <Link to={'/movie-theaters/' + cinema.id + '/add-movie-session/'}>add</Link></small>
+          Movie sessions{' '}
+          <small>
+            <Link to={'/movie-theaters/' + cinema.id + '/add-movie-session/'}>add</Link>
+          </small>
         </h5>
-        {movieTimes[0]
-          ? movieTimes.map(movieTime => {
-            return (
-              <div key={movieTime.id}>
-                <Card>
-                  <CardBody>
-                    <CardTitle>{movieTime.date}</CardTitle>
-                    <CardText>{movieTime.movie.title + '  ' + movieTime.time}</CardText>
-                  </CardBody>
-                </Card>
-              </div>
-            );
-          })
-          : this.props.cinemas.movieTimesLoading
-            ? 'Loading ...'
-            : 'There are no movie times for the "' + cinema.title + '" right now.'}
+        {movieTimes.length ? (
+          <MovieTimesList movieTimes={movieTimes} />
+        ) : this.props.cinemas.movieTimesLoading ? (
+          'Loading ...'
+        ) : (
+          'There are no movie times for the "' + cinema.title + '" right now.'
+        )}
       </>
     );
   }
