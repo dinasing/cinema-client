@@ -1,15 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Card,
-  CardText,
-  CardBody,
-  CardTitle,
-  Badge,
-  Row,
-  Col,
-  UncontrolledTooltip,
-  Container,
-} from 'reactstrap';
+import { Card, CardText, CardBody, Badge, Row, Col, UncontrolledTooltip } from 'reactstrap';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 
@@ -18,12 +8,13 @@ class MovieTimesList extends Component {
   render() {
     const { movieTimes } = this.props;
 
-    const MovieTimesCards = movieTimes.map(movieTime => <MovieTimeCard movieTime={movieTime} />);
+    const MovieTimesCards = movieTimes.map(movieTime => (
+      <MovieTimeCard movieTime={movieTime} component={CinemasMovieTimes} />
+    ));
 
     return (
       <div>
         <br />
-        Movie sessions
         {MovieTimesCards}
       </div>
     );
@@ -31,8 +22,12 @@ class MovieTimesList extends Component {
 }
 
 const MovieTimeCard = props => {
-  const { date, cinemas } = props.movieTime;
-  const cinemasMovieTimes = cinemas.map(cinema => <CinemasMovieTimes cinema={cinema} />);
+  const { date, cinemas, movies } = props.movieTime;
+  const MovieTimes = cinemas
+    ? cinemas.map(cinema => <CinemasMovieTimes cinema={cinema} />)
+    : movies
+    ? movies.map(movie => <MovieMovieTimes movie={movie} />)
+    : null;
 
   return (
     <>
@@ -42,7 +37,7 @@ const MovieTimeCard = props => {
             <Col>
               <CardText>{moment(date).format('DD.MM.YYYY')}</CardText>
             </Col>
-            <Col>{cinemasMovieTimes}</Col>
+            <Col>{MovieTimes}</Col>
           </Row>
         </CardBody>
       </Card>
@@ -61,12 +56,12 @@ function sortByPrice(array) {
 const CinemasMovieTimes = props => {
   const { movieTimes, title, cinemaId } = props.cinema;
 
-  const timesBadges = sortByTime(movieTimes).map(movieTime => (
+  const timesBadges = sortByTime([...movieTimes]).map(movieTime => (
     <>
       {' '}
       <Badge id={`movieTime${movieTime.id}`}> {movieTime.time.slice(0, -3)}</Badge>
       <UncontrolledTooltip placement="right" target={`movieTime${movieTime.id}`}>
-        {sortByPrice(movieTime.prices)[0].price}
+        {sortByPrice([...movieTime.prices])[0].price}
       </UncontrolledTooltip>
     </>
   ));
@@ -74,7 +69,30 @@ const CinemasMovieTimes = props => {
   return (
     <Row>
       <Col>
-        <Link to={`/movie-theatres/${cinemaId}`}>{title}</Link>
+        <Link to={`/movie-theaters/${cinemaId}`}>{title}</Link>
+      </Col>
+      <Col>{timesBadges}</Col>
+    </Row>
+  );
+};
+
+const MovieMovieTimes = props => {
+  const { movieTimes, title, movieId } = props.movie;
+
+  const timesBadges = sortByTime([...movieTimes]).map(movieTime => (
+    <>
+      {' '}
+      <Badge id={`movieTime${movieTime.id}`}> {movieTime.time.slice(0, -3)}</Badge>
+      <UncontrolledTooltip placement="right" target={`movieTime${movieTime.id}`}>
+        {sortByPrice([...movieTime.prices])[0].price}
+      </UncontrolledTooltip>
+    </>
+  ));
+
+  return (
+    <Row>
+      <Col>
+        <Link to={`/movies/${movieId}`}>{title}</Link>
       </Col>
       <Col>{timesBadges}</Col>
     </Row>
