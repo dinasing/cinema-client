@@ -2,19 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import {
-  Card,
-  CardText,
-  CardBody,
-  CardTitle,
-  Button,
-  Modal,
-  ModalFooter,
-  ModalHeader,
-  Container,
-} from 'reactstrap';
+import { Button, Modal, ModalFooter, ModalHeader, Container } from 'reactstrap';
 import { getMovieById, getMovieTimes, deleteMovie } from '../actions/movieAction';
-import MovieTimesList from '../components/MovieTimesList';
+import MovieTimesList from '../../movie times/components/MovieTimesList';
 
 class Movie extends Component {
   state = {
@@ -75,13 +65,11 @@ class Movie extends Component {
           src={movie.poster ? movie.poster : 'https://kinoactive.ru/uploads/no-poster.jpg'}
         />
         <br />
-        {movieTimes.length ? (
+        {movieTimes.length ?
           <MovieTimesList movieTimes={movieTimes} />
-        ) : this.props.movies.movieTimesLoading ? (
-          'Loading ...'
-        ) : (
-          'There are no movie times for "' + movie.title + '" right now'
-        )}
+          : this.props.movies.movieTimesLoading ?
+            'Loading ...'
+            : 'There are no movie times for "' + movie.title + '" right now'}
       </Container>
     );
   }
