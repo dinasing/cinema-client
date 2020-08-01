@@ -65,11 +65,16 @@ class Movie extends Component {
           src={movie.poster ? movie.poster : 'https://kinoactive.ru/uploads/no-poster.jpg'}
         />
         <br />
+        <br />
         {movieTimes.length ?
-          <MovieTimesList movieTimes={movieTimes} />
-          : this.props.movies.movieTimesLoading ?
-            'Loading ...'
-            : 'There are no movie times for "' + movie.title + '" right now'}
+          <>
+            <h5>Movie sessions </h5>
+            <MovieTimesList movieTimes={movieTimes} />
+          </>
+          : this.props.movies.movieTimesLoading
+            ? 'Loading ...'
+            : 'There are no movie times for "' + movie.title + '" right now'
+        }
       </Container>
     );
   }
