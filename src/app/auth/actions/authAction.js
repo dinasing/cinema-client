@@ -14,19 +14,13 @@ import {
 export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
   axios
-    .get('/user/profile', tokenConfig(getState))
+    .get('/user/profile', tokenConfig())
     .then(res => {
       if (getState().rootReducer.auth.token)
         dispatch({
           type: USER_LOADED,
           payload: res.data,
         });
-      else {
-        dispatch(returnErrors(err.response.data, err.response.status, 'AUTH_FAIL'));
-        dispatch({
-          type: AUTH_ERROR,
-        });
-      }
     })
     .catch(err => {
       dispatch(returnErrors(err.response.data, err.response.status, 'AUTH_FAIL'));
@@ -43,9 +37,9 @@ export const logout = () => {
   };
 };
 // Setup config/headers and token
-export const tokenConfig = getState => {
+export const tokenConfig = () => {
   // Get token from localstorage
-  const token = getState().rootReducer.auth.token;
+  const token = localStorage.getItem('token');
   // Headers
   const config = {
     headers: {
