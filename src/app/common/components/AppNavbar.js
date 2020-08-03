@@ -4,7 +4,7 @@ import { Navbar, NavbarBrand, Nav, NavItem, Container } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Logout from '../../auth/components/Logout';
-import { loadUser } from '../../auth/actions/authAction';
+import { loadUser, logout } from '../../auth/actions/authAction';
 
 const AuthLinks = () => {
   return (
@@ -42,9 +42,23 @@ class AppNavbar extends Component {
     auth: PropTypes.object.isRequired,
     loadUser: PropTypes.func.isRequired,
   };
+
   componentDidMount() {
     this.props.loadUser();
-  }
+    window.addEventListener('storage', this.handleAuthStatusChange);
+  };
+
+  componentWillUnmount() {
+    window.removeEventListener('storage', this.handleAuthStatusChange);
+  };
+
+  handleAuthStatusChange = (event) => {
+    if (event.key === 'token') {
+      this.props.loadUser();
+      location.reload();
+    }
+  };
+
   render() {
     const { isAuthenticated, user } = this.props.auth;
     return (
@@ -60,8 +74,8 @@ class AppNavbar extends Component {
                 <Logout />
               </NavItem>
             ) : (
-              <GuestLinks />
-            )}
+                <GuestLinks />
+              )}
           </Nav>
         </Container>
       </Navbar>
@@ -73,4 +87,4 @@ const mapStateToProps = state => ({
   auth: state.rootReducer.auth,
 });
 
-export default connect(mapStateToProps, { loadUser })(withRouter(AppNavbar));
+export default connect(mapStateToProps, { loadUser, logout })(withRouter(AppNavbar));
