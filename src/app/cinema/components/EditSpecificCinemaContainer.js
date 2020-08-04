@@ -16,8 +16,8 @@ class EditSpecificCinemaContainer extends Component {
 
   state = {
     editedCinemaInfo: {},
-    msg: null,
-    isChangesSaved: false,
+    message: null,
+    areChangesSaved: false,
   };
 
   handleChange = e => {
@@ -35,18 +35,17 @@ class EditSpecificCinemaContainer extends Component {
 
     this.setState({
       editedCinemaInfo: {},
-      isChangesSaved: true,
+      areChangesSaved: true,
     });
   };
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'EDIT_CINEMA_FAIL') {
-        this.setState({ msg: error.msg || "Changes haven't been saved!", isChangesSaved: false });
-      } else {
-        this.setState({ msg: 'null', isChangesSaved: true });
-      }
+      this.setState({
+        message: error.id === 'EDIT_CINEMA_FAIL' ? "Changes haven't been saved!" : null,
+        areChangesSaved: error.id !== 'EDIT_CINEMA_FAIL',
+      });
     }
   }
 
@@ -58,26 +57,30 @@ class EditSpecificCinemaContainer extends Component {
 
   onDismissSuccessAlert = () => {
     this.setState({
-      isChangesSaved: false,
+      areChangesSaved: false,
     });
   };
 
   onDismissErrorAlert = () => {
     this.setState({
-      msg: false,
+      message: false,
     });
   };
 
   render() {
-    const { isChangesSaved, msg, cinemaToEdit } = this.state;
+    const { areChangesSaved, message, cinemaToEdit } = this.state;
 
     return (
       <>
-        <Alert isOpen={msg} toggle={this.onDismissErrorAlert} color="danger">
-          {msg}
+        <Alert isOpen={message} toggle={this.onDismissErrorAlert} color="danger">
+          {message}
         </Alert>
 
-        <Alert isOpen={isChangesSaved && !msg} toggle={this.onDismissSuccessAlert} color="primary">
+        <Alert
+          isOpen={areChangesSaved && !message}
+          toggle={this.onDismissSuccessAlert}
+          color="primary"
+        >
           Changes saved successfully!
         </Alert>
         <h2>edit movie theater</h2>
@@ -92,10 +95,12 @@ class EditSpecificCinemaContainer extends Component {
     );
   }
 }
+
 const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
   error: state.rootReducer.error,
 });
+
 export default connect(mapStateToProps, { editCinema })(
   withMenu(EditSpecificCinemaContainer, CINEMAS_MENU_ITEMS)
 );

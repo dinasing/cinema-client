@@ -11,8 +11,8 @@ import EditMovieForm from './EditMovieForm';
 class EditMovieContainer extends Component {
   state = {
     editedMovieInfo: {},
-    msg: null,
-    isChangesSaved: false,
+    message: null,
+    areChangesSaved: false,
     movieToEdit: {},
   };
 
@@ -31,18 +31,17 @@ class EditMovieContainer extends Component {
 
     this.setState({
       editedMovieInfo: {},
-      isChangesSaved: true,
+      areChangesSaved: true,
     });
   };
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'EDIT_MOVIE_FAIL') {
-        this.setState({ msg: error.msg || "Changes haven't been saved!", isChangesSaved: false });
-      } else {
-        this.setState({ msg: 'null', isChangesSaved: true });
-      }
+      this.setState({
+        message: error.id === 'EDIT_MOVIE_FAIL' ? "Changes haven't been saved!" : null,
+        areChangesSaved: error.id !== 'EDIT_MOVIE_FAIL',
+      });
     }
   }
 
@@ -54,26 +53,30 @@ class EditMovieContainer extends Component {
 
   onDismissSuccessAlert = () => {
     this.setState({
-      isChangesSaved: false,
+      areChangesSaved: false,
     });
   };
 
   onDismissErrorAlert = () => {
     this.setState({
-      msg: false,
+      message: false,
     });
   };
 
   render() {
-    const { isChangesSaved, msg, movieToEdit } = this.state;
+    const { areChangesSaved, message, movieToEdit } = this.state;
 
     return (
       <>
-        <Alert isOpen={msg} toggle={this.onDismissErrorAlert} color="danger">
-          {this.state.msg}
+        <Alert isOpen={message} toggle={this.onDismissErrorAlert} color="danger">
+          {this.state.message}
         </Alert>
 
-        <Alert isOpen={isChangesSaved && !msg} toggle={this.onDismissSuccessAlert} color="primary">
+        <Alert
+          isOpen={areChangesSaved && !message}
+          toggle={this.onDismissSuccessAlert}
+          color="primary"
+        >
           Changes saved successfully!
         </Alert>
         {movieToEdit ? (

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { addMovie } from '../actions/movieAction';
 import { connect } from 'react-redux';
@@ -8,26 +7,27 @@ import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactst
 class NewMovieForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      title: '',
+      release_date: '',
+      end_date: '',
+      genre: '',
+      description: '',
+      poster: '',
+      language: '',
+      message: null,
+    };
   }
-  state = {
-    title: '',
-    release_date: '',
-    end_date: '',
-    genre: '',
-    description: '',
-    poster: '',
-    language: '',
-    msg: null,
-  };
 
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
     });
   };
+
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ msg: null });
+    this.setState({ message: null });
     const { title, release_date, end_date, genre, description, poster, language } = this.state;
     const newMovie = {
       title,
@@ -44,18 +44,16 @@ class NewMovieForm extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_MOVIES_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      this.setState({
+        message: error.id === 'ADD_MOVIES_FAIL' ? error.message.message : null,
+      });
     }
   }
 
   render() {
     return (
       <Container>
-        {this.state.msg ? <Alert color="warning">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="warning">{this.state.message}</Alert> : null}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <h2>add new movie</h2>
