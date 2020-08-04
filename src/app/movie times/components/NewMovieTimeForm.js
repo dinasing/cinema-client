@@ -17,10 +17,6 @@ class NewMovieTimeForm extends Component {
     }
   }
 
-  createCinemaHallOptions(cinemaHalls, cinemaId) {
-    return cinemaHalls.filter(cinemaHall => cinemaHall.cinemaId == cinemaId);
-  }
-
   createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId) {
     const cinemaHall = cinemaHalls.filter(cinemaHall => cinemaHall.id == cinemaHallId)[0];
     let cinemaHallSeatsTypes = new Set();
@@ -32,8 +28,7 @@ class NewMovieTimeForm extends Component {
   }
 
   render() {
-    const { cinemaHalls, cinemaId, seatsTypes, cinemaHallId } = this.props;
-    const cinemaHallsOptions = this.createCinemaHallOptions(cinemaHalls, cinemaId);
+    const { cinemaHalls, seatsTypes, cinemaHallId } = this.props;
     const seatsTypesOptions = cinemaHallId
       ? this.createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId)
       : [];
@@ -68,7 +63,7 @@ class NewMovieTimeForm extends Component {
               <option value="" selected disabled>
                 select hall
               </option>
-              <Options items={cinemaHallsOptions} />
+              <Options items={cinemaHalls} />
             </Input>
             <Label htmlFor="time">time</Label>
             <Input

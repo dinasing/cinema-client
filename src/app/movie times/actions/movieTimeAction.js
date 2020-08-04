@@ -91,6 +91,21 @@ export const getCinemaHalls = () => dispatch => {
     });
 };
 
+export const getCinemaHallsForCinema = cinemaId => dispatch => {
+  axios
+    .get(`/cinema-hall/cinema/${cinemaId}`)
+    .then(res => {
+      dispatch({
+        type: GET_CINEMA_HALLS_FOR_MOVIE_TIMES,
+        payload: res.data,
+      });
+    })
+    .catch(err => {
+      if (err.res) dispatch(returnErrors(err.response.data, err.response.status));
+      else dispatch(returnErrors(err.message));
+    });
+};
+
 export const getSeatsTypes = () => dispatch => {
   axios
     .get('/seat-type')
@@ -118,6 +133,7 @@ export const getMovieTimeById = id => dispatch => {
     )
     .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 };
+
 export const deleteMovieTime = id => dispatch => {
   axios
     .delete(`/movie-time/${id}`)

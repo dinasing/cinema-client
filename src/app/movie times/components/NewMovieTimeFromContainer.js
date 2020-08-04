@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { addMovieTime, getMovies, getCinemaHalls, getSeatsTypes } from '../actions/movieTimeAction';
+import {
+  addMovieTime,
+  getMovies,
+  getCinemaHallsForCinema,
+  getSeatsTypes,
+} from '../actions/movieTimeAction';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
 import { Container, Alert } from 'reactstrap';
@@ -87,11 +92,12 @@ class MovieTimeFormContainer extends Component {
   };
 
   componentDidMount() {
+    const cinemaId = this.props.match.params.id;
     this.props.getMovies();
-    this.props.getCinemaHalls();
+    this.props.getCinemaHallsForCinema(cinemaId);
     this.props.getSeatsTypes();
     this.setState({
-      cinemaId: this.props.match.params.id,
+      cinemaId,
     });
   }
 
@@ -143,7 +149,7 @@ MovieTimeFormContainer.propTypes = {
   clearErrors: PropTypes.func.isRequired,
   getMovies: PropTypes.func.isRequired,
   getSeatsTypes: PropTypes.func.isRequired,
-  getCinemaHalls: PropTypes.func.isRequired,
+  getCinemaHallsForCinema: PropTypes.func.isRequired,
   movieTime: PropTypes.object,
 };
 const mapStateToProps = state => ({
@@ -155,7 +161,7 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   addMovieTime,
   clearErrors,
-  getCinemaHalls,
+  getCinemaHallsForCinema,
   getMovies,
   getSeatsTypes,
 })(MovieTimeFormContainer);
