@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import rootReducer from './common/reducers/rootReducer';
 

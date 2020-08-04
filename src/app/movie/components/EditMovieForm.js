@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
 
@@ -6,27 +5,28 @@ class EditMovieForm extends Component {
   constructor(props) {
     super(props);
 
-    this.state={title: '',
+    this.state = {
+      title: '',
       release_date: '',
       end_date: '',
       genre: '',
       description: '',
       poster: '',
       language: '',
-    }
+    };
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.movieToEdit.title != prevProps.movieToEdit.title) {
+    if (this.props.movieToEdit.title !== prevProps.movieToEdit.title) {
       this.setState({
         title: this.props.movieToEdit.title,
         release_date: this.props.movieToEdit.release_date,
         end_date: this.props.movieToEdit.end_date,
-        genre : this.props.movieToEdit.genre,
+        genre: this.props.movieToEdit.genre,
         description: this.props.movieToEdit.description,
         poster: this.props.movieToEdit.poster,
         language: this.props.movieToEdit.language,
-      })
+      });
     }
   }
 
@@ -35,17 +35,15 @@ class EditMovieForm extends Component {
       title: this.props.movieToEdit.title,
       release_date: this.props.movieToEdit.release_date,
       end_date: this.props.movieToEdit.end_date,
-      genre : this.props.movieToEdit.genre,
+      genre: this.props.movieToEdit.genre,
       description: this.props.movieToEdit.description,
       poster: this.props.movieToEdit.poster,
       language: this.props.movieToEdit.language,
-    })
+    });
   }
   render() {
-
     return (
       <Container>
-
         <Form onSubmit={this.props.handleSubmit}>
           <FormGroup>
             <Label htmlFor="title">title</Label>
@@ -114,7 +112,6 @@ class EditMovieForm extends Component {
             <Button color="primary">save movie</Button>
           </FormGroup>
         </Form>
-
       </Container>
     );
   }

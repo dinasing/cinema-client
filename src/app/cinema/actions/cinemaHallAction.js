@@ -23,15 +23,15 @@ export const addCinemaHall = ({ title, cinemaId, schema }) => (dispatch, getStat
 
   axios
     .post('/cinema-hall', cinemaHall, tokenConfig(getState))
-    .then(res => {
+    .then(response => {
       dispatch({
         type: ADD_CINEMA_HALL,
-        payload: res.data,
+        payload: response.data,
       });
     })
-    .catch(err => {
-      if (err.response) {
-        dispatch(returnErrors(err.response.data, err.response.status, 'ADD_CINEMA_HALL_FAIL'));
+    .catch(error => {
+      if (error.response) {
+        dispatch(returnErrors(error.response.data, error.response.status, 'ADD_CINEMA_HALL_FAIL'));
       }
       dispatch({
         type: ADD_CINEMA_HALL_FAIL,
@@ -41,20 +41,20 @@ export const addCinemaHall = ({ title, cinemaId, schema }) => (dispatch, getStat
 
 export const getCinemaHalls = () => dispatch => {
   dispatch(setCinemaHallsLoading());
-  axios.get(`/cinema-hall/`).then(res =>
+  axios.get(`/cinema-hall/`).then(response =>
     dispatch({
       type: GET_CINEMA_HALLS,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
 
 export const getCinemaHallById = id => dispatch => {
   dispatch(setCinemaHallsLoading());
-  axios.get(`/cinema-hall/${id}`).then(res =>
+  axios.get(`/cinema-hall/${id}`).then(response =>
     dispatch({
       type: GET_CINEMA_HALL,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
@@ -68,8 +68,8 @@ export const editCinema = cinemaHall => (dispatch, getState) => {
         payload: cinemaHall,
       });
     })
-    .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status, 'EDIT_CINEMA_HALL_FAIL'));
+    .catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status, 'EDIT_CINEMA_HALL_FAIL'));
       dispatch({
         type: EDIT_CINEMA_HALL_FAIL,
       });
@@ -85,8 +85,8 @@ export const deleteCinemaHall = id => (dispatch, getState) => {
         payload: id,
       });
     })
-    .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status, 'DELETE_CINEMA_HALL_FAIL'));
+    .catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status, 'DELETE_CINEMA_HALL_FAIL'));
       dispatch({
         type: DELETE_CINEMA_HALL_FAIL,
       });

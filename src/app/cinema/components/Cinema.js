@@ -14,8 +14,10 @@ class MovieTheater extends Component {
     this.props.getMovieTimes(this.props.match.params.id);
     this.props.getCinemaHalls();
   }
+
   render() {
     const { cinema, movieTimes } = this.props.cinemas;
+
     return (
       <>
         <h2>
@@ -58,9 +60,11 @@ MovieTheater.propTypes = {
   getCinemaHalls: PropTypes.func.isRequired,
   cinemas: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
 });
+
 export default connect(mapStateToProps, { getCinemaById, getMovieTimes, getCinemaHalls })(
   withMenu(MovieTheater, CINEMAS_MENU_ITEMS)
 );

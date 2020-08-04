@@ -1,26 +1,35 @@
-/* eslint-disable */
 import React, { Component } from 'react';
-import { register } from '../actions/authAction';
 import { connect } from 'react-redux';
-import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
+import { clearErrors } from '../../common/actions/errorAction';
+import { register } from '../actions/authAction';
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+    };
   }
-  state = {
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-  };
+
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      this.setState({
+        message: error.id === 'REGISTER_FAIL' ? error.message.message : null,
+      });
+    }
+  }
 
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
     });
   };
+
   handleSubmit = e => {
     e.preventDefault();
 
@@ -29,21 +38,10 @@ class SignUp extends Component {
     this.props.register(newUser);
   };
 
-  componentDidUpdate(prevProps) {
-    const { error } = this.props;
-    if (error !== prevProps.error) {
-      if (error.id === 'REGISTER_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
-    }
-  }
-
   render() {
     return (
       <Container>
-        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="danger">{this.state.message}</Alert> : null}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <h1>sign up</h1>

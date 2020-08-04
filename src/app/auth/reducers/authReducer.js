@@ -38,7 +38,6 @@ export default function(state = initialState, action) {
         isAuthenticated: true,
         isLoading: false,
       };
-
     case REGISTER_SUCCESS:
       return {
         ...state,

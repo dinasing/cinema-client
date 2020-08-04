@@ -16,7 +16,7 @@ export default class EditCinema extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.cinemaToEdit.title != prevProps.cinemaToEdit.title) {
+    if (this.props.cinemaToEdit.title !== prevProps.cinemaToEdit.title) {
       this.setState({
         title: this.props.cinemaToEdit.title,
         city: this.props.cinemaToEdit.city,

@@ -1,14 +1,7 @@
-/* eslint-disable */
 import React, { Component } from 'react';
-import { addMovie } from '../actions/movieAction';
-import { connect } from 'react-redux';
-import { clearErrors } from '../../common/actions/errorAction';
 import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
-import { MOVIES_MENU_ITEMS } from '../../menu/menuItemsConstants';
-import { withMenu } from '../../menu/withMenu';
 
 class MovieForm extends Component {
-
   render() {
     return (
       <Container>
