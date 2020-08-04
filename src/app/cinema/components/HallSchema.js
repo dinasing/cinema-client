@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Badge, UncontrolledTooltip } from 'reactstrap';
 
 export default class HallSchema extends Component {

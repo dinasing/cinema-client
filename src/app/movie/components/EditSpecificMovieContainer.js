@@ -101,6 +101,7 @@ const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
   error: state.rootReducer.error,
 });
+
 export default connect(mapStateToProps, { editMovie })(
   withMenu(EditMovieContainer, MOVIES_MENU_ITEMS)
 );

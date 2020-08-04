@@ -33,7 +33,7 @@ class MovieTheater extends Component {
         <p>
           {cinema.city}, {cinema.address}
         </p>
-        {movieTimes[0]
+        {movieTimes.length
           ? movieTimes.map(movieTime => {
               return (
                 <div key={movieTime.id}>

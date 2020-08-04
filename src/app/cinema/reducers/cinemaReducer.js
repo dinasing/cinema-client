@@ -18,7 +18,7 @@ const initialState = {
   movieTimes: [],
   loading: false,
   movieTimesLoading: false,
-  sitsTypes: [],
+  seatsTypes: [],
 };
 
 export default function(state = initialState, action) {

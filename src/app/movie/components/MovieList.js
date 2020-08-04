@@ -45,6 +45,7 @@ export const MovieCard = props => {
 
 export const MovieCardWithDeleteButton = props => {
   const { poster, id, title, release_date, end_date } = props.movie;
+
   return (
     <Card>
       <CardImg

@@ -6,4 +6,5 @@ class DeleteMovieContainer extends Component {
     return <MovieList CardComponent={MovieCardWithDeleteButton} />;
   }
 }
+
 export default DeleteMovieContainer;

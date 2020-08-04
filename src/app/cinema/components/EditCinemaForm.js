@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
-import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
+import { Button, Input, Label, FormGroup, Form } from 'reactstrap';
 
 export default class EditCinema extends Component {
   constructor(props) {
