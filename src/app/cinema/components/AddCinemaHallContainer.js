@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withMenu } from '../../menu/withMenu';
 import { addCinemaHall } from '../actions/cinemaHallAction';
 import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
-import { getSitTypes } from '../../sitType/actions/sitTypeAction';
+import { getSeatTypes } from '../../seatType/actions/seatTypeAction';
 import NewHallFormForExistingCinema from './NewHallFormForExistingCinema';
 
 class AddCinemaHallContainer extends Component {
@@ -12,12 +12,12 @@ class AddCinemaHallContainer extends Component {
     super(props);
     this.state = {
       title: '',
-      schema: [{ numberOfSits: '', sitsType: '' }],
+      schema: [{ numberOfSeats: '', seatsType: '' }],
     };
   }
 
   componentDidMount() {
-    this.props.getSitTypes();
+    this.props.getSeatTypes();
   }
 
   handleTitleChange = e => {
@@ -29,7 +29,7 @@ class AddCinemaHallContainer extends Component {
   handleAddRow = () => {
     const { schema } = this.state;
     this.setState({
-      schema: schema.concat([{ numberOfSits: '', sitsType: '' }]),
+      schema: schema.concat([{ numberOfSeats: '', seatsType: '' }]),
     });
   };
 
@@ -40,23 +40,21 @@ class AddCinemaHallContainer extends Component {
     });
   };
 
-  handleNumberOfSitsChange = stateRowIndex => e => {
+  handleNumberOfSeatsChange = stateRowIndex => e => {
     const { schema } = this.state;
-    const newSchema = schema.map((row, rowIndex) => {
-      if (stateRowIndex !== rowIndex) return row;
-      return { ...row, numberOfSits: e.target.value };
-    });
+    const newSchema = schema.map((row, rowIndex) =>
+      stateRowIndex !== rowIndex ? row : { ...row, numberOfSeats: e.target.value }
+    );
     this.setState({
       schema: newSchema,
     });
   };
 
-  handleSitsTypeChange = stateRowIndex => e => {
+  handleSeatsTypeChange = stateRowIndex => e => {
     const { schema } = this.state;
-    const newSchema = schema.map((row, rowIndex) => {
-      if (stateRowIndex !== rowIndex) return row;
-      return { ...row, sitsType: e.target.value };
-    });
+    const newSchema = schema.map((row, rowIndex) =>
+      stateRowIndex !== rowIndex ? row : { ...row, seatsType: e.target.value }
+    );
     this.setState({
       schema: newSchema,
     });
@@ -77,18 +75,19 @@ class AddCinemaHallContainer extends Component {
 
   render() {
     const { schema } = this.state;
-    const { sitsTypes } = this.props;
+    const { seatsTypes } = this.props;
+
     return (
       <>
         <h3>add hall</h3>
         <NewHallFormForExistingCinema
-          sitsTypes={sitsTypes}
+          seatsTypes={seatsTypes}
           schema={schema}
           handleAddRow={this.handleAddRow}
           handleTitleChange={this.handleTitleChange}
           handleRemoveRow={this.handleRemoveRow}
-          handleNumberOfSitsChange={this.handleNumberOfSitsChange}
-          handleSitsTypeChange={this.handleSitsTypeChange}
+          handleNumberOfSeatsChange={this.handleNumberOfSeatsChange}
+          handleSeatsTypeChange={this.handleSeatsTypeChange}
           handleSubmit={this.handleSubmit}
         />
       </>
@@ -98,13 +97,13 @@ class AddCinemaHallContainer extends Component {
 
 AddCinemaHallContainer.propTypes = {
   addCinemaHall: PropTypes.func.isRequired,
-  getSitTypes: PropTypes.func.isRequired,
+  getSeatTypes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   error: state.rootReducer.error,
-  sitsTypes: state.rootReducer.sitType.sitsTypes,
+  seatsTypes: state.rootReducer.seatType.seatsTypes,
 });
-export default connect(mapStateToProps, { addCinemaHall, getSitTypes })(
+export default connect(mapStateToProps, { addCinemaHall, getSeatTypes })(
   withMenu(AddCinemaHallContainer, CINEMAS_MENU_ITEMS)
 );
