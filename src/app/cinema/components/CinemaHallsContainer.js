@@ -13,10 +13,12 @@ class CinemaHallContainer extends Component {
   }
 
   render() {
-    let { cinemaHalls } = this.props.cinemaHalls;
-    const { seatTypes } = this.props.seatsTypes;
-    const cinemaId = this.props.match.params.id;
-    cinemaHalls = cinemaHalls.filter(hall => this.props.match.params.id == hall.cinemaId);
+
+    const { cinemaHalls: allCinemaHalls } = this.props.cinemaHalls;
+    const { seatsTypes } = this.props.seatsTypes;
+    const cinemaHalls = allCinemaHalls.filter(
+      hall => +this.props.match.params.id === hall.cinemaId
+    );
     const cinemaHallsComponent = cinemaHalls.map(hall => {
       return (
         <>
@@ -25,7 +27,7 @@ class CinemaHallContainer extends Component {
           <p>
             seats types:{' '}
             <p>
-              {seatTypes.map(seatsType => (
+              {seatsTypes.map(seatsType => (
                 <>
                   {seatsType.id} - {seatsType.title}{' '}
                 </>
@@ -35,6 +37,7 @@ class CinemaHallContainer extends Component {
         </>
       );
     });
+
     return (
       <>
         <h3>
@@ -54,10 +57,12 @@ CinemaHallContainer.propTypes = {
   seatsTypes: PropTypes.object.isRequired,
   getSeatTypes: PropTypes.func.isRequired,
 };
+
 const mapStateToProps = state => ({
   cinemaHalls: state.rootReducer.cinemaHall,
   seatsTypes: state.rootReducer.seatType,
 });
+
 export default connect(mapStateToProps, { getSeatTypes })(
   withMenu(CinemaHallContainer, CINEMAS_MENU_ITEMS)
 );

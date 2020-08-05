@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 
 export default class DeleteCinema extends Component {
   render() {
-    let { cinemas } = this.props.cinemas;
+    const { cinemas, loading } = this.props.cinemas;
 
     return (
       <>
-        {this.props.cinemas.loading ? (
+        {loading ? (
           <p>Loading cinemas ...</p>
         ) : (
           <CinemaListWithDelete cinemas={cinemas} deleteCinema={this.props.deleteCinema} />

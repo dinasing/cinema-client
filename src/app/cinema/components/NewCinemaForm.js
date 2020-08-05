@@ -11,6 +11,7 @@ import { getSeatTypes } from '../../seatType/actions/seatTypeAction';
 class NewCinemaForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       title: '',
       city: '',
@@ -20,40 +21,48 @@ class NewCinemaForm extends Component {
       cinemaHalls: [{ title: '', schema: [{ numberOfSeats: '', seatsType: '' }] }],
     };
   }
+
   componentDidMount() {
     this.props.getSeatTypes();
   }
 
   handleCinemaHallTitleChange = stateIndex => e => {
-    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, index) => {
-      if (stateIndex !== index) return cinemaHall;
-      return { ...cinemaHall, title: e.target.value };
-    });
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, index) =>
+      stateIndex !== index ? cinemaHall : { ...cinemaHall, title: e.target.value }
+    );
 
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
   handleNumberOfSeatsChange = (stateCinemaHallIndex, stateRowIndex) => e => {
-    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
-      if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
-      const newSchema = cinemaHall.schema.map((row, rowIndex) => {
-        if (stateRowIndex !== rowIndex) return row;
-        return { ...row, numberOfSeats: e.target.value };
-      });
-      return { ...cinemaHall, schema: newSchema };
-    });
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) =>
+      stateCinemaHallIndex !== cinemaHallIndex
+        ? cinemaHall
+        : {
+            ...cinemaHall,
+            schema: cinemaHall.schema.map((row, rowIndex) => {
+              row = stateRowIndex !== rowIndex ? row : { ...row, numberOfSeats: e.target.value };
+
+              return row;
+            }),
+          }
+    );
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
   handleSeatsTypeChange = (stateCinemaHallIndex, stateRowIndex) => e => {
-    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
-      if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
-      const newSchema = cinemaHall.schema.map((row, rowIndex) => {
-        if (stateRowIndex !== rowIndex) return row;
-        return { ...row, seatsType: e.target.value };
-      });
-      return { ...cinemaHall, schema: newSchema };
-    });
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) =>
+      stateCinemaHallIndex !== cinemaHallIndex
+        ? cinemaHall
+        : {
+            ...cinemaHall,
+            schema: cinemaHall.schema.map((row, rowIndex) => {
+              row = stateRowIndex !== rowIndex ? row : { ...row, numberOfSeats: e.target.value };
+
+              return row;
+            }),
+          }
+    );
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
@@ -62,6 +71,7 @@ class NewCinemaForm extends Component {
       cinemaHalls: this.state.cinemaHalls.filter((cinema, index) => index !== stateIndex),
     });
   };
+
   handleAddCinemaHall = () => {
     this.setState({
       cinemaHalls: this.state.cinemaHalls.concat([
@@ -69,12 +79,16 @@ class NewCinemaForm extends Component {
       ]),
     });
   };
+
   handleAddRow = stateCinemaHallIndex => () => {
-    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
-      if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
-      const newSchema = cinemaHall.schema.concat([{ numberOfSeats: '', seatsType: '' }]);
-      return { ...cinemaHall, schema: newSchema };
-    });
+    const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) =>
+      stateCinemaHallIndex !== cinemaHallIndex
+        ? cinemaHall
+        : {
+            ...cinemaHall,
+            schema: cinemaHall.schema.concat([{ numberOfSeats: '', seatsType: '' }]),
+          }
+    );
     this.setState({ cinemaHalls: newCinemaHalls });
   };
 
@@ -82,15 +96,18 @@ class NewCinemaForm extends Component {
     const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
       if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
       const newSchema = cinemaHall.schema.filter((row, rowIndex) => stateRowIndex !== rowIndex);
+
       return { ...cinemaHall, schema: newSchema };
     });
     this.setState({ cinemaHalls: newCinemaHalls });
   };
+
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
     });
   };
+
   handleSubmit = e => {
     e.preventDefault();
 
@@ -109,17 +126,14 @@ class NewCinemaForm extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_CINEMA_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      this.setState({ message: error.id === 'ADD_CINEMA_FAIL' ? error.message.message : null });
     }
   }
+
   render() {
     return (
       <Container>
-        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="danger">{this.state.message}</Alert> : null}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <h2>add new movie theater</h2>
@@ -196,7 +210,7 @@ class NewCinemaForm extends Component {
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,
-  seatsTypes: state.rootReducer.seatType.seatTypes,
+  seatsTypes: state.rootReducer.seatType.seatsTypes,
 });
 
 export default connect(mapStateToProps, { addCinema, clearErrors, getSeatTypes })(

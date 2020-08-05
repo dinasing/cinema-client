@@ -58,7 +58,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         movies: state.movies.map(movie => {
-          if (movie.id == action.payload.id)
+          if (+movie.id === +action.payload.id)
             for (const key in action.payload) {
               movie[key] = action.payload[key];
             }
@@ -69,7 +69,6 @@ export default function(state = initialState, action) {
       return { ...state, movieTimesLoading: true };
     case MOVIES_LOADING:
       return { ...state, loading: true };
-
     case ADD_MOVIES:
       state.movies.unshift(action.payload);
       return { ...state };

@@ -11,6 +11,7 @@ import {
   ADD_MOVIES,
   ADD_MOVIES_FAIL,
   EDIT_MOVIE_FAIL,
+  LOGIN_FAIL,
 } from '../../common/actions/types';
 import { returnErrors, clearErrors } from '../../common/actions/errorAction';
 import { tokenConfig } from '../../auth/actions/authAction';
@@ -36,15 +37,15 @@ export const addMovie = ({
 
   axios
     .post('/movie', body, tokenConfig(getState))
-    .then(res => {
+    .then(response => {
       dispatch({
         type: ADD_MOVIES,
-        payload: res.data,
+        payload: response.data,
       });
     })
-    .catch(err => {
-      if (err.response) {
-        dispatch(returnErrors(err.response.data, err.response.status, 'ADD_MOVIES_FAIL'));
+    .catch(error => {
+      if (error.response) {
+        dispatch(returnErrors(error.response.data, error.response.status, 'ADD_MOVIES_FAIL'));
       }
       dispatch({
         type: ADD_MOVIES_FAIL,
@@ -54,20 +55,20 @@ export const addMovie = ({
 
 export const getMovies = () => dispatch => {
   dispatch(setMoviesLoading());
-  axios.get('/movie').then(res =>
+  axios.get('/movie').then(response =>
     dispatch({
       type: GET_MOVIES,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
 
 export const getMovieById = id => dispatch => {
   dispatch(setMoviesLoading());
-  axios.get('/movie/' + id).then(res =>
+  axios.get('/movie/' + id).then(response =>
     dispatch({
       type: GET_MOVIE,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
@@ -75,10 +76,10 @@ export const getMovieTimes = id => dispatch => {
   dispatch(setMoviesToInitialState());
   dispatch(setMoviesTimesLoading());
 
-  axios.get('/movie/' + id + '/movie-time/').then(res =>
+  axios.get('/movie/' + id + '/movie-time/').then(response =>
     dispatch({
       type: GET_MOVIE_TIMES,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
@@ -91,7 +92,7 @@ export const deleteMovie = id => (dispatch, getState) => {
         payload: id,
       });
     })
-    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+    .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
 };
 
 export const editMovie = movie => (dispatch, getState) => {
@@ -103,8 +104,9 @@ export const editMovie = movie => (dispatch, getState) => {
         payload: movie,
       });
     })
-    .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status, 'EDIT_MOVIE_FAIL'));
+    .catch(error => {
+      console.log(error);
+      dispatch(returnErrors(error.response.data, error.response.status, 'EDIT_MOVIE_FAIL'));
       dispatch({
         type: EDIT_MOVIE_FAIL,
       });

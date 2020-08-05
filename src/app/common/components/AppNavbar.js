@@ -45,11 +45,14 @@ class AppNavbar extends Component {
     auth: PropTypes.object.isRequired,
     loadUser: PropTypes.func.isRequired,
   };
+
   componentDidMount() {
     this.props.loadUser();
   }
+
   render() {
     const { isAuthenticated, user } = this.props.auth;
+
     return (
       <Navbar fixed color="light" light expand="sm" className="mb-5">
         <Container>

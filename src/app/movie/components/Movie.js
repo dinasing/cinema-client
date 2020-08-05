@@ -13,6 +13,7 @@ class Movie extends Component {
     this.props.getMovieById(this.props.match.params.movie_id);
     this.props.getMovieTimes(this.props.match.params.movie_id);
   }
+
   render() {
     const { movie, movieTimes } = this.props.movies;
 
@@ -62,9 +63,11 @@ Movie.propTypes = {
   getMovieTimes: PropTypes.func.isRequired,
   movies: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
 });
+
 export default connect(mapStateToProps, { getMovieById, getMovieTimes })(
   withMenu(Movie, MOVIES_MENU_ITEMS)
 );

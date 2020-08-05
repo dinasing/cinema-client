@@ -11,8 +11,10 @@ export class MovieTheaters extends Component {
   componentDidMount() {
     this.props.getCinemas();
   }
+
   render() {
     const { cinemas } = this.props.cinemas;
+
     return (
       <>
         <h2>movie theaters</h2>
@@ -49,14 +51,17 @@ export class MovieTheaters extends Component {
     );
   }
 }
+
 MovieTheaters.propTypes = {
   getCinemas: PropTypes.func.isRequired,
   cinemas: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
   seatsTypes: state.rootReducer.seatType.seatsTypes,
 });
+
 export default connect(mapStateToProps, { getCinemas })(
   withMenu(MovieTheaters, CINEMAS_MENU_ITEMS)
 );

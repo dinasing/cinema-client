@@ -25,6 +25,7 @@ import AddCinemaHallContainer from '../../cinema/components/AddCinemaHallContain
 class Routes extends Component {
   render() {
     const { isAuthenticated } = this.props.auth;
+
     return (
       <Switch>
         <Route

@@ -1,23 +1,22 @@
-'use strict';
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
 
 class NewSeatTypeForm extends Component {
-  state = {
-    cinemas: [],
-    title: '',
-    numberOfPeople: '',
-    msg: null,
-  };
+  constructor(props) {
+    super(props);
+
+    state = {
+      cinemas: [],
+      title: '',
+      numberOfPeople: '',
+      message: null,
+    };
+  }
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_SEAT_TYPE_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      this.setState({ message: error.id === 'ADD_SEAT_TYPE_FAIL' ? error.message.message : null });
     }
   }
 
@@ -52,4 +51,5 @@ class NewSeatTypeForm extends Component {
     );
   }
 }
+
 export default NewSeatTypeForm;

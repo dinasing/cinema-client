@@ -18,15 +18,15 @@ export const addSeatType = ({ title, numberOfPeople }) => dispatch => {
 
   axios
     .post('/seat-type', body)
-    .then(res => {
+    .then(response => {
       dispatch({
         type: ADD_SEAT_TYPE,
-        payload: res.data,
+        payload: response.data,
       });
     })
-    .catch(err => {
-      if (err.response) {
-        dispatch(returnErrors(err.response.data, err.response.status, 'ADD_SEAT_TYPE_FAIL'));
+    .catch(error => {
+      if (error.response) {
+        dispatch(returnErrors(error.response.data, error.response.status, 'ADD_SEAT_TYPE_FAIL'));
       }
       dispatch({
         type: ADD_SEAT_TYPE_FAIL,
@@ -36,23 +36,25 @@ export const addSeatType = ({ title, numberOfPeople }) => dispatch => {
 
 export const getSeatTypes = () => dispatch => {
   dispatch(setSeatTypeLoading());
-  axios.get('/seat-type').then(res =>
+  axios.get('/seat-type').then(response =>
     dispatch({
       type: GET_SEAT_TYPES,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
 
 export const getSeatTypeById = id => dispatch => {
   dispatch(setSeatTypeLoading());
-  axios.get('/seat-type/' + id).then(res =>
+
+  axios.get('/seat-type/' + id).then(response =>
     dispatch({
       type: GET_SEAT_TYPE,
-      payload: res.data,
+      payload: response.data,
     })
   );
 };
+
 export const deleteSeatType = id => dispatch => {
   axios
     .delete(`/seat-type/${id}`)
@@ -62,7 +64,7 @@ export const deleteSeatType = id => dispatch => {
         payload: id,
       });
     })
-    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+    .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
 };
 
 export const editSeatType = seatType => dispatch => {
@@ -74,7 +76,7 @@ export const editSeatType = seatType => dispatch => {
         payload: seatType,
       });
     })
-    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+  .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
 };
 
 export const setSeatTypeLoading = () => {

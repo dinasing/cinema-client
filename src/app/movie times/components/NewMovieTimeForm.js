@@ -1,43 +1,25 @@
-/* eslint-disable */
-'use strict';
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
 import { Options } from '../../common/components/Options';
 
 class NewMovieTimeForm extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_MOVIE_TIME_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      this.setState({
+        message: error.id === 'ADD_MOVIE_TIME_FAIL' ? error.message.message : null,
+      });
     }
   }
 
   createCinemaHallOptions(cinemaHalls, cinemaId) {
-    return cinemaHalls.filter(cinemaHall => cinemaHall.cinemaId == cinemaId);
-  }
-
-  createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId) {
-    const cinemaHall = cinemaHalls.filter(cinemaHall => cinemaHall.id == cinemaHallId)[0];
-    let cinemaHallSeatsTypes = new Set();
-    for (const row of cinemaHall.schema) {
-      cinemaHallSeatsTypes.add(Number(row.seatsType));
-    }
-
-    return seatsTypes.filter(seatsType => cinemaHallSeatsTypes.has(seatsType.id));
+    return cinemaHalls.filter(cinemaHall => cinemaHall.cinemaId === cinemaId);
   }
 
   render() {
     const cinemaHalls = this.createCinemaHallOptions(this.props.cinemaHalls, this.props.cinemaId);
     const seatsTypes = this.props.cinemaHallId
-      ? this.createSeatsTypesOptions(
+      ? this.props.createSeatsTypesOptions(
           this.props.seatsTypes,
           this.props.cinemaHalls,
           this.props.cinemaHallId
@@ -128,4 +110,5 @@ class NewMovieTimeForm extends Component {
     );
   }
 }
+
 export default NewMovieTimeForm;

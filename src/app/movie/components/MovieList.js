@@ -9,7 +9,6 @@ import {
   CardBody,
   CardTitle,
   Button,
-  FormGroup,
   Container,
   Row,
   CardFooter,
@@ -21,6 +20,7 @@ import { MOVIES_MENU_ITEMS } from '../../menu/menuItemsConstants';
 
 export const MovieCard = props => {
   const { poster, id, title, release_date, end_date } = props.movie;
+
   return (
     <Card>
       <CardImg
@@ -45,6 +45,7 @@ export const MovieCard = props => {
 
 export const MovieCardWithDeleteButton = props => {
   const { poster, id, title, release_date, end_date } = props.movie;
+
   return (
     <Card>
       <CardImg
@@ -93,8 +94,10 @@ export class MovieList extends Component {
       );
     });
   }
+
   render() {
     const CardComponent = this.props.CardComponent || MovieCard;
+
     return (
       <>
         <h2>Movies</h2>
@@ -113,11 +116,13 @@ export class MovieList extends Component {
     );
   }
 }
+
 MovieList.propTypes = {
   getMovies: PropTypes.func.isRequired,
   deleteMovie: PropTypes.func.isRequired,
   movies: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
 });

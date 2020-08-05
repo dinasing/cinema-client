@@ -9,12 +9,12 @@ export default class NewHallFormForExistingCinema extends Component {
       <Form onSubmit={this.props.handleSubmit}>
         <Row xs="2">
           <Col>
-            <Label htmlFor={'hallTitle'}>hall title</Label>
+            <Label htmlFor="hallTitle">hall title</Label>
             <Input
               required
               className="mb-3"
               type="text"
-              id={'hallTitle'}
+              id="hallTitle"
               onChange={this.props.handleTitleChange}
             />
           </Col>

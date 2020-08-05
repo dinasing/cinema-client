@@ -1,5 +1,3 @@
-/* eslint-disable */
-'use strict';
 import React, { Component } from 'react';
 import {
   addMovieTime,
@@ -17,17 +15,18 @@ import NewMovieTimeForm from './NewMovieTimeForm';
 class MovieTimeFormContainer extends Component {
   constructor(props) {
     super(props);
+    
+    this.state = {
+      cinemaId: '',
+      movieId: '',
+      cinemaHallId: '',
+      time: '',
+      date: '',
+      seatsTypes: '',
+      prices: [],
+      message: null,
+    };
   }
-  state = {
-    cinemaId: '',
-    movieId: '',
-    cinemaHallId: '',
-    time: '',
-    date: '',
-    seatsTypes: '',
-    prices: [],
-    msg: null,
-  };
 
   handleChange = e => {
     this.setState({
@@ -36,20 +35,29 @@ class MovieTimeFormContainer extends Component {
   };
 
   handleCinemaHallIdChange = e => {
-    this.setState({ cinemaHallId: e.target.value });
-    let { cinemaHalls, seatsTypes } = this.props.movieTime;
-    const seatsTypesOptions = this.createSeatsTypesOptions(seatsTypes, cinemaHalls, e.target.value);
-    this.setState({ seatsTypes: seatsTypesOptions });
-    let newPrices = [];
-    for (const seatsType of seatsTypesOptions) {
-      newPrices.push({ seatsTypeId: seatsType.id, amountOfMoney: 0 });
-    }
-    this.setState({ prices: newPrices });
+    const { cinemaHalls, seatsTypes } = this.props.movieTime;
+    const seatsTypesOptions = this.createSeatsTypesOptions(
+      seatsTypes,
+      cinemaHalls,
+      +e.target.value
+    );
+    const newPrices = seatsTypesOptions.map(seatsType => ({
+      seatsTypeId: seatsType.id,
+      amountOfMoney: 0,
+    }));
+
+    this.setState({
+      prices: newPrices,
+      cinemaHallId: Number(e.target.value),
+      seatsTypes: seatsTypesOptions,
+    });
   };
 
   handleSeatsTypePriceChange = id => e => {
     const newPrices = this.state.prices.map(price => {
-      if (id !== price.seatsTypeId) return price;
+      if (id !== price.seatsTypeId) {
+        return price;
+      }
       return { ...price, amountOfMoney: e.target.value };
     });
     this.setState({
@@ -58,18 +66,15 @@ class MovieTimeFormContainer extends Component {
   };
 
   createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId) {
-    const cinemaHall = cinemaHalls.filter(cinemaHall => cinemaHall.id == cinemaHallId)[0];
-    let cinemaHallSeatsTypes = new Set();
-    for (const row of cinemaHall.schema) {
-      cinemaHallSeatsTypes.add(Number(row.seatsType));
-    }
-
+    const cinemaHall = cinemaHalls.find(cinemaHall => cinemaHall.id === cinemaHallId);
+    const cinemaHallSeatsTypes = new Set(cinemaHall.schema.map(row => Number(row.seatsType)));
+    
     return seatsTypes.filter(seatsType => cinemaHallSeatsTypes.has(seatsType.id));
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ msg: null });
+    this.setState({ message: null });
     const { date, time, cinemaHallId, cinemaId, movieId, prices } = this.state;
     const newMovieTime = {
       date,
@@ -92,19 +97,18 @@ class MovieTimeFormContainer extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_SIT_TYPE_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      this.setState({
+        message: error.id === 'ADD_SIT_TYPE_FAIL' ? error.message.message : null,
+      });
     }
   }
 
   render() {
     let { movies, cinemas, cinemaHalls, seatsTypes } = this.props.movieTime;
+
     return (
       <Container>
-        {this.state.msg ? <Alert color="warning">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="warning">{this.state.message}</Alert> : null}
 
         <NewMovieTimeForm
           handleChange={this.handleChange}
@@ -118,11 +122,13 @@ class MovieTimeFormContainer extends Component {
           seatsTypes={seatsTypes}
           handleCinemaHallIdChange={this.handleCinemaHallIdChange}
           handleSeatsTypePriceChange={this.handleSeatsTypePriceChange}
+          createSeatsTypesOptions={this.createSeatsTypesOptions}
         />
       </Container>
     );
   }
 }
+
 MovieTimeFormContainer.propTypes = {
   addMovieTime: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
@@ -132,6 +138,7 @@ MovieTimeFormContainer.propTypes = {
   getCinemaHalls: PropTypes.func.isRequired,
   movieTime: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,

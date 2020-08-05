@@ -13,9 +13,10 @@ class EditMovieContainer extends Component {
   state = {
     movieToEditId: '',
     editedMovieInfo: {},
-    msg: null,
-    isChangesSaved: false,
+    message: null,
+    areChangesSaved: false,
   };
+
   handleIdChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
@@ -38,45 +39,48 @@ class EditMovieContainer extends Component {
 
     this.setState({
       editedMovieInfo: {},
-      isChangesSaved: true,
+      areChangesSaved: true,
     });
   };
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'EDIT_MOVIE_FAIL') {
-        this.setState({ msg: error.msg || "Changes haven't been saved!", isChangesSaved: false });
-      } else {
-        this.setState({ msg: 'null', isChangesSaved: true });
-      }
+      this.setState({
+        message: error.id === 'EDIT_MOVIE_FAIL' ? "Changes haven't been saved!" : null,
+        areChangesSaved: error.id !== 'EDIT_MOVIE_FAIL',
+      });
     }
   }
 
   onDismissSuccessAlert = () => {
     this.setState({
-      isChangesSaved: false,
+      areChangesSaved: false,
     });
   };
 
   onDismissErrorAlert = () => {
     this.setState({
-      msg: false,
+      message: false,
     });
   };
 
   render() {
     const { movies } = this.props.movies;
-    const { movieToEditId, isChangesSaved, msg } = this.state;
-    const movieToEdit = movies.filter(movie => movieToEditId == movie.id)[0];
+    const { movieToEditId, areChangesSaved, message } = this.state;
+    const movieToEdit = movies.find(movie => +movieToEditId === +movie.id);
 
     return (
       <>
-        <Alert isOpen={msg} toggle={this.onDismissErrorAlert} color="danger">
-          {this.state.msg}
+        <Alert isOpen={message} toggle={this.onDismissErrorAlert} color="danger">
+          {this.state.message}
         </Alert>
 
-        <Alert isOpen={isChangesSaved && !msg} toggle={this.onDismissSuccessAlert} color="primary">
+        <Alert
+          isOpen={areChangesSaved && !message}
+          toggle={this.onDismissSuccessAlert}
+          color="primary"
+        >
           Changes saved successfully!
         </Alert>
         <Input
@@ -110,9 +114,9 @@ EditMovieContainer.propTypes = {
 
 const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
-
   error: state.rootReducer.error,
 });
+
 export default connect(mapStateToProps, { editMovie })(
   withMenu(EditMovieContainer, MOVIES_MENU_ITEMS)
 );

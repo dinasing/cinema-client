@@ -8,7 +8,7 @@ import {
 } from '../../common/actions/types';
 
 const initialState = {
-  seatTypes: [],
+  seatsTypes: [],
   seatType: {},
   loading: false,
   cinemasLoading: false,
@@ -19,7 +19,7 @@ export default function(state = initialState, action) {
     case GET_SEAT_TYPES:
       return {
         ...state,
-        seatTypes: action.payload,
+        seatsTypes: action.payload,
         loading: false,
       };
     case GET_SEAT_TYPE:
@@ -31,20 +31,18 @@ export default function(state = initialState, action) {
     case DELETE_SEAT_TYPE:
       return {
         ...state,
-        seatTypes: state.seatTypes.filter(seatType => seatType.id !== action.payload),
+        seatsTypes: state.seatsTypes.filter(seatType => seatType.id !== action.payload),
       };
-
     case EDIT_SEAT_TYPE:
       return {
         ...state,
-        seatTypes: state.seatTypes.map(seatType => {
-          return seatType.id == action.payload.id ? action.payload : seatType;
+        seatsTypes: state.seatsTypes.map(seatType => {
+          return +seatType.id === +action.payload.id ? action.payload : seatType;
         }),
       };
     case ADD_SEAT_TYPE:
-      state.seatTypes.unshift(action.payload);
+      state.seatsTypes.unshift(action.payload);
       return { ...state };
-
     case ADD_SEAT_TYPE_FAIL:
     default:
       return state;

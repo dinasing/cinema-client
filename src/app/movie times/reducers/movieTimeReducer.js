@@ -21,7 +21,7 @@ const initialState = {
   cinemaHalls: [],
   seatsTypes: [],
   cinemasLoading: false,
-  msg: null,
+  message: null,
 };
 
 export default function(state = initialState, action) {
@@ -43,12 +43,11 @@ export default function(state = initialState, action) {
         ...state,
         movieTimes: state.movieTimes.filter(movieTime => movieTime.id !== action.payload),
       };
-
     case EDIT_MOVIE_TIME:
       return {
         ...state,
         movieTimes: state.movieTimes.map(movieTime => {
-          return movieTime.id == action.payload.id ? action.payload : movieTime;
+          return movieTime.id === action.payload.id ? action.payload : movieTime;
         }),
       };
     case ADD_MOVIE_TIME:

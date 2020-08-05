@@ -42,10 +42,9 @@ class AddCinemaHallContainer extends Component {
 
   handleNumberOfSeatsChange = stateRowIndex => e => {
     const { schema } = this.state;
-    const newSchema = schema.map((row, rowIndex) => {
-      if (stateRowIndex !== rowIndex) return row;
-      return { ...row, numberOfSeats: e.target.value };
-    });
+    const newSchema = schema.map((row, rowIndex) =>
+      stateRowIndex !== rowIndex ? row : { ...row, numberOfSeats: e.target.value }
+    );
     this.setState({
       schema: newSchema,
     });
@@ -53,10 +52,9 @@ class AddCinemaHallContainer extends Component {
 
   handleSeatsTypeChange = stateRowIndex => e => {
     const { schema } = this.state;
-    const newSchema = schema.map((row, rowIndex) => {
-      if (stateRowIndex !== rowIndex) return row;
-      return { ...row, seatsType: e.target.value };
-    });
+    const newSchema = schema.map((row, rowIndex) =>
+      stateRowIndex !== rowIndex ? row : { ...row, seatsType: e.target.value }
+    );
     this.setState({
       schema: newSchema,
     });
@@ -78,6 +76,7 @@ class AddCinemaHallContainer extends Component {
   render() {
     const { schema } = this.state;
     const { seatsTypes } = this.props;
+
     return (
       <>
         <h3>add hall</h3>
@@ -97,14 +96,15 @@ class AddCinemaHallContainer extends Component {
 }
 
 AddCinemaHallContainer.propTypes = {
-  addCinamaHall: PropTypes.func.isRequired,
+  addCinemaHall: PropTypes.func.isRequired,
   getSeatTypes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   error: state.rootReducer.error,
-  seatsTypes: state.rootReducer.seatType.seatTypes,
+  seatsTypes: state.rootReducer.seatType.seatsTypes,
 });
+
 export default connect(mapStateToProps, { addCinemaHall, getSeatTypes })(
   withMenu(AddCinemaHallContainer, CINEMAS_MENU_ITEMS)
 );

@@ -1,49 +1,42 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { login } from '../actions/authAction';
 import { connect } from 'react-redux';
+import { login } from '../actions/authAction';
 import { clearErrors } from '../../common/actions/errorAction';
-import { Button, Container, Label, Input, Form, FormGroup, Alert } from 'reactstrap';
 
 class Login extends Component {
   state = {
     email: '',
     password: '',
-    msg: null,
+    message: null,
   };
-
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-    error: PropTypes.object.isRequired,
-  };
+  
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      this.setState({
+        message: error.id === 'LOGIN_FAIL' ? error.message.message : null})      
+      }
+    }
+  }
 
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
     });
   };
+
   handleSubmit = e => {
     e.preventDefault();
     const { email, password } = this.state;
     const user = { email, password };
     this.props.login(user);
   };
-  componentDidUpdate(prevProps) {
-    const { error } = this.props;
-    if (error !== prevProps.error) {
-      if (error.id === 'LOGIN_FAIL') {
-        this.setState({ msg: error.msg.msg });
-        console.log(this.state.msg);
-      } else {
-        this.setState({ msg: null });
-      }
-    }
-  }
+
   render() {
     return (
       <Container>
-        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="danger">{this.state.message}</Alert> : null}
 
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
@@ -71,8 +64,13 @@ class Login extends Component {
         </Form>
       </Container>
     );
-  }
+  
 }
+
+Login.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  error: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.auth.isAuthenticated,
