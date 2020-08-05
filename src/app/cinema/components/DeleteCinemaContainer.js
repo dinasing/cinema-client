@@ -16,11 +16,14 @@ class DeleteCinemaContainer extends Component {
   handleDelete = id => {
     this.props.deleteCinema(id);
   };
+
   componentDidMount() {
     this.props.getCinemas();
   }
+
   render() {
     const { cinemas } = this.props;
+
     return (
       <>
         <h2>delete movie theater</h2>
@@ -33,6 +36,7 @@ const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
   error: state.rootReducer.error,
 });
+
 export default connect(mapStateToProps, { deleteCinema, getCinemas })(
   withMenu(DeleteCinemaContainer, CINEMAS_MENU_ITEMS)
 );

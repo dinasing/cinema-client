@@ -7,6 +7,7 @@ import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactst
 class NewMovieForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       title: '',
       release_date: '',

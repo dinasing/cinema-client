@@ -9,12 +9,13 @@ import NewSeatTypeFrom from './NewSeatTypeForm';
 class SeatTypeFormContainer extends Component {
   constructor(props) {
     super(props);
+
+    state = {
+      title: '',
+      numberOfPeople: '1',
+      message: null,
+    };
   }
-  state = {
-    title: '',
-    numberOfPeople: '1',
-    message: null,
-  };
 
   handleChange = e => {
     this.setState({

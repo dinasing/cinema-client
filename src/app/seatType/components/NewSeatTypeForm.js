@@ -4,13 +4,14 @@ import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
 class NewSeatTypeForm extends Component {
   constructor(props) {
     super(props);
+
+    state = {
+      cinemas: [],
+      title: '',
+      numberOfPeople: '',
+      message: null,
+    };
   }
-  state = {
-    cinemas: [],
-    title: '',
-    numberOfPeople: '',
-    message: null,
-  };
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;

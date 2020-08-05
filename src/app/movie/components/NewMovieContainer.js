@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { addMovie } from '../actions/movieAction';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../common/actions/errorAction';
-import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
+import { Container, Alert } from 'reactstrap';
 import { MOVIES_MENU_ITEMS } from '../../menu/menuItemsConstants';
 import { withMenu } from '../../menu/withMenu';
 import MovieForm from './MovieForm';
@@ -10,6 +10,7 @@ import MovieForm from './MovieForm';
 class NewMovieContainer extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       title: '',
       release_date: '',
@@ -47,11 +48,7 @@ class NewMovieContainer extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_MOVIES_FAIL') {
-        this.setState({ message: error.message.message });
-      } else {
-        this.setState({ message: null });
-      }
+      this.setState({ message: error.id === 'ADD_MOVIES_FAIL' ? error.message.message : null });
     }
   }
 
