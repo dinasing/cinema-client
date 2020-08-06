@@ -47,7 +47,6 @@ class DeleteMovieTimeContainer extends Component {
   render() {
     const { movies, cinemaHalls, movieTimes } = this.props.movieTime;
     const { dateRange, cinemaHallId, movieId, time, msg } = this.state;
-    const times = movieTimes;
 
     return (
       <>
@@ -62,7 +61,6 @@ class DeleteMovieTimeContainer extends Component {
           movieId={movieId}
           movies={movies}
           time={time}
-          times={times}
         />
       </>
     );

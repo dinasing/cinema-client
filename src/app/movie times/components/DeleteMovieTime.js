@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
+import { Button, Container, Input, Label, FormGroup, Form, Table } from 'reactstrap';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { DateRange } from 'react-date-range';
+import moment from 'moment';
 import { Options } from '../../common/components/Options';
 
 class DeleteMovieTimeForm extends Component {
@@ -16,10 +17,31 @@ class DeleteMovieTimeForm extends Component {
   }
 
   render() {
-    const { cinemaHalls, movies, dateRange, times } = this.props;
-    const timesItems = Array.from(new Set(times.map(item => item.time))).map(time => (
-      <option>{time.slice(0, -3)}</option>
+    const { cinemaHalls, movies, movieTimes, dateRange, cinemaHallId, movieId, time } = this.props;
+    const timesItems = Array.from(new Set(movieTimes.map(item => item.time))).map(time => (
+      <option value={time}>{time.slice(0, -3)}</option>
     ));
+    let filteredMovieTimes = [...movieTimes];
+
+    filteredMovieTimes = movieId
+      ? filteredMovieTimes.filter(movieTime => +movieId === movieTime.movieId)
+      : [...filteredMovieTimes];
+
+    filteredMovieTimes = cinemaHallId
+      ? filteredMovieTimes.filter(movieTime => +cinemaHallId === movieTime.cinemaHallId)
+      : [...filteredMovieTimes];
+
+    filteredMovieTimes = dateRange
+      ? filteredMovieTimes.filter(
+          movieTime =>
+            new Date(movieTime.date).setHours(0, 0, 0, 0) >= dateRange.startDate &&
+            new Date(movieTime.date).setHours(0, 0, 0, 0) <= dateRange.endDate
+        )
+      : [...filteredMovieTimes];
+
+    filteredMovieTimes = time
+      ? filteredMovieTimes.filter(movieTime => time == movieTime.time)
+      : [...filteredMovieTimes];
 
     return (
       <Container>
@@ -78,6 +100,38 @@ class DeleteMovieTimeForm extends Component {
             <Button color="primary">delete</Button>
           </FormGroup>
         </Form>
+        {filteredMovieTimes.length ? (
+          <Table>
+            <thead>
+              <tr>
+                <th>
+                  <FormGroup check>
+                    <Input type="checkbox" />
+                  </FormGroup>
+                </th>
+                <th>date</th>
+                <th>movie</th>
+                <th>time</th>
+                <th>hall</th>
+              </tr>
+            </thead>
+            {filteredMovieTimes.map(movieTime => (
+              <tr>
+                <td>
+                  <FormGroup check>
+                    <Input type="checkbox" />
+                  </FormGroup>
+                </td>
+                <td>{moment(movieTime.date).format('DD.MM.YYYY')}</td>
+                <td>{movies.find(movie => +movie.id === movieTime.movieId).title}</td>
+                <td>{movieTime.time.slice(0, -3)}</td>
+                <td>
+                  {cinemaHalls.find(cinemaHall => +cinemaHall.id === movieTime.cinemaHallId).title}
+                </td>
+              </tr>
+            ))}
+          </Table>
+        ) : null}
       </Container>
     );
   }
