@@ -91,12 +91,57 @@ export const getCinemaHalls = () => dispatch => {
     });
 };
 
+export const getCinemaHallsForCinema = cinemaId => dispatch => {
+  axios
+    .get(`/cinema-hall/cinema/${cinemaId}`)
+    .then(res => {
+      dispatch({
+        type: GET_CINEMA_HALLS_FOR_MOVIE_TIMES,
+        payload: res.data,
+      });
+    })
+    .catch(err => {
+      if (err.res) dispatch(returnErrors(err.response.data, err.response.status));
+      else dispatch(returnErrors(err.message));
+    });
+};
+
 export const getSeatsTypes = () => dispatch => {
   axios
     .get('/seat-type')
     .then(res => {
       dispatch({
-        type: GET_SEATS_TYPES_FOR_MOVIE_TIMES,
+        type: GET_MOVIE_TIMES,
+        payload: res.data,
+      });
+    })
+    .catch(err => {
+      if (err.res) dispatch(returnErrors(err.response.data, err.response.status));
+      else dispatch(returnErrors(err.message));
+    });
+};
+
+export const getMovieTimesForCinema = id => dispatch => {
+  axios
+    .get(`/movie-time/cinema/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_MOVIE_TIMES,
+        payload: res.data,
+      });
+    })
+    .catch(err => {
+      if (err.res) dispatch(returnErrors(err.response.data, err.response.status));
+      else dispatch(returnErrors(err.message));
+    });
+};
+
+export const getMoviesForCinema = id => dispatch => {
+  axios
+    .get(`/movie/cinema/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_MOVIES_FOR_MOVIE_TIMES,
         payload: res.data,
       });
     })
