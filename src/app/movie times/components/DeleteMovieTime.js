@@ -98,7 +98,9 @@ class DeleteMovieTimeForm extends Component {
               moveRangeOnFirstSelection={false}
             />
             <br />
-            <Button color="primary">delete</Button>
+            <Button color="primary" disabled={!filteredMovieTimes.length}>
+              delete
+            </Button>
           </FormGroup>
         </Form>
         {filteredMovieTimes.length ? (
