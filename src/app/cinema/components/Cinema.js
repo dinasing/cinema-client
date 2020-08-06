@@ -71,14 +71,18 @@ class MovieTheater extends Component {
           Movie sessions{' '}
           <small>
             <Link to={'/movie-theaters/' + cinema.id + '/add-movie-session/'}>add</Link>
+          </small>{' '}
+          <small>
+            <Link to={'/movie-theaters/' + cinema.id + '/delete-movie-session/'}>delete</Link>
           </small>
         </h5>
-        {movieTimes.length ?
+        {movieTimes.length ? (
           <MovieTimesList movieTimes={movieTimes} />
-          : this.props.cinemas.movieTimesLoading
-            ? 'Loading ...'
-            : 'There are no movie times for the "' + cinema.title + '" right now.'
-        }
+        ) : this.props.cinemas.movieTimesLoading ? (
+          'Loading ...'
+        ) : (
+          'There are no movie times for the "' + cinema.title + '" right now.'
+        )}
       </>
     );
   }
