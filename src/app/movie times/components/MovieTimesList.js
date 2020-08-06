@@ -4,7 +4,6 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 class MovieTimesList extends Component {
-  componentDidMount() {}
   render() {
     const { movieTimes } = this.props;
 
@@ -26,8 +25,8 @@ const MovieTimeCard = props => {
   const MovieTimes = cinemas
     ? cinemas.map(cinema => <CinemasMovieTimes cinema={cinema} />)
     : movies
-    ? movies.map(movie => <MovieMovieTimes movie={movie} />)
-    : null;
+      ? movies.map(movie => <MovieMovieTimes movie={movie} />)
+      : null;
 
   return (
     <>
