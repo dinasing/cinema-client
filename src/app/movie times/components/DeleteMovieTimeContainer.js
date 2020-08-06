@@ -18,8 +18,8 @@ class DeleteMovieTimeContainer extends Component {
       time: '',
       msg: null,
       dateRange: {
-        startDate: new Date(),
-        endDate: null,
+        startDate: new Date().setHours(0, 0, 0, 0),
+        endDate: new Date().setHours(0, 0, 0, 0),
         key: 'selection',
       },
     };
