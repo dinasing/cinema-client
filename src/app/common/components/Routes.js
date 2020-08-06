@@ -19,6 +19,7 @@ import EditSpecificMovieContainer from '../../movie/components/EditSpecificMovie
 import EditSpecificCinema from '../../cinema/components/EditSpecificCinemaContainer';
 import CinemaHallsContainer from '../../cinema/components/CinemaHallsContainer';
 import AddCinemaHallContainer from '../../cinema/components/AddCinemaHallContainer';
+import DeleteMovieTimeContainer from "../../movie times/components/DeleteMovieTimeContainer";
 
 class Routes extends Component {
   render() {
@@ -82,6 +83,11 @@ class Routes extends Component {
           store={store}
         />
 
+        <ProtectedRoute
+          path="/movie-theaters/:id/delete-movie-session"
+          component={DeleteMovieTimeContainer}
+          store={store}
+        />
         <ProtectedRoute path="/movie-theaters/:id" component={MovieTheater} store={store} />
         <ProtectedRoute exact path="/movies" component={Movies} store={store} />
         <Route
