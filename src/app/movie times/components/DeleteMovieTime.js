@@ -21,6 +21,7 @@ class DeleteMovieTimeForm extends Component {
     const timesItems = Array.from(new Set(movieTimes.map(item => item.time))).map(time => (
       <option value={time}>{time.slice(0, -3)}</option>
     ));
+
     let filteredMovieTimes = [...movieTimes];
 
     filteredMovieTimes = movieId
@@ -104,11 +105,6 @@ class DeleteMovieTimeForm extends Component {
           <Table>
             <thead>
               <tr>
-                <th>
-                  <FormGroup check>
-                    <Input type="checkbox" />
-                  </FormGroup>
-                </th>
                 <th>date</th>
                 <th>movie</th>
                 <th>time</th>
@@ -117,11 +113,6 @@ class DeleteMovieTimeForm extends Component {
             </thead>
             {filteredMovieTimes.map(movieTime => (
               <tr>
-                <td>
-                  <FormGroup check>
-                    <Input type="checkbox" />
-                  </FormGroup>
-                </td>
                 <td>{moment(movieTime.date).format('DD.MM.YYYY')}</td>
                 <td>{movies.find(movie => +movie.id === movieTime.movieId).title}</td>
                 <td>{movieTime.time.slice(0, -3)}</td>
