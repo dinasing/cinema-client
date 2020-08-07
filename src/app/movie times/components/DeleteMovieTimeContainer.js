@@ -5,6 +5,7 @@ import {
   getCinemaHallsForCinema,
   getMoviesForCinema,
   getMovieTimesForCinema,
+  deleteMovieTimes,
 } from '../actions/movieTimeAction';
 import DeleteMovieTime from './DeleteMovieTime';
 
@@ -44,6 +45,13 @@ class DeleteMovieTimeContainer extends Component {
     this.setState({ dateRange: range.selection });
   };
 
+  handleSubmit = movieTimesToDelete => e => {
+    e.preventDefault();
+
+    const idsToDelete = movieTimesToDelete.map(movieTime => movieTime.id);
+    this.props.deleteMovieTimes(idsToDelete);
+  };
+
   render() {
     const { movies, cinemaHalls, movieTimes } = this.props.movieTime;
     const { dateRange, cinemaHallId, movieId, time, msg } = this.state;
@@ -72,6 +80,7 @@ DeleteMovieTimeContainer.propTypes = {
   getMoviesForCinema: PropTypes.func.isRequired,
   getCinemaHallsForCinema: PropTypes.func.isRequired,
   cinemas: PropTypes.object,
+  deleteMovieTimes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -83,4 +92,5 @@ export default connect(mapStateToProps, {
   getMovieTimesForCinema,
   getCinemaHallsForCinema,
   getMoviesForCinema,
+  deleteMovieTimes,
 })(DeleteMovieTimeContainer);
