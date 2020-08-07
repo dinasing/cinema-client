@@ -9,7 +9,6 @@ import {
   GET_MOVIES_FOR_MOVIE_TIMES,
   GET_CINEMA_HALLS_FOR_MOVIE_TIMES,
   GET_CINEMAS_FOR_MOVIE_TIMES,
-  GET_SEATS_TYPES_FOR_MOVIE_TIMES,
 } from '../../common/actions/types';
 import axios from 'axios';
 import { returnErrors } from '../../common/actions/errorAction';
@@ -163,13 +162,15 @@ export const getMovieTimeById = id => dispatch => {
     )
     .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 };
-export const deleteMovieTime = id => dispatch => {
+
+export const deleteMovieTimes = ids => (dispatch, getState) => {
+  const body = tokenConfig(getState);
+  body.data = { ids };
   axios
-    .delete(`/movie-time/${id}`)
+    .delete('/movie-time/', body)
     .then(() => {
       dispatch({
         type: DELETE_MOVIE_TIME,
-        payload: id,
       });
     })
     .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));

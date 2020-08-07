@@ -38,12 +38,6 @@ export default function(state = initialState, action) {
         movieTime: action.payload,
         loading: false,
       };
-    case DELETE_MOVIE_TIME:
-      return {
-        ...state,
-        movieTimes: state.movieTimes.filter(movieTime => movieTime.id !== action.payload),
-      };
-
     case EDIT_MOVIE_TIME:
       return {
         ...state,
@@ -75,6 +69,7 @@ export default function(state = initialState, action) {
         seatsTypes: action.payload,
       };
     case ADD_MOVIE_TIME_FAIL:
+    case DELETE_MOVIE_TIME:
     default:
       return state;
   }
