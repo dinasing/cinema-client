@@ -46,12 +46,11 @@ class DeleteMovieTimeForm extends Component {
 
     return (
       <Container>
-        <Form onSubmit={this.props.handleSubmit}>
+        <Form onSubmit={this.props.handleSubmit(filteredMovieTimes)}>
           <FormGroup>
             <h2>delete movie sessions for cinema</h2>
             <Label htmlFor="movieId">movie</Label>
             <Input
-              required
               className="mb-3"
               type="select"
               id="movieId"
@@ -65,7 +64,6 @@ class DeleteMovieTimeForm extends Component {
             </Input>
             <Label htmlFor="cinemaHallId">hall</Label>
             <Input
-              required
               className="mb-3"
               type="select"
               id="cinemaHallId"
@@ -77,13 +75,7 @@ class DeleteMovieTimeForm extends Component {
               <Options items={cinemaHalls} />
             </Input>
             <Label htmlFor="time">time</Label>
-            <Input
-              required
-              className="mb-3"
-              type="select"
-              id="time"
-              onChange={this.props.handleChange}
-            >
+            <Input className="mb-3" type="select" id="time" onChange={this.props.handleChange}>
               <option value="" selected disabled>
                 select time
               </option>
