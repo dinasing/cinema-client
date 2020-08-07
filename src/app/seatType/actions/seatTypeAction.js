@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   GET_SEAT_TYPES,
   GET_SEAT_TYPE,
@@ -7,7 +8,6 @@ import {
   ADD_SEAT_TYPE_FAIL,
   SEAT_TYPE_LOADING,
 } from '../../common/actions/types';
-import axios from 'axios';
 import { returnErrors } from '../../common/actions/errorAction';
 
 export const addSeatType = ({ title, numberOfPeople }) => dispatch => {
@@ -46,6 +46,7 @@ export const getSeatTypes = () => dispatch => {
 
 export const getSeatTypeById = id => dispatch => {
   dispatch(setSeatTypeLoading());
+
   axios.get('/seat-type/' + id).then(response =>
     dispatch({
       type: GET_SEAT_TYPE,
@@ -75,7 +76,7 @@ export const editSeatType = seatType => dispatch => {
         payload: seatType,
       });
     })
-    .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
+  .catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
 };
 
 export const setSeatTypeLoading = () => {

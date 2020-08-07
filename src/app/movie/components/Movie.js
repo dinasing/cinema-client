@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { getMovieById, getMovieTimes } from '../actions/movieAction';
 import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
 import moment from 'moment';
+import { getMovieById, getMovieTimes } from '../actions/movieAction';
 import { withMenu } from '../../menu/withMenu';
 import { MOVIES_MENU_ITEMS } from '../../menu/menuItemsConstants';
 

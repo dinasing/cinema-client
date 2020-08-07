@@ -114,7 +114,7 @@ export const getCinemaHalls = () => dispatch => {
 export const getSeatsTypes = () => dispatch => {
   axios
     .get('/seat-type')
-    .then(response => {
+      .then(response => {
       dispatch({
         type: GET_SEATS_TYPES_FOR_MOVIE_TIMES,
         payload: response.data,

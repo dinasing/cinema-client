@@ -12,7 +12,7 @@ const Seats = props => {
   const { schema, hallTitle } = props;
 
   const seats = schema.map((row, rowIndex) => {
-    const rowSits = new Array(Number(row.numberOfSits)).fill().map((seat, seatIndex) => {
+    const rowSeats = new Array(Number(row.numberOfSeats)).fill().map((seat, seatIndex) => {
       seat = (
         <>
           <Badge
@@ -34,7 +34,7 @@ const Seats = props => {
     const newRow = (
       <h6 className="text-center">
         {`${rowIndex + 1} `}
-        {rowSits}
+        {rowSeats}
         {`${rowIndex + 1} `}
       </h6>
     );

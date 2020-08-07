@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   GET_MOVIES,
   MOVIES_LOADING,
@@ -12,7 +13,6 @@ import {
   EDIT_MOVIE_FAIL,
   LOGIN_FAIL,
 } from '../../common/actions/types';
-import axios from 'axios';
 import { returnErrors, clearErrors } from '../../common/actions/errorAction';
 import { tokenConfig } from '../../auth/actions/authAction';
 

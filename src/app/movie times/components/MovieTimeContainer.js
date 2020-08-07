@@ -15,6 +15,7 @@ import NewMovieTimeForm from './NewMovieTimeForm';
 class MovieTimeFormContainer extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       cinemaId: '',
       movieId: '',
@@ -67,6 +68,7 @@ class MovieTimeFormContainer extends Component {
   createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId) {
     const cinemaHall = cinemaHalls.find(cinemaHall => cinemaHall.id === cinemaHallId);
     const cinemaHallSeatsTypes = new Set(cinemaHall.schema.map(row => Number(row.seatsType)));
+    
     return seatsTypes.filter(seatsType => cinemaHallSeatsTypes.has(seatsType.id));
   }
 

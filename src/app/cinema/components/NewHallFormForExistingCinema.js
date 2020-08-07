@@ -4,7 +4,7 @@ import { RowForm } from './NewHall';
 
 export default class NewHallFormForExistingCinema extends Component {
   render() {
-    const { schema, sitsTypes } = this.props;
+    const { schema, seatsTypes } = this.props;
     return (
       <Form onSubmit={this.props.handleSubmit}>
         <Row xs="2">
@@ -27,10 +27,10 @@ export default class NewHallFormForExistingCinema extends Component {
               {schema.map((row, rowIndex) => (
                 <>
                   <RowForm
-                    sitsTypes={sitsTypes}
+                    seatsTypes={seatsTypes}
                     id={rowIndex}
-                    handleNumberOfSitsChange={this.props.handleNumberOfSitsChange(rowIndex)}
-                    handleSitsTypeChange={this.props.handleSitsTypeChange(rowIndex)}
+                    handleNumberOfSeatsChange={this.props.handleNumberOfSeatsChange(rowIndex)}
+                    handleSeatsTypeChange={this.props.handleSeatsTypeChange(rowIndex)}
                     rowIndex={rowIndex}
                   />
                   <Button

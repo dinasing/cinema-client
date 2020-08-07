@@ -13,6 +13,7 @@ class CinemaHallContainer extends Component {
   }
 
   render() {
+
     const { cinemaHalls: allCinemaHalls } = this.props.cinemaHalls;
     const { seatsTypes } = this.props.seatsTypes;
     const cinemaHalls = allCinemaHalls.filter(

@@ -104,6 +104,7 @@ const mapStateToProps = state => ({
   error: state.rootReducer.error,
   seatsTypes: state.rootReducer.seatType.seatsTypes,
 });
+
 export default connect(mapStateToProps, { addCinemaHall, getSeatTypes })(
   withMenu(AddCinemaHallContainer, CINEMAS_MENU_ITEMS)
 );

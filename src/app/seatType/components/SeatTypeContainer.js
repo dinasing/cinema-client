@@ -25,6 +25,7 @@ class SeatTypeFormContainer extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
     this.setState({ message: null });
     const { title, numberOfPeople } = this.state;
     const newSeatType = {
