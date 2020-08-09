@@ -33,14 +33,16 @@ class MovieTheater extends Component {
     });
   };
 
-  deleteCinemaHandle = () => {
+  deleteCinemaHandle = async () => {
     const cinemaId = this.props.match.params.id;
 
-    this.props.deleteCinema(cinemaId);
-    this.setState({
-      isCinemaDeleted: true,
+    await this.props.deleteCinema(cinemaId).then(() => {
+      this.setState({
+        isCinemaDeleted: true,
+      });
     });
   };
+
   render() {
     const { cinema, movieTimes } = this.props.cinemas;
 
@@ -102,9 +104,11 @@ MovieTheater.propTypes = {
   getCinemaHalls: PropTypes.func.isRequired,
   cinemas: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   cinemas: state.rootReducer.cinema,
 });
+
 export default connect(mapStateToProps, {
   getCinemaById,
   getMovieTimes,

@@ -94,7 +94,7 @@ export const editCinema = cinema => (dispatch, getState) => {
     });
 };
 
-export const deleteCinema = id => (dispatch, getState) => {
+export const deleteCinema = id => async (dispatch, getState) => {
   axios
     .delete(`/cinema/${id}`, tokenConfig(getState))
     .then(() => {
