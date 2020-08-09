@@ -88,7 +88,7 @@ export const getMovieTimes = id => dispatch => {
     })
   );
 };
-export const deleteMovie = id => (dispatch, getState) => {
+export const deleteMovie = id => async (dispatch, getState) => {
   axios
     .delete(`/movie/${id}`, tokenConfig(getState))
     .then(() => {

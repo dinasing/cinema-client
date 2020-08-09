@@ -32,12 +32,13 @@ class Movie extends Component {
     });
   };
 
-  deleteMovieHandle = () => {
+  deleteMovieHandle = async () => {
     const movieId = this.props.match.params.movie_id;
 
-    this.props.deleteMovie(movieId);
-    this.setState({
-      isMovieDeleted: true,
+    await this.props.deleteMovie(movieId).then(() => {
+      this.setState({
+        isMovieDeleted: true,
+      });
     });
   };
 
