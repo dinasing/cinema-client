@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { Button, Container, Input, Label, FormGroup, Form, Table } from 'reactstrap';
+import {
+  Button,
+  Container,
+  Input,
+  Label,
+  FormGroup,
+  Form,
+  Table,
+  ModalHeader,
+  ModalFooter,
+  Modal,
+} from 'reactstrap';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { DateRange } from 'react-date-range';
@@ -17,7 +28,16 @@ class DeleteMovieTimeForm extends Component {
   }
 
   render() {
-    const { cinemaHalls, movies, movieTimes, dateRange, cinemaHallId, movieId, time } = this.props;
+    const {
+      cinemaHalls,
+      movies,
+      movieTimes,
+      dateRange,
+      cinemaHallId,
+      movieId,
+      time,
+      isDeleteModalOpen,
+    } = this.props;
     const timesItems = Array.from(new Set(movieTimes.map(item => item.time))).map(time => (
       <option value={time}>{time.slice(0, -3)}</option>
     ));
@@ -46,7 +66,7 @@ class DeleteMovieTimeForm extends Component {
 
     return (
       <Container>
-        <Form onSubmit={this.props.handleSubmit(filteredMovieTimes)}>
+        <Form onSubmit={this.props.toggleDeleteModal}>
           <FormGroup>
             <h2>delete movie sessions for cinema</h2>
             <Label htmlFor="movieId">movie</Label>
@@ -117,6 +137,23 @@ class DeleteMovieTimeForm extends Component {
             ))}
           </Table>
         ) : null}
+
+        <Modal isOpen={isDeleteModalOpen} toggle={this.props.toggleDeleteModal}>
+          <ModalHeader>
+            {filteredMovieTimes.length === 1
+              ? 'Are you sure you want to delete session?'
+              : `Are you sure you want to delete ${filteredMovieTimes.length} sessions?`}
+          </ModalHeader>
+          <ModalFooter>
+            {' '}
+            <Button onClick={this.props.handleSubmit(filteredMovieTimes)} color="danger">
+              delete
+            </Button>{' '}
+            <Button onClick={this.props.toggleDeleteModal} color="primary">
+              cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
       </Container>
     );
   }

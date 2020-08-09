@@ -23,6 +23,7 @@ class DeleteMovieTimeContainer extends Component {
         endDate: new Date().setHours(0, 0, 0, 0),
         key: 'selection',
       },
+      isDeleteModalOpen: false,
     };
   }
 
@@ -50,11 +51,22 @@ class DeleteMovieTimeContainer extends Component {
 
     const idsToDelete = movieTimesToDelete.map(movieTime => movieTime.id);
     this.props.deleteMovieTimes(idsToDelete);
+    this.setState({
+      isDeleteModalOpen: false,
+    });
+  };
+
+  toggleDeleteModal = e => {
+    e.preventDefault();
+
+    this.setState({
+      isDeleteModalOpen: !this.state.isDeleteModalOpen,
+    });
   };
 
   render() {
     const { movies, cinemaHalls, movieTimes } = this.props.movieTime;
-    const { dateRange, cinemaHallId, movieId, time, msg } = this.state;
+    const { dateRange, cinemaHallId, movieId, time, msg, isDeleteModalOpen } = this.state;
 
     return (
       <>
@@ -69,6 +81,8 @@ class DeleteMovieTimeContainer extends Component {
           movieId={movieId}
           movies={movies}
           time={time}
+          toggleDeleteModal={this.toggleDeleteModal}
+          isDeleteModalOpen={isDeleteModalOpen}
         />
       </>
     );
