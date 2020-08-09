@@ -5,7 +5,6 @@ import Login from '../../auth/components/Login';
 import SignUp from '../../auth/components/SignUp';
 import MovieTimes from '../../movie times/components/MovieTimeContainer';
 import Movies from '../../movie/components/MovieList';
-import DeleteMovieContainer from '../../movie/components/DeleteMovieContainer';
 import Movie from '../../movie/components/Movie';
 import MovieTheater from '../../cinema/components/Cinema';
 import MovieTheaters from '../../cinema/components/CinemaList';
@@ -16,7 +15,6 @@ import NewMovieForm from '../../movie/components/NewMovieContainer';
 import NewCinemaForm from '../../cinema/components/NewCinemaForm';
 import EditMovieContainer from '../../movie/components/EditMovieContainer';
 import EditCinemaContainer from '../../cinema/components/EditCinemaContainer';
-import DeleteCinemaContainer from '../../cinema/components/DeleteCinemaContainer';
 import EditSpecificMovieContainer from '../../movie/components/EditSpecificMovieContainer';
 import EditSpecificCinema from '../../cinema/components/EditSpecificCinemaContainer';
 import CinemaHallsContainer from '../../cinema/components/CinemaHallsContainer';
@@ -29,11 +27,6 @@ class Routes extends Component {
     return (
       <Switch>
         <Route
-          exact
-          path="/"
-          render={() => (isAuthenticated ? <Redirect to="/movies" /> : <Login />)}
-        />
-        <Route
           path="/login"
           render={() => (isAuthenticated ? <Redirect to="/movies" /> : <Login />)}
         />
@@ -42,12 +35,7 @@ class Routes extends Component {
           render={() => (isAuthenticated ? <Redirect to="/movies" /> : <SignUp />)}
         />
         <ProtectedRoute exact path="/movies/edit" component={EditMovieContainer} store={store} />
-        <ProtectedRoute
-          exact
-          path="/movies/delete"
-          component={DeleteMovieContainer}
-          store={store}
-        />
+
         <ProtectedRoute exact path="/movies/add" component={NewMovieForm} store={store} />
 
         <ProtectedRoute
@@ -56,12 +44,7 @@ class Routes extends Component {
           component={EditCinemaContainer}
           store={store}
         />
-        <ProtectedRoute
-          exact
-          path="/movie-theaters/delete"
-          component={DeleteCinemaContainer}
-          store={store}
-        />
+
         <ProtectedRoute exact path="/movie-theaters/add" component={NewCinemaForm} store={store} />
 
         <ProtectedRoute exact path="/movies/:movie_id" component={Movie} store={store} />
@@ -95,6 +78,11 @@ class Routes extends Component {
         />
         <ProtectedRoute path="/movie-theaters/:id" component={MovieTheater} store={store} />
         <ProtectedRoute exact path="/movies" component={Movies} store={store} />
+        <Route
+          exact
+          path="/"
+          render={() => (isAuthenticated ? <Redirect to="/movies" /> : <Login />)}
+        />
         <Route path="*" component={() => '404 NOT FOUND'} />
       </Switch>
     );

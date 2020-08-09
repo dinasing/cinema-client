@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { withMenu } from '../../menu/withMenu';
-import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
 import HallSchema from './HallSchema';
 import { getSeatTypes } from '../../seatType/actions/seatTypeAction';
 
@@ -13,7 +11,6 @@ class CinemaHallContainer extends Component {
   }
 
   render() {
-
     const { cinemaHalls: allCinemaHalls } = this.props.cinemaHalls;
     const { seatsTypes } = this.props.seatsTypes;
     const cinemaHalls = allCinemaHalls.filter(
@@ -63,6 +60,4 @@ const mapStateToProps = state => ({
   seatsTypes: state.rootReducer.seatType,
 });
 
-export default connect(mapStateToProps, { getSeatTypes })(
-  withMenu(CinemaHallContainer, CINEMAS_MENU_ITEMS)
-);
+export default connect(mapStateToProps, { getSeatTypes })(CinemaHallContainer);

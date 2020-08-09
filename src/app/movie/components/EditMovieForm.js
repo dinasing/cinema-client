@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
+import { Options } from '../../common/components/Options';
 
 class EditMovieForm extends Component {
   constructor(props) {
@@ -9,39 +10,73 @@ class EditMovieForm extends Component {
       title: '',
       release_date: '',
       end_date: '',
-      genre: '',
+      genre: [],
       description: '',
       poster: '',
       language: '',
     };
   }
 
+  componentDidMount() {
+    const {
+      title,
+      release_date,
+      end_date,
+      genre,
+      description,
+      poster,
+      language,
+    } = this.props.movieToEdit;
+    this.setState({
+      title,
+      release_date,
+      end_date,
+      genre,
+      description,
+      poster,
+      language,
+    });
+  }
+
   componentDidUpdate(prevProps) {
-    if (this.props.movieToEdit.title !== prevProps.movieToEdit.title) {
+    const {
+      title,
+      release_date,
+      end_date,
+      genre,
+      description,
+      poster,
+      language,
+    } = this.props.movieToEdit;
+    if (this.isMovieChanged(prevProps.movieToEdit, this.props.movieToEdit)) {
       this.setState({
-        title: this.props.movieToEdit.title,
-        release_date: this.props.movieToEdit.release_date,
-        end_date: this.props.movieToEdit.end_date,
-        genre: this.props.movieToEdit.genre,
-        description: this.props.movieToEdit.description,
-        poster: this.props.movieToEdit.poster,
-        language: this.props.movieToEdit.language,
+        title,
+        release_date,
+        end_date,
+        genre,
+        description,
+        poster,
+        language,
       });
     }
   }
 
-  componentDidMount() {
-    this.setState({
-      title: this.props.movieToEdit.title,
-      release_date: this.props.movieToEdit.release_date,
-      end_date: this.props.movieToEdit.end_date,
-      genre: this.props.movieToEdit.genre,
-      description: this.props.movieToEdit.description,
-      poster: this.props.movieToEdit.poster,
-      language: this.props.movieToEdit.language,
-    });
+  isMovieChanged(prevPropsMovie, movie) {
+    const { title, release_date, end_date, genre, description, poster, language } = movie;
+    return (
+      title !== prevPropsMovie.title ||
+      release_date !== prevPropsMovie.release_date ||
+      end_date !== prevPropsMovie.end_date ||
+      genre !== prevPropsMovie.genre ||
+      description !== prevPropsMovie.description ||
+      poster !== prevPropsMovie.poster ||
+      language !== prevPropsMovie.language
+    );
   }
+
   render() {
+    const { title, release_date, end_date, genre, description, poster, language } = this.state;
+
     return (
       <Container>
         <Form onSubmit={this.props.handleSubmit}>
@@ -52,8 +87,8 @@ class EditMovieForm extends Component {
               className="mb-3"
               type="text"
               id="title"
-              defaultValue={this.state.title}
               onChange={this.props.handleChange}
+              defaultValue={title}
             />
             <Label htmlFor="release_date">from</Label>
             <Input
@@ -62,7 +97,7 @@ class EditMovieForm extends Component {
               type="date"
               id="release_date"
               onChange={this.props.handleChange}
-              defaultValue={this.state.release_date}
+              defaultValue={release_date}
             />
 
             <Label htmlFor="end_date">to</Label>
@@ -72,18 +107,21 @@ class EditMovieForm extends Component {
               type="date"
               id="end_date"
               onChange={this.props.handleChange}
-              defaultValue={this.state.end_date}
+              defaultValue={end_date}
             />
 
             <Label htmlFor="genre">genre</Label>
             <Input
               required
               className="mb-3"
-              type="text"
+              type="select"
               id="genre"
-              onChange={this.props.handleChange}
-              defaultValue={this.state.genre}
-            />
+              onChange={this.props.handleGenresChange}
+              multiple
+              value={genre}
+            >
+              <Options items={this.props.genres} field="name" />
+            </Input>
 
             <Label htmlFor="poster">link to poster</Label>
             <Input
@@ -91,7 +129,7 @@ class EditMovieForm extends Component {
               type="text"
               id="poster"
               onChange={this.props.handleChange}
-              defaultValue={this.state.poster}
+              defaultValue={poster}
             />
             <Label htmlFor="description">description</Label>
             <Input
@@ -99,7 +137,7 @@ class EditMovieForm extends Component {
               type="text"
               id="description"
               onChange={this.props.handleChange}
-              defaultValue={this.state.description}
+              defaultValue={description}
             />
             <Label htmlFor="language">language</Label>
             <Input
@@ -107,7 +145,7 @@ class EditMovieForm extends Component {
               type="text"
               id="language"
               onChange={this.props.handleChange}
-              defaultValue={this.state.language}
+              defaultValue={language}
             />
             <Button color="primary">save movie</Button>
           </FormGroup>

@@ -14,21 +14,14 @@ import {
   CardFooter,
 } from 'reactstrap';
 import moment from 'moment';
-import { getMovies, deleteMovie, editMovie } from '../actions/movieAction';
-import { withMenu } from '../../menu/withMenu';
-import { MOVIES_MENU_ITEMS } from '../../menu/menuItemsConstants';
+import { getMovies, deleteMovie, editMovie, getMovieGenres } from '../actions/movieAction';
 
 export const MovieCard = props => {
   const { poster, id, title, release_date, end_date } = props.movie;
 
   return (
     <Card>
-      <CardImg
-        height="70%"
-        src={
-          poster ? poster : 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Out_Of_Poster.jpg'
-        }
-      />
+      <CardImg src={poster || 'https://kinoactive.ru/uploads/no-poster.jpg'} />
       <CardBody>
         <CardTitle>
           <Link to={'/movies/' + id}> {title}</Link>
@@ -39,36 +32,6 @@ export const MovieCard = props => {
             moment(end_date).format('DD.MM.YYYY')}
         </CardText>
       </CardBody>
-    </Card>
-  );
-};
-
-export const MovieCardWithDeleteButton = props => {
-  const { poster, id, title, release_date, end_date } = props.movie;
-
-  return (
-    <Card>
-      <CardImg
-        height="65%"
-        src={
-          poster ? poster : 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Out_Of_Poster.jpg'
-        }
-      />
-      <CardBody>
-        <CardTitle>
-          <Link to={'/movies/' + id}> {title}</Link>
-        </CardTitle>
-        <CardText>
-          {moment(release_date).format('DD.MM.YYYY') +
-            ' - ' +
-            moment(end_date).format('DD.MM.YYYY')}
-        </CardText>
-      </CardBody>
-      <CardFooter>
-        <Button onClick={() => props.deleteMovie(id)} color="danger">
-          delete
-        </Button>
-      </CardFooter>
     </Card>
   );
 };
@@ -76,6 +39,7 @@ export const MovieCardWithDeleteButton = props => {
 export class MovieList extends Component {
   componentDidMount() {
     this.props.getMovies();
+    this.props.getMovieGenres();
   }
 
   handleDelete = id => {
@@ -85,28 +49,25 @@ export class MovieList extends Component {
   movieList(CardComponent) {
     const { movies } = this.props.movies;
     return movies.map(movie => {
-      return (
-        <CardComponent
-          movie={movie}
-          key={movie.id}
-          deleteMovie={() => this.handleDelete(movie.id)}
-        />
-      );
+      return <CardComponent movie={movie} key={movie.id} />;
     });
   }
 
   render() {
-    const CardComponent = this.props.CardComponent || MovieCard;
-
     return (
       <>
-        <h2>Movies</h2>
+        <h2>
+          Movies{' '}
+          <small>
+            <Link to={'/movies/add'}>add</Link>
+          </small>
+        </h2>
         {this.props.movies.loading ? (
           <p>Loading movies ...</p>
-        ) : this.props.movies.movies[0] ? (
+        ) : this.props.movies.movies.length ? (
           <Container>
             <Row lg="3" sm="2" xs="1">
-              {this.movieList(CardComponent)}
+              {this.movieList(MovieCard)}
             </Row>
           </Container>
         ) : (
@@ -120,6 +81,7 @@ export class MovieList extends Component {
 MovieList.propTypes = {
   getMovies: PropTypes.func.isRequired,
   deleteMovie: PropTypes.func.isRequired,
+  getMovieGenres: PropTypes.func.isRequired,
   movies: PropTypes.object,
 };
 
@@ -127,6 +89,6 @@ const mapStateToProps = state => ({
   movies: state.rootReducer.movie,
 });
 
-export default connect(mapStateToProps, { getMovies, deleteMovie, editMovie })(
-  withMenu(MovieList, MOVIES_MENU_ITEMS)
+export default connect(mapStateToProps, { getMovies, deleteMovie, editMovie, getMovieGenres })(
+  MovieList
 );

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withMenu } from '../../menu/withMenu';
 import { addCinemaHall } from '../actions/cinemaHallAction';
-import { CINEMAS_MENU_ITEMS } from '../../menu/menuItemsConstants';
 import { getSeatTypes } from '../../seatType/actions/seatTypeAction';
 import NewHallFormForExistingCinema from './NewHallFormForExistingCinema';
 
@@ -105,6 +103,4 @@ const mapStateToProps = state => ({
   seatsTypes: state.rootReducer.seatType.seatsTypes,
 });
 
-export default connect(mapStateToProps, { addCinemaHall, getSeatTypes })(
-  withMenu(AddCinemaHallContainer, CINEMAS_MENU_ITEMS)
-);
+export default connect(mapStateToProps, { addCinemaHall, getSeatTypes })(AddCinemaHallContainer);
