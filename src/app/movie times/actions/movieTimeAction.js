@@ -9,6 +9,7 @@ import {
   GET_MOVIES_FOR_MOVIE_TIMES,
   GET_CINEMA_HALLS_FOR_MOVIE_TIMES,
   GET_CINEMAS_FOR_MOVIE_TIMES,
+  GET_SEATS_TYPES_FOR_MOVIE_TIMES,
 } from '../../common/actions/types';
 import axios from 'axios';
 import { returnErrors } from '../../common/actions/errorAction';
@@ -110,7 +111,7 @@ export const getSeatsTypes = () => dispatch => {
     .get('/seat-type')
     .then(res => {
       dispatch({
-        type: GET_MOVIE_TIMES,
+        type: GET_SEATS_TYPES_FOR_MOVIE_TIMES,
         payload: res.data,
       });
     })
