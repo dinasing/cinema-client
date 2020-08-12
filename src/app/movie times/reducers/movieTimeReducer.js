@@ -42,7 +42,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         movieTimes: state.movieTimes.map(movieTime => {
-          return movieTime.id == action.payload.id ? action.payload : movieTime;
+          return movieTime.id === action.payload.id ? action.payload : movieTime;
         }),
       };
     case ADD_MOVIE_TIME:
@@ -68,8 +68,19 @@ export default function(state = initialState, action) {
         ...state,
         seatsTypes: action.payload,
       };
+    case DELETE_MOVIE_TIME: {
+      const newMovieTimes = [];
+      state.movieTimes.forEach(movieTime => {
+        if (!action.payload.includes(movieTime.id)) {
+          newMovieTimes.push(movieTime);
+        }
+      });
+      return {
+        ...state,
+        movieTimes: newMovieTimes,
+      };
+    }
     case ADD_MOVIE_TIME_FAIL:
-    case DELETE_MOVIE_TIME:
     default:
       return state;
   }

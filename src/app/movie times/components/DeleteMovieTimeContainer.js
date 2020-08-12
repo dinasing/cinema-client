@@ -52,6 +52,15 @@ class DeleteMovieTimeContainer extends Component {
     const idsToDelete = movieTimesToDelete.map(movieTime => movieTime.id);
     this.props.deleteMovieTimes(idsToDelete);
     this.setState({
+      movieId: '',
+      cinemaHallId: '',
+      time: '',
+      msg: null,
+      dateRange: {
+        startDate: null,
+        endDate: null,
+        key: 'selection',
+      },
       isDeleteModalOpen: false,
     });
   };
