@@ -52,13 +52,14 @@ class DeleteMovieTimeForm extends Component {
       ? filteredMovieTimes.filter(movieTime => +cinemaHallId === movieTime.cinemaHallId)
       : [...filteredMovieTimes];
 
-    filteredMovieTimes = dateRange
-      ? filteredMovieTimes.filter(
-          movieTime =>
-            new Date(movieTime.date).setHours(0, 0, 0, 0) >= dateRange.startDate &&
-            new Date(movieTime.date).setHours(0, 0, 0, 0) <= dateRange.endDate
-        )
-      : [...filteredMovieTimes];
+    filteredMovieTimes =
+      dateRange.startDate && dateRange.endDate
+        ? filteredMovieTimes.filter(
+            movieTime =>
+              new Date(movieTime.date).setHours(0, 0, 0, 0) >= dateRange.startDate &&
+              new Date(movieTime.date).setHours(0, 0, 0, 0) <= dateRange.endDate
+          )
+        : [...filteredMovieTimes];
 
     filteredMovieTimes = time
       ? filteredMovieTimes.filter(movieTime => time == movieTime.time)
