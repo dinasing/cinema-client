@@ -77,6 +77,7 @@ export const getMovieById = id => dispatch => {
     })
   );
 };
+
 export const getMovieTimes = id => dispatch => {
   dispatch(setMoviesToInitialState());
   dispatch(setMoviesTimesLoading());
@@ -88,6 +89,7 @@ export const getMovieTimes = id => dispatch => {
     })
   );
 };
+
 export const deleteMovie = id => (dispatch, getState) => {
   axios
     .delete(`/movie/${id}`, tokenConfig(getState))
