@@ -72,3 +72,11 @@ export const GET_MOVIES_FROM_THE_MOVIE_DB_FAIL = 'GET_MOVIES_FROM_THE_MOVIE_DB_F
 
 export const GET_GENRES = 'GET_GENRES';
 export const GET_GENRES_FAIL = 'GET_GENRES_FAIL';
+
+export const GET_GOODS = 'GET_GOODS';
+export const ADD_GOODS = 'ADD_GOODS';
+export const ADD_GOODS_FAIL = 'ADD_GOODS_FAIL';
+export const EDIT_GOODS = 'EDIT_GOODS';
+export const EDIT_GOODS_FAIL = 'EDIT_GOODS_FAIL';
+export const DELETE_GOODS = 'DELETE_GOODS';
+export const DELETE_GOODS_FAIL = 'DELETE_GOODS_FAIL';
