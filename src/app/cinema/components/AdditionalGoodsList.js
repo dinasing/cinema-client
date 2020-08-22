@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardFooter, Button, Row } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const GoodsCard = props => {
-  const { image, title, description } = props.goods;
+  const { image, title, description, id, cinemaId } = props.goods;
   return (
     <Card>
       <CardImg
@@ -15,7 +16,10 @@ const GoodsCard = props => {
         <CardText>{description}</CardText>
       </CardBody>
       <CardFooter>
-        <Button color="primary">edit</Button> <Button color="warning">delete</Button>
+        <Link to={`/movie-theaters/${cinemaId}/edit-additional-goods/${id}`}>
+          <Button color="primary">edit</Button>
+        </Link>{' '}
+        <Button color="warning">delete</Button>
       </CardFooter>
     </Card>
   );
