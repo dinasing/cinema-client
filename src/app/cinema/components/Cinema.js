@@ -49,6 +49,9 @@ class MovieTheater extends Component {
           </small>{' '}
           <small>
             <Link to={'/movie-theaters/' + cinema.id + '/halls/'}>halls</Link>
+          </small>{' '}
+          <small>
+            <Link to={'/movie-theaters/' + cinema.id + '/additional-goods/'}>additional goods</Link>
           </small>
           <Modal isOpen={this.state.isDeleteModalOpen} toggle={this.toggleDeleteModal}>
             <ModalHeader>Are you sure you want to delete cinema "{cinema.title}"</ModalHeader>

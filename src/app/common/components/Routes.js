@@ -19,11 +19,14 @@ import EditSpecificMovieContainer from '../../movie/components/EditSpecificMovie
 import EditSpecificCinema from '../../cinema/components/EditSpecificCinemaContainer';
 import CinemaHallsContainer from '../../cinema/components/CinemaHallsContainer';
 import AddCinemaHallContainer from '../../cinema/components/AddCinemaHallContainer';
-import DeleteMovieTimeContainer from "../../movie times/components/DeleteMovieTimeContainer";
+import DeleteMovieTimeContainer from '../../movie times/components/DeleteMovieTimeContainer';
+import AdditionalGoodsContainer from '../../cinema/components/AdditionalGoodsContainer';
+import AddAdditionalGoodsContainer from '../../cinema/components/AddAdditionalGoodsContainer';
 
 class Routes extends Component {
   render() {
     const { isAuthenticated } = this.props.auth;
+
     return (
       <Switch>
         <Route
@@ -62,6 +65,20 @@ class Routes extends Component {
           exact
           path="/movie-theaters/:id/halls"
           component={CinemaHallsContainer}
+          store={store}
+        />
+
+        <ProtectedRoute
+          exact
+          path="/movie-theaters/:id/additional-goods"
+          component={AdditionalGoodsContainer}
+          store={store}
+        />
+
+        <ProtectedRoute
+          exact
+          path="/movie-theaters/:id/add-additional-goods"
+          component={AddAdditionalGoodsContainer}
           store={store}
         />
 
