@@ -6,6 +6,7 @@ import cinemaHallReducer from '../../cinema/reducers/cinemaHallReducer';
 import movieReducer from '../../movie/reducers/movieReducer';
 import seatTypeReducer from '../../seatType/reducers/seatTypeReducer';
 import movieTimeReducer from '../../movie times/reducers/movieTimeReducer';
+import additionalGoodsReducer from '../../cinema/reducers/additionalGoodsReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   movie: movieReducer,
   seatType: seatTypeReducer,
   movieTime: movieTimeReducer,
+  additionalGoods: additionalGoodsReducer,
 });
 
 export default rootReducer;
