@@ -1,27 +1,44 @@
 import React, { Component } from 'react';
-import { addMovieTime, getMovies, getCinemaHalls, getSeatsTypes } from '../actions/movieTimeAction';
 import { connect } from 'react-redux';
-import { clearErrors } from '../../common/actions/errorAction';
 import { Container, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
 import NewMovieTimeForm from './NewMovieTimeForm';
+import { addMovieTime, getMovies, getCinemaHalls, getSeatsTypes } from '../actions/movieTimeAction';
+import { clearErrors } from '../../common/actions/errorAction';
 
 class MovieTimeFormContainer extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       cinemaId: '',
       movieId: '',
       cinemaHallId: '',
       time: '',
       prices: [],
-      msg: null,
+      message: null,
       dateRange: {
         startDate: new Date(),
         endDate: null,
         key: 'selection',
       },
     };
+  }
+
+  componentDidMount() {
+    this.props.getMovies();
+    this.props.getCinemaHalls();
+    this.props.getSeatsTypes();
+    this.setState({
+      cinemaId: this.props.match.params.id,
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      this.setState({ message: error.id === 'ADD_MOVIE_TIME_FAIL' ? error.message.message : null });
+    }
   }
 
   handleChange = e => {
@@ -52,19 +69,9 @@ class MovieTimeFormContainer extends Component {
     });
   };
 
-  createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId) {
-    const cinemaHall = cinemaHalls.filter(cinemaHall => cinemaHall.id == cinemaHallId)[0];
-    let cinemaHallSeatsTypes = new Set();
-    for (const row of cinemaHall.schema) {
-      cinemaHallSeatsTypes.add(Number(row.seatsType));
-    }
-
-    return seatsTypes.filter(seatsType => cinemaHallSeatsTypes.has(seatsType.id));
-  }
-
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ msg: null });
+    this.setState({ message: null });
     const {
       dateRange: { startDate, endDate },
       time,
@@ -86,37 +93,17 @@ class MovieTimeFormContainer extends Component {
     this.props.addMovieTime(newMovieTime);
   };
 
-  componentDidMount() {
-    this.props.getMovies();
-    this.props.getCinemaHalls();
-    this.props.getSeatsTypes();
-    this.setState({
-      cinemaId: this.props.match.params.id,
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    const { error } = this.props;
-    if (error !== prevProps.error) {
-      if (error.id === 'ADD_MOVIE_TIME_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
-    }
-  }
-
   handleDateRangeChange = range => {
     this.setState({ dateRange: range.selection });
   };
 
   render() {
     const { movies, cinemas, cinemaHalls, seatsTypes } = this.props.movieTime;
-    const { dateRange, cinemaId, cinemaHallId, movieId, msg } = this.state;
+    const { dateRange, cinemaId, cinemaHallId, movieId, message } = this.state;
 
     return (
       <Container>
-        {msg ? <Alert color="warning">{msg}</Alert> : null}
+        {message ? <Alert color="warning">{message}</Alert> : null}
 
         <NewMovieTimeForm
           handleDateRangeChange={this.handleDateRangeChange}
@@ -146,6 +133,7 @@ MovieTimeFormContainer.propTypes = {
   getCinemaHalls: PropTypes.func.isRequired,
   movieTime: PropTypes.object,
 };
+
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,

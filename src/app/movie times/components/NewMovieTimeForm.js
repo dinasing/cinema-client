@@ -9,11 +9,7 @@ class NewMovieTimeForm extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_MOVIE_TIME_FAIL') {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
+      this.setState({ message: error.id === 'ADD_MOVIE_TIME_FAIL' ? error.message.message : null });
     }
   }
 
@@ -22,7 +18,7 @@ class NewMovieTimeForm extends Component {
   }
 
   createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId) {
-    const cinemaHall = cinemaHalls.filter(cinemaHall => cinemaHall.id == cinemaHallId)[0];
+    const cinemaHall = cinemaHalls.find(cinemaHall => cinemaHall.id == cinemaHallId);
     let cinemaHallSeatsTypes = new Set();
     for (const row of cinemaHall.schema) {
       cinemaHallSeatsTypes.add(Number(row.seatsType));
@@ -109,4 +105,5 @@ class NewMovieTimeForm extends Component {
     );
   }
 }
+
 export default NewMovieTimeForm;
