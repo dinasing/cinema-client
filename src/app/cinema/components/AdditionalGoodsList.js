@@ -19,7 +19,9 @@ const GoodsCard = props => {
         <Link to={`/movie-theaters/${cinemaId}/edit-additional-goods/${id}`}>
           <Button color="primary">edit</Button>
         </Link>{' '}
-        <Button color="warning">delete</Button>
+        <Button onClick={props.deleteHandle(id)} color="warning">
+          delete
+        </Button>
       </CardFooter>
     </Card>
   );
@@ -29,9 +31,9 @@ export const AdditionalGoodsList = props => {
   const { additionalGoods } = props;
 
   return (
-    <Row xs="5">
+    <Row lg="5" sm="3" xs="1">
       {additionalGoods.map(goods => (
-        <GoodsCard goods={goods} />
+        <GoodsCard goods={goods} deleteHandle={props.clickDeleteHandle} />
       ))}
     </Row>
   );
