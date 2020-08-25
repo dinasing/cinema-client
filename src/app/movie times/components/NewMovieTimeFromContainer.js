@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import NewMovieTimeForm from './NewMovieTimeForm';
 import { addMovieTime, getMovies, getCinemaHalls, getSeatsTypes } from '../actions/movieTimeAction';
 import { clearErrors } from '../../common/actions/errorAction';
+import { getAdditionalGoods } from '../../cinema/actions/additionalGoodsAction';
 
 class MovieTimeFormContainer extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class MovieTimeFormContainer extends Component {
         endDate: null,
         key: 'selection',
       },
+      additionalGoodsPrices: [],
     };
   }
 
@@ -29,6 +31,7 @@ class MovieTimeFormContainer extends Component {
     this.props.getMovies();
     this.props.getCinemaHalls();
     this.props.getSeatsTypes();
+    this.props.getAdditionalGoods();
     this.setState({
       cinemaId: this.props.match.params.id,
     });
@@ -37,7 +40,7 @@ class MovieTimeFormContainer extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      this.setState({ message: error.id === 'ADD_MOVIE_TIME_FAIL' ? error.message.message : null });
+      this.setState({ message: error.id === 'ADD_MOVIE_TIME_FAIL' ? error.message : null });
     }
   }
 
@@ -69,6 +72,13 @@ class MovieTimeFormContainer extends Component {
     });
   };
 
+  createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId) {
+    const cinemaHall = cinemaHalls.find(cinemaHall => cinemaHall.id == cinemaHallId);
+    const cinemaHallSeatsTypes = new Set(cinemaHall.schema.map(row => Number(row.seatsType)));
+
+    return seatsTypes.filter(seatsType => cinemaHallSeatsTypes.has(seatsType.id));
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.setState({ message: null });
@@ -79,18 +89,67 @@ class MovieTimeFormContainer extends Component {
       cinemaId,
       movieId,
       prices,
+      additionalGoodsPrices,
     } = this.state;
-
-    const newMovieTime = {
-      startDate,
-      endDate,
-      time,
-      cinemaHallId,
-      cinemaId,
-      movieId,
-      prices,
-    };
+    const newMovieTime = additionalGoodsPrices.length
+      ? {
+          startDate,
+          endDate,
+          time,
+          cinemaHallId,
+          cinemaId,
+          movieId,
+          prices,
+          additionalGoodsPrices,
+        }
+      : {
+          startDate,
+          endDate,
+          time,
+          cinemaHallId,
+          cinemaId,
+          movieId,
+          prices,
+        };
     this.props.addMovieTime(newMovieTime);
+  };
+
+  handleChangeSelectedGoods = e => {
+    const goods = [];
+    for (const option of e.target.options) {
+      if (option.selected) {
+        goods.push(option.value);
+      }
+    }
+
+    if (goods[0] === '') {
+      this.setState({ additionalGoodsPrices: [] });
+    } else {
+      let { additionalGoodsPrices } = this.state;
+      additionalGoodsPrices = additionalGoodsPrices.filter(goodsPrices =>
+        goods.includes(goodsPrices.additionalGoodsId)
+      );
+      goods.forEach(item => {
+        //look through selected goods and check if it isn't in already selected goods from goodsPrices
+        if (!additionalGoodsPrices.find(goodsPrices => goodsPrices.additionalGoodsId == item)) {
+          additionalGoodsPrices = additionalGoodsPrices.concat([
+            { additionalGoodsId: item, amountOfMoney: 0 },
+          ]);
+        }
+      });
+      this.setState({ additionalGoodsPrices });
+    }
+  };
+
+  handleGoodsPriceChange = additionalGoodsId => e => {
+    const newPrices = this.state.additionalGoodsPrices.map(price => {
+      return additionalGoodsId !== price.additionalGoodsId
+        ? price
+        : { ...price, amountOfMoney: e.target.value };
+    });
+    this.setState({
+      additionalGoodsPrices: newPrices,
+    });
   };
 
   handleDateRangeChange = range => {
@@ -99,7 +158,15 @@ class MovieTimeFormContainer extends Component {
 
   render() {
     const { movies, cinemas, cinemaHalls, seatsTypes } = this.props.movieTime;
-    const { dateRange, cinemaId, cinemaHallId, movieId, message } = this.state;
+    const { additionalGoods } = this.props.additionalGoods;
+    const {
+      dateRange,
+      cinemaId,
+      cinemaHallId,
+      movieId,
+      message,
+      additionalGoodsPrices,
+    } = this.state;
 
     return (
       <Container>
@@ -114,11 +181,16 @@ class MovieTimeFormContainer extends Component {
           cinemaHalls={cinemaHalls}
           cinemaId={cinemaId}
           cinemaHallId={cinemaHallId}
+          createSeatsTypesOptions={this.createSeatsTypesOptions}
           movieId={movieId}
           movies={movies}
           seatsTypes={seatsTypes}
           handleCinemaHallIdChange={this.handleCinemaHallIdChange}
           handleSeatsTypePriceChange={this.handleSeatsTypePriceChange}
+          additionalGoods={additionalGoods}
+          additionalGoodsPrices={additionalGoodsPrices}
+          handleChangeSelectedGoods={this.handleChangeSelectedGoods}
+          handleGoodsPriceChange={this.handleGoodsPriceChange}
         />
       </Container>
     );
@@ -131,13 +203,16 @@ MovieTimeFormContainer.propTypes = {
   getMovies: PropTypes.func.isRequired,
   getSeatsTypes: PropTypes.func.isRequired,
   getCinemaHalls: PropTypes.func.isRequired,
+  getAdditionalGoods: PropTypes.func.isRequired,
   movieTime: PropTypes.object,
+  additionalGoods: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   isAuthenticated: state.rootReducer.isAuthenticated,
   error: state.rootReducer.error,
   movieTime: state.rootReducer.movieTime,
+  additionalGoods: state.rootReducer.additionalGoods,
 });
 
 export default connect(mapStateToProps, {
@@ -146,4 +221,5 @@ export default connect(mapStateToProps, {
   getCinemaHalls,
   getMovies,
   getSeatsTypes,
+  getAdditionalGoods,
 })(MovieTimeFormContainer);

@@ -60,6 +60,7 @@ class NewCinemaForm extends Component {
       cinemaHalls: this.state.cinemaHalls.filter((cinema, index) => index !== stateIndex),
     });
   };
+
   handleAddCinemaHall = () => {
     this.setState({
       cinemaHalls: this.state.cinemaHalls.concat([
@@ -67,6 +68,7 @@ class NewCinemaForm extends Component {
       ]),
     });
   };
+
   handleAddRow = stateCinemaHallIndex => () => {
     const newCinemaHalls = this.state.cinemaHalls.map((cinemaHall, cinemaHallIndex) => {
       if (stateCinemaHallIndex !== cinemaHallIndex) return cinemaHall;
@@ -84,11 +86,13 @@ class NewCinemaForm extends Component {
     });
     this.setState({ cinemaHalls: newCinemaHalls });
   };
+
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
     });
   };
+
   handleSubmit = e => {
     e.preventDefault();
 
@@ -108,16 +112,16 @@ class NewCinemaForm extends Component {
     const { error } = this.props;
     if (error !== prevProps.error) {
       if (error.id === 'ADD_CINEMA_FAIL') {
-        this.setState({ msg: error.msg.msg });
+        this.setState({ message: error.message.message });
       } else {
-        this.setState({ msg: null });
+        this.setState({ message: null });
       }
     }
   }
   render() {
     return (
       <Container>
-        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+        {this.state.message ? <Alert color="danger">{this.state.message}</Alert> : null}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <h2>add new movie theater</h2>

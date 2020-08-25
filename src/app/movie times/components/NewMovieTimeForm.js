@@ -17,21 +17,18 @@ class NewMovieTimeForm extends Component {
     return cinemaHalls.filter(cinemaHall => cinemaHall.cinemaId == cinemaId);
   }
 
-  createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId) {
-    const cinemaHall = cinemaHalls.find(cinemaHall => cinemaHall.id == cinemaHallId);
-    let cinemaHallSeatsTypes = new Set();
-    for (const row of cinemaHall.schema) {
-      cinemaHallSeatsTypes.add(Number(row.seatsType));
-    }
-
-    return seatsTypes.filter(seatsType => cinemaHallSeatsTypes.has(seatsType.id));
-  }
-
   render() {
-    const { cinemaHalls, cinemaId, seatsTypes, cinemaHallId } = this.props;
+    const {
+      cinemaHalls,
+      cinemaId,
+      seatsTypes,
+      cinemaHallId,
+      additionalGoodsPrices,
+      additionalGoods,
+    } = this.props;
     const cinemaHallsOptions = this.createCinemaHallOptions(cinemaHalls, cinemaId);
     const seatsTypesOptions = cinemaHallId
-      ? this.createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId)
+      ? this.props.createSeatsTypesOptions(seatsTypes, cinemaHalls, cinemaHallId)
       : [];
 
     return (
@@ -98,6 +95,30 @@ class NewMovieTimeForm extends Component {
                 </div>
               );
             })}
+            {additionalGoods.length ? (
+              <fieldset>
+                <legend>additional goods to purchase within movie ticket</legend>
+                <Input
+                  required
+                  className="mb-3"
+                  type="select"
+                  id="goods"
+                  onChange={this.props.handleChangeSelectedGoods}
+                  multiple
+                >
+                  <option value="" selected>
+                    not selected
+                  </option>
+                  <Options items={additionalGoods} />
+                </Input>
+                <AdditionalGoodsFormFields
+                  additionalGoods={additionalGoods}
+                  additionalGoodsPrices={additionalGoodsPrices}
+                  handleGoodsPriceChange={this.props.handleGoodsPriceChange}
+                />
+              </fieldset>
+            ) : null}
+
             <Button color="primary">save</Button>
           </FormGroup>
         </Form>
@@ -105,5 +126,28 @@ class NewMovieTimeForm extends Component {
     );
   }
 }
+
+const AdditionalGoodsFormFields = props => {
+  const { additionalGoods, additionalGoodsPrices } = props;
+  return additionalGoodsPrices.length > 0
+    ? additionalGoodsPrices.map(goodsPrice => (
+        <div key={goodsPrice.additionalGoodsId}>
+          <Label htmlFor={goods.additionalGoodsId}>
+            price for{' '}
+            {additionalGoods.find(goods => goods.id == goodsPrice.additionalGoodsId).title}
+          </Label>
+
+          <Input
+            className="mb-3"
+            type="number"
+            id={goodsPrice.additionalGoodsId}
+            min="0"
+            defaultValue="0"
+            onChange={props.handleGoodsPriceChange(goodsPrice.additionalGoodsId)}
+          />
+        </div>
+      ))
+    : null;
+};
 
 export default NewMovieTimeForm;
