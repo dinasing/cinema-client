@@ -30,13 +30,7 @@ class NewMovieContainer extends Component {
   };
 
   handleGenresChange = e => {
-    const genre = [];
-    for (const option of e.target.options) {
-      if (option.selected) {
-        genre.push(option.value);
-      }
-    }
-
+    const genre = e.target.options.filter(option => option.selected).map(option => option.value);
     this.setState({ genre });
   };
 
