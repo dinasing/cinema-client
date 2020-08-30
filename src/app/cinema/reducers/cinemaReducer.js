@@ -65,13 +65,9 @@ export default function(state = initialState, action) {
     case EDIT_CINEMA:
       return {
         ...state,
-        cinemas: state.cinemas.map(cinema => {
-          if (cinema.id == action.payload.id)
-            for (const key in action.payload) {
-              cinema[key] = action.payload[key];
-            }
-          return cinema;
-        }),
+        cinemas: state.cinemas.map(cinema =>
+          cinema.id === action.payload.id ? { ...cinema, ...action.payload } : cinema
+        ),
       };
     case ADD_CINEMA_FAIL:
     case DELETE_CINEMA_FAIL:
