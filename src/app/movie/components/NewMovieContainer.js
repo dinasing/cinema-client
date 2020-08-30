@@ -1,28 +1,39 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addMovie, performSearchFromTheMovieDB } from '../actions/movieAction';
 import { connect } from 'react-redux';
+import { Container, Input, Alert } from 'reactstrap';
+import { addMovie, performSearchFromTheMovieDB } from '../actions/movieAction';
 import { clearErrors } from '../../common/actions/errorAction';
-import { Button, Container, Input, Label, FormGroup, Form, Alert } from 'reactstrap';
-import MovieForm from './MovieForm';
 import EditMovieForm from './EditMovieForm';
 import SearchInMovieDBResults from './SearchInMovieDBResults';
 
 class NewMovieContainer extends Component {
   constructor(props) {
     super(props);
-  }
-  state = {
-    title: '',
-    release_date: '',
-    end_date: '',
-    genre: [],
-    description: '',
-    poster: '',
-    language: '',
-    message: null,
-  };
 
+    state = {
+      title: '',
+      release_date: '',
+      end_date: '',
+      genre: [],
+      description: '',
+      poster: '',
+      language: '',
+      message: null,
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      const message = error.id === 'ADD_MOVIES_FAIL' ? error.message.message : null;
+      this.setState({ message });
+    }
+  }
+
+  searchInputChangeHandle = e => {
+    this.props.performSearchFromTheMovieDB(e.target.value);
+  };
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
@@ -50,18 +61,6 @@ class NewMovieContainer extends Component {
     this.props.addMovie(newMovie);
   };
 
-  componentDidUpdate(prevProps) {
-    const { error } = this.props;
-    if (error !== prevProps.error) {
-      const message = error.id === 'ADD_MOVIES_FAIL' ? error.message.message : null;
-      this.setState({ message });
-    }
-  }
-
-  searchInputChangeHandle = e => {
-    this.props.performSearchFromTheMovieDB(e.target.value);
-  };
-
   setMovieInfoFromTheMovieDB = movie => () => {
     this.setState({
       title: movie.title,
@@ -77,7 +76,16 @@ class NewMovieContainer extends Component {
   render() {
     const { results } = this.props.movies.moviesFromTheMovieDB;
     const { genres } = this.props.movies;
-    const { title, release_date, end_date, genre, description, poster, language } = this.state;
+    const {
+      title,
+      release_date,
+      end_date,
+      genre,
+      description,
+      poster,
+      language,
+      message,
+    } = this.state;
     const newMovie = {
       title,
       release_date,
@@ -90,7 +98,7 @@ class NewMovieContainer extends Component {
 
     return (
       <Container>
-        {this.state.message ? <Alert color="warning">{this.state.message}</Alert> : null}
+        {message ? <Alert color="warning">{message}</Alert> : null}
 
         <h2>add new movie</h2>
         <Input placeholder="Enter movie title..." onChange={this.searchInputChangeHandle} />
