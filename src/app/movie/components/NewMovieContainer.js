@@ -26,14 +26,14 @@ class NewMovieContainer extends Component {
   componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error !== prevProps.error) {
-      const message = error.id === 'ADD_MOVIES_FAIL' ? error.message.message : null;
-      this.setState({ message });
+      this.setState({ message: error.id === 'ADD_MOVIES_FAIL' ? error.message.message : null });
     }
   }
 
   searchInputChangeHandle = e => {
     this.props.performSearchFromTheMovieDB(e.target.value);
   };
+
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
