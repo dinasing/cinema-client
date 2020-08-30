@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import assert from 'assert';
 import { Button, Container, Input, Label, FormGroup, Form } from 'reactstrap';
 import { Options } from '../../common/components/Options';
 
@@ -48,7 +49,7 @@ class EditMovieForm extends Component {
       poster,
       language,
     } = this.props.movieToEdit;
-    if (this.isMovieChanged(prevProps.movieToEdit, this.props.movieToEdit)) {
+    if (this.areMoviesEqual(prevProps.movieToEdit, this.props.movieToEdit)) {
       this.setState({
         title,
         release_date,
@@ -61,17 +62,8 @@ class EditMovieForm extends Component {
     }
   }
 
-  isMovieChanged(prevPropsMovie, movie) {
-    const { title, release_date, end_date, genre, description, poster, language } = movie;
-    return (
-      title !== prevPropsMovie.title ||
-      release_date !== prevPropsMovie.release_date ||
-      end_date !== prevPropsMovie.end_date ||
-      genre !== prevPropsMovie.genre ||
-      description !== prevPropsMovie.description ||
-      poster !== prevPropsMovie.poster ||
-      language !== prevPropsMovie.language
-    );
+  areMoviesEqual(prevPropsMovie, movie) {
+    return assert.deepEqual(prevPropsMovie, movie);
   }
 
   render() {
