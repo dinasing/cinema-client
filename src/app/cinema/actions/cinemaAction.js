@@ -67,7 +67,6 @@ export const getCinemaById = id => dispatch => {
   );
 };
 export const getMovieTimes = id => dispatch => {
-  dispatch(setCinemasToInitialState());
   dispatch(setMoviesTimesLoading());
   axios.get('/cinema/' + id + '/movie-time/').then(res =>
     dispatch({
